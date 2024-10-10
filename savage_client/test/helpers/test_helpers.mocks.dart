@@ -8,6 +8,12 @@ import 'dart:ui' as _i8;
 
 import 'package:flutter/material.dart' as _i5;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:savage_client/services/analytics_service.dart' as _i15;
+import 'package:savage_client/services/authentication_service.dart' as _i11;
+import 'package:savage_client/services/crashlytics_service.dart' as _i16;
+import 'package:savage_client/services/database_service.dart' as _i12;
+import 'package:savage_client/services/functions_service.dart' as _i13;
+import 'package:savage_client/services/storage_service.dart' as _i14;
 import 'package:stacked/stacked.dart' as _i2;
 import 'package:stacked_services/src/bottom_sheet/bottom_sheet_service.dart'
     as _i6;
@@ -575,3 +581,35 @@ class MockDialogService extends _i1.Mock implements _i9.DialogService {
         returnValueForMissingStub: null,
       );
 }
+
+/// A class which mocks [AuthenticationService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockAuthenticationService extends _i1.Mock
+    implements _i11.AuthenticationService {}
+
+/// A class which mocks [DatabaseService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockDatabaseService extends _i1.Mock implements _i12.DatabaseService {}
+
+/// A class which mocks [FunctionsService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockFunctionsService extends _i1.Mock implements _i13.FunctionsService {}
+
+/// A class which mocks [StorageService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockStorageService extends _i1.Mock implements _i14.StorageService {}
+
+/// A class which mocks [AnalyticsService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockAnalyticsService extends _i1.Mock implements _i15.AnalyticsService {}
+
+/// A class which mocks [CrashlyticsService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockCrashlyticsService extends _i1.Mock
+    implements _i16.CrashlyticsService {}

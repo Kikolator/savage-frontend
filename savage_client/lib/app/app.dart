@@ -5,6 +5,12 @@ import 'package:savage_client/ui/views/startup/startup_view.dart';
 import 'package:savage_client/ui/views/unknown/unknown_view.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:savage_client/services/authentication_service.dart';
+import 'package:savage_client/services/database_service.dart';
+import 'package:savage_client/services/functions_service.dart';
+import 'package:savage_client/services/storage_service.dart';
+import 'package:savage_client/services/analytics_service.dart';
+import 'package:savage_client/services/crashlytics_service.dart';
 // @stacked-import
 
 @StackedApp(
@@ -22,7 +28,15 @@ import 'package:stacked_services/stacked_services.dart';
     LazySingleton(classType: BottomSheetService),
     LazySingleton(classType: DialogService),
     LazySingleton(classType: RouterService),
-    // @stacked-service
+    LazySingleton(
+        classType: AuthenticationService,
+        resolveUsing: AuthenticationService.getInstance),
+    LazySingleton(classType: DatabaseService),
+    LazySingleton(classType: FunctionsService),
+    LazySingleton(classType: StorageService),
+    LazySingleton(classType: AnalyticsService),
+    LazySingleton(classType: CrashlyticsService),
+// @stacked-service
   ],
   bottomsheets: [
     StackedBottomsheet(classType: NoticeSheet),

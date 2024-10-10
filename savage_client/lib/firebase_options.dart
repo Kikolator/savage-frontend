@@ -70,7 +70,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '489719466429',
     projectId: 'savage-coworking',
     storageBucket: 'savage-coworking.appspot.com',
-    iosClientId: '489719466429-10s5pt5r7utinhrj5d20d7mcpmr96u06.apps.googleusercontent.com',
+    iosClientId:
+        '489719466429-10s5pt5r7utinhrj5d20d7mcpmr96u06.apps.googleusercontent.com',
     iosBundleId: 'dev.kikolator.savageClient',
   );
 }

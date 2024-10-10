@@ -2,6 +2,12 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:savage_client/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:savage_client/services/authentication_service.dart';
+import 'package:savage_client/services/database_service.dart';
+import 'package:savage_client/services/functions_service.dart';
+import 'package:savage_client/services/storage_service.dart';
+import 'package:savage_client/services/analytics_service.dart';
+import 'package:savage_client/services/crashlytics_service.dart';
 // @stacked-import
 
 import 'test_helpers.mocks.dart';
@@ -10,13 +16,25 @@ import 'test_helpers.mocks.dart';
   MockSpec<RouterService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<BottomSheetService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<DialogService>(onMissingStub: OnMissingStub.returnDefault),
-  // @stacked-mock-spec
+  MockSpec<AuthenticationService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<DatabaseService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<FunctionsService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<StorageService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<AnalyticsService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<CrashlyticsService>(onMissingStub: OnMissingStub.returnDefault),
+// @stacked-mock-spec
 ])
 void registerServices() {
   getAndRegisterRouterService();
   getAndRegisterBottomSheetService();
   getAndRegisterDialogService();
-  // @stacked-mock-register
+  getAndRegisterAuthenticationService();
+  getAndRegisterDatabaseService();
+  getAndRegisterFunctionsService();
+  getAndRegisterStorageService();
+  getAndRegisterAnalyticsService();
+  getAndRegisterCrashlyticsService();
+// @stacked-mock-register
 }
 
 MockRouterService getAndRegisterRouterService() {
@@ -69,6 +87,47 @@ MockDialogService getAndRegisterDialogService() {
   return service;
 }
 
+MockAuthenticationService getAndRegisterAuthenticationService() {
+  _removeRegistrationIfExists<AuthenticationService>();
+  final service = MockAuthenticationService();
+  locator.registerSingleton<AuthenticationService>(service);
+  return service;
+}
+
+MockDatabaseService getAndRegisterDatabaseService() {
+  _removeRegistrationIfExists<DatabaseService>();
+  final service = MockDatabaseService();
+  locator.registerSingleton<DatabaseService>(service);
+  return service;
+}
+
+MockFunctionsService getAndRegisterFunctionsService() {
+  _removeRegistrationIfExists<FunctionsService>();
+  final service = MockFunctionsService();
+  locator.registerSingleton<FunctionsService>(service);
+  return service;
+}
+
+MockStorageService getAndRegisterStorageService() {
+  _removeRegistrationIfExists<StorageService>();
+  final service = MockStorageService();
+  locator.registerSingleton<StorageService>(service);
+  return service;
+}
+
+MockAnalyticsService getAndRegisterAnalyticsService() {
+  _removeRegistrationIfExists<AnalyticsService>();
+  final service = MockAnalyticsService();
+  locator.registerSingleton<AnalyticsService>(service);
+  return service;
+}
+
+MockCrashlyticsService getAndRegisterCrashlyticsService() {
+  _removeRegistrationIfExists<CrashlyticsService>();
+  final service = MockCrashlyticsService();
+  locator.registerSingleton<CrashlyticsService>(service);
+  return service;
+}
 // @stacked-mock-create
 
 void _removeRegistrationIfExists<T extends Object>() {
