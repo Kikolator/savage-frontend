@@ -11,13 +11,15 @@ import 'package:savage_client/services/functions_service.dart';
 import 'package:savage_client/services/storage_service.dart';
 import 'package:savage_client/services/analytics_service.dart';
 import 'package:savage_client/services/crashlytics_service.dart';
+import 'package:savage_client/ui/views/login/login_view.dart';
 // @stacked-import
 
 @StackedApp(
   routes: [
     CustomRoute(page: StartupView, initial: true),
     CustomRoute(page: HomeView),
-    // @stacked-route
+    CustomRoute(page: LoginView),
+// @stacked-route
 
     CustomRoute(page: UnknownView, path: '/404'),
 
