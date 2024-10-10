@@ -6,9 +6,14 @@ import 'package:savage_client/app/app.locator.dart';
 import 'package:savage_client/app/app.router.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   setPathUrlStrategy();
   await setupLocator(stackedRouter: stackedRouter);
   setupDialogUi();
