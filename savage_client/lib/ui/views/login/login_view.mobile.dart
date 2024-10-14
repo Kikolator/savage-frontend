@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:savage_client/ui/widgets/firebase_ui_auth/firebase_ui_auth_login/firebase_ui_auth_login.dart';
 import 'package:stacked/stacked.dart';
 
 import 'login_viewmodel.dart';
@@ -9,14 +10,9 @@ class LoginViewMobile extends ViewModelWidget<LoginViewModel> {
   @override
   Widget build(BuildContext context, LoginViewModel viewModel) {
     return const Scaffold(
-      body: Center(
-        child: Text(
-          'Hello, MOBILE UI!',
-          style: TextStyle(
-            fontSize: 35,
-            fontWeight: FontWeight.w900,
-          ),
-        ),
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: FirebaseUiAuthLogin(),
       ),
     );
   }

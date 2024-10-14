@@ -2,12 +2,13 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:savage_client/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
-import 'package:savage_client/services/authentication_service.dart';
-import 'package:savage_client/services/database_service.dart';
-import 'package:savage_client/services/functions_service.dart';
-import 'package:savage_client/services/storage_service.dart';
-import 'package:savage_client/services/analytics_service.dart';
-import 'package:savage_client/services/crashlytics_service.dart';
+import 'package:savage_client/services/dependency_wrappers/authentication_service.dart';
+import 'package:savage_client/services/dependency_wrappers/database_service.dart';
+import 'package:savage_client/services/dependency_wrappers/functions_service.dart';
+import 'package:savage_client/services/dependency_wrappers/storage_service.dart';
+import 'package:savage_client/services/dependency_wrappers/analytics_service.dart';
+import 'package:savage_client/services/dependency_wrappers/crashlytics_service.dart';
+import 'package:savage_client/services/user_service.dart';
 // @stacked-import
 
 import 'test_helpers.mocks.dart';
@@ -22,6 +23,7 @@ import 'test_helpers.mocks.dart';
   MockSpec<StorageService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<AnalyticsService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<CrashlyticsService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<UserService>(onMissingStub: OnMissingStub.returnDefault),
 // @stacked-mock-spec
 ])
 void registerServices() {
@@ -34,6 +36,7 @@ void registerServices() {
   getAndRegisterStorageService();
   getAndRegisterAnalyticsService();
   getAndRegisterCrashlyticsService();
+  getAndRegisterUserService();
 // @stacked-mock-register
 }
 
@@ -126,6 +129,13 @@ MockCrashlyticsService getAndRegisterCrashlyticsService() {
   _removeRegistrationIfExists<CrashlyticsService>();
   final service = MockCrashlyticsService();
   locator.registerSingleton<CrashlyticsService>(service);
+  return service;
+}
+
+MockUserService getAndRegisterUserService() {
+  _removeRegistrationIfExists<UserService>();
+  final service = MockUserService();
+  locator.registerSingleton<UserService>(service);
   return service;
 }
 // @stacked-mock-create
