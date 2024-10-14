@@ -15,12 +15,27 @@ import 'package:savage_client/ui/views/login/login_view.dart';
 import 'package:savage_client/ui/views/verify_email/verify_email_view.dart';
 import 'package:savage_client/services/user_service.dart';
 import 'package:savage_client/ui/views/add_user_data/add_user_data_view.dart';
+import 'package:savage_client/ui/views/overview/overview_view.dart';
+import 'package:savage_client/ui/views/hot_desks/hot_desks_view.dart';
+import 'package:savage_client/ui/views/savages/savages_view.dart';
+import 'package:savage_client/ui/views/meeting_room/meeting_room_view.dart';
+import 'package:savage_client/ui/views/billing/billing_view.dart';
 // @stacked-import
 
 @StackedApp(
   routes: [
     CustomRoute(page: StartupView, initial: true),
-    CustomRoute(page: HomeView),
+    CustomRoute(
+      page: HomeView,
+      path: '/',
+      children: [
+        MaterialRoute(path: 'overview', page: OverviewView),
+        CustomRoute(path: 'savages', page: SavagesView),
+        CustomRoute(path: 'hot-desks', page: HotDesksView),
+        CustomRoute(path: 'meeting-room', page: MeetingRoomView),
+        CustomRoute(path: 'billing', page: BillingView),
+      ],
+    ),
     CustomRoute(page: LoginView),
     CustomRoute(page: VerifyEmailView),
     CustomRoute(page: AddUserDataView),
