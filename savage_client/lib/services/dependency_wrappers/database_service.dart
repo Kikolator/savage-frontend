@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:savage_client/data/booking.dart';
 import 'package:savage_client/env.dart';
 
 class DatabaseService {
@@ -13,6 +14,41 @@ class DatabaseService {
           Env.kLocalHost, Env.kLocalFirestorePort);
     }
     return _instance ??= DatabaseService(firestoreInstance);
+  }
+
+  static const _kWorkspaceId = '0001';
+
+  // Collection and document paths
+  static const _kWorkspacesCollectionPath = 'workspaces';
+  static const _kDesksCollectionPath = 'desks';
+  static const _kBookingCollectionPath = 'bookings';
+  static const _kUsersCollectionPath = 'users';
+
+  // Collection References
+  CollectionReference get _bookingsCollection =>
+      _db.collection(_kBookingCollectionPath);
+  CollectionReference _desksCollection(String workspaceId) => _db
+      .collection(_kWorkspacesCollectionPath)
+      .doc(workspaceId)
+      .collection(_kDesksCollectionPath);
+
+  Future<void> setNewBooking({
+    required Booking booking,
+  }) async {
+    try {
+      final batch = _db.batch();
+      batch.set(_bookingsCollection.doc(booking.bookingId), booking.toData());
+      batch.update(_desksCollection(_kWorkspaceId).doc(booking.deskId), {
+        'bookings': FieldValue.arrayUnion([booking.toData()])
+      });
+      await batch.commit();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  String getNewDocumentId({required String collectionPath}) {
+    return _db.collection(collectionPath).doc().id;
   }
 
   Future<void> createDocument(

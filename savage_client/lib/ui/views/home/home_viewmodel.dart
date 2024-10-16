@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:savage_client/app/app.locator.dart';
 import 'package:savage_client/app/app.router.dart';
+import 'package:savage_client/data/user.dart';
+import 'package:savage_client/services/user_service.dart';
 import 'package:savage_client/ui/widgets/common/drawer_menu_button/drawer_menu_button.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -13,6 +15,7 @@ class HomeViewModel extends IndexTrackingViewModel {
 
   final _routerService = locator<RouterService>();
   final _snackbarService = locator<SnackbarService>();
+  final _userService = locator<UserService>();
 
   // Titles for the drawer menu
   static const String kOverviewViewTitle = 'Overview';
@@ -43,8 +46,25 @@ class HomeViewModel extends IndexTrackingViewModel {
   static const int kBookingsViewIndex = 6;
   static const int kInvoicesViewIndex = 7;
 
+  User? _user;
+  String? get firstName => _user?.firstName;
+  String? get lastName => _user?.lastName;
+  String get signupEmail => _userService.getSignupEmail;
+
   bool _checkedIn = false;
   bool get checkedIn => _checkedIn;
+
+  Future<void> fetchUser() async {
+    final User? user = await _userService.getUser();
+    if (user == null) {
+      throw UnimplementedError('User not found');
+      // TODO Sign out
+      // TODO Clear stack and navigate to signin
+    } else {
+      _user = user;
+      rebuildUi();
+    }
+  }
 
   void checkInOut() {
     // TODO implement check in/out
@@ -76,13 +96,13 @@ class HomeViewModel extends IndexTrackingViewModel {
           selected: currentIndex == kOverviewViewIndex,
           onSelected: () => setIndex(kOverviewViewIndex),
         ),
-        DrawerMenuButton(
-          title: kSavagesViewTitle,
-          icon: kSavagesViewIconData,
-          route: const SavagesViewRoute(),
-          selected: currentIndex == kSavagesViewIndex,
-          onSelected: () => setIndex(kSavagesViewIndex),
-        ),
+        // DrawerMenuButton(
+        //   title: kSavagesViewTitle,
+        //   icon: kSavagesViewIconData,
+        //   route: const SavagesViewRoute(),
+        //   selected: currentIndex == kSavagesViewIndex,
+        //   onSelected: () => setIndex(kSavagesViewIndex),
+        // ),
         DrawerMenuButton(
           title: kHotDesksViewTitle,
           icon: kHotDesksViewIconData,
@@ -90,20 +110,20 @@ class HomeViewModel extends IndexTrackingViewModel {
           selected: currentIndex == kHotDesksViewIndex,
           onSelected: () => setIndex(kHotDesksViewIndex),
         ),
-        DrawerMenuButton(
-          title: kMeetingRoomViewTitle,
-          icon: kMeetingRoomViewIconData,
-          route: const MeetingRoomViewRoute(),
-          selected: currentIndex == kMeetingRoomViewIndex,
-          onSelected: () => setIndex(kMeetingRoomViewIndex),
-        ),
-        DrawerMenuButton(
-          title: kBillingViewTitle,
-          icon: kBillingViewIconData,
-          route: const BillingViewRoute(),
-          selected: currentIndex == kBillingViewIndex,
-          onSelected: () => setIndex(kBillingViewIndex),
-        ),
+        // DrawerMenuButton(
+        //   title: kMeetingRoomViewTitle,
+        //   icon: kMeetingRoomViewIconData,
+        //   route: const MeetingRoomViewRoute(),
+        //   selected: currentIndex == kMeetingRoomViewIndex,
+        //   onSelected: () => setIndex(kMeetingRoomViewIndex),
+        // ),
+        // DrawerMenuButton(
+        //   title: kBillingViewTitle,
+        //   icon: kBillingViewIconData,
+        //   route: const BillingViewRoute(),
+        //   selected: currentIndex == kBillingViewIndex,
+        //   onSelected: () => setIndex(kBillingViewIndex),
+        // ),
       ];
 
   /// Checkin
@@ -111,23 +131,23 @@ class HomeViewModel extends IndexTrackingViewModel {
   /// Bookings
   /// Invoices
   List<Widget> endDrawerItems() => [
-        DrawerMenuButton(
-          route: const ProfileViewRoute(),
-          selected: currentIndex == kProfileViewIndex,
-          title: kProfileViewtitle,
-          onSelected: () => setIndex(kProfileViewIndex),
-        ),
-        DrawerMenuButton(
-          route: const BookingsViewRoute(),
-          selected: currentIndex == kBookingsViewIndex,
-          title: kBookingsViewTitle,
-          onSelected: () => setIndex(kBookingsViewIndex),
-        ),
-        DrawerMenuButton(
-          route: const InvoicesViewRoute(),
-          selected: currentIndex == kInvoicesViewIndex,
-          title: kInvoicesViewTitle,
-          onSelected: () => setIndex(kInvoicesViewIndex),
-        ),
+        // DrawerMenuButton(
+        //   route: const ProfileViewRoute(),
+        //   selected: currentIndex == kProfileViewIndex,
+        //   title: kProfileViewtitle,
+        //   onSelected: () => setIndex(kProfileViewIndex),
+        // ),
+        // DrawerMenuButton(
+        //   route: const BookingsViewRoute(),
+        //   selected: currentIndex == kBookingsViewIndex,
+        //   title: kBookingsViewTitle,
+        //   onSelected: () => setIndex(kBookingsViewIndex),
+        // ),
+        // DrawerMenuButton(
+        //   route: const InvoicesViewRoute(),
+        //   selected: currentIndex == kInvoicesViewIndex,
+        //   title: kInvoicesViewTitle,
+        //   onSelected: () => setIndex(kInvoicesViewIndex),
+        // ),
       ];
 }

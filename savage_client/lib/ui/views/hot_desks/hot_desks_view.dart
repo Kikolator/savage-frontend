@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:savage_client/ui/widgets/common/loader/loader.dart';
 import 'package:stacked/stacked.dart';
 
 import 'hot_desks_view.desktop.dart';
@@ -16,11 +17,15 @@ class HotDesksView extends StackedView<DesksViewModel> {
     DesksViewModel viewModel,
     Widget? child,
   ) {
-    return ScreenTypeLayout.builder(
-      mobile: (_) => const HotDesksViewMobile(),
-      tablet: (_) => const HotDesksViewTablet(),
-      desktop: (_) => const HotDesksViewDesktop(),
-    );
+    if (viewModel.isBusy) {
+      return const Loader();
+    } else {
+      return ScreenTypeLayout.builder(
+        mobile: (_) => const HotDesksViewMobile(),
+        tablet: (_) => const HotDesksViewTablet(),
+        desktop: (_) => const HotDesksViewDesktop(),
+      );
+    }
   }
 
   @override

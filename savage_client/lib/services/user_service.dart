@@ -13,12 +13,11 @@ class UserService {
   User? _user;
 
   bool get isSignedIn => _authenticationService.isSignedIn;
-
   bool get isEmailVerified => _authenticationService.isEmailVerified;
-
   String get getSignupEmail => _authenticationService.email;
-
   String? get getPhotoUrl => _user?.photoUrl;
+  String? get firstName => _user?.firstName;
+  String? get lastName => _user?.lastName;
 
   Future<void> createUser({
     required String firstName,

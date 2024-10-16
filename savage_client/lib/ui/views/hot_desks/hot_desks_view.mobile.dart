@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:savage_client/ui/common/ui_helpers.dart';
 import 'package:savage_client/ui/widgets/common/hot_desk_card/hot_desk_card.dart';
 import 'package:stacked/stacked.dart';
 import 'package:board_datetime_picker/board_datetime_picker.dart';
@@ -10,12 +11,10 @@ class HotDesksViewMobile extends ViewModelWidget<DesksViewModel> {
 
   @override
   Widget build(BuildContext context, DesksViewModel viewModel) {
-    // TODO show list with available hot desks
     return Scaffold(
       body: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // TODO build filter
           Card(
             margin: const EdgeInsets.symmetric(horizontal: 10),
             elevation: 0,
@@ -44,6 +43,7 @@ class HotDesksViewMobile extends ViewModelWidget<DesksViewModel> {
                           )),
                       showPickerType: BoardDateTimeFieldPickerType.standard,
                       onChanged: viewModel.changeStartDateTime,
+                      controller: viewModel.startDateTimeTextController,
                     ),
                   ),
                   SizedBox(
@@ -66,11 +66,25 @@ class HotDesksViewMobile extends ViewModelWidget<DesksViewModel> {
                           )),
                       showPickerType: BoardDateTimeFieldPickerType.standard,
                       onChanged: viewModel.changeEndDateTime,
+                      controller: viewModel.endDateTimeTextController,
                     ),
                   ),
                   // TODO add switch for map view
                 ],
               ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 10.0),
+            child: Row(
+              children: [
+                Text('${viewModel.hotDesks.length} Results'),
+                horizontalSpaceSmall,
+                Text(
+                  'Duration: ${viewModel.durationString}',
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ],
             ),
           ),
           Flexible(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:savage_client/ui/common/ui_helpers.dart';
 import 'package:savage_client/ui/views/overview/overview_view.dart';
 import 'package:savage_client/ui/widgets/common/profile_button/profile_button.dart';
 import 'package:stacked/stacked.dart';
@@ -64,17 +65,23 @@ class HomeView extends StackedView<HomeViewModel> {
           shrinkWrap: true,
           padding: EdgeInsets.zero,
           children: [
-            const DrawerHeader(
+            DrawerHeader(
               child: Row(
+                // crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   // Profile picture
-                  ProfileButton(
+                  const ProfileButton(
                     buttonActive: false,
                   ),
+                  horizontalSpaceSmall,
                   Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Firstname Lastname
+                      Text('${viewModel.firstName} ${viewModel.lastName}'),
                       // Email
+                      Text(viewModel.signupEmail),
                     ],
                   ),
                 ],
@@ -121,6 +128,12 @@ class HomeView extends StackedView<HomeViewModel> {
         placeholder: (_) => const OverviewView(),
       ),
     );
+  }
+
+  @override
+  void onViewModelReady(HomeViewModel viewModel) async {
+    await viewModel.fetchUser();
+    super.onViewModelReady(viewModel);
   }
 
   @override
