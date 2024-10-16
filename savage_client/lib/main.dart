@@ -32,9 +32,12 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveApp(
       builder: (_) => MaterialApp.router(
-        routerDelegate: stackedRouter.delegate(),
-        routeInformationParser: stackedRouter.defaultRouteParser(),
-      ),
+          routerDelegate: stackedRouter.delegate(),
+          routeInformationParser: stackedRouter.defaultRouteParser(),
+          theme: ThemeData(
+              useMaterial3: true,
+              colorScheme:
+                  ColorScheme.fromSeed(seedColor: const Color(0xFF9bcd8a)))),
     ).animate().fadeIn(
           delay: const Duration(milliseconds: 50),
           duration: const Duration(milliseconds: 400),

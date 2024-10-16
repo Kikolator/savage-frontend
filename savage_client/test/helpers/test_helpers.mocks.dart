@@ -10,7 +10,9 @@ import 'package:firebase_auth/firebase_auth.dart' as _i3;
 import 'package:flutter/material.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i13;
+import 'package:savage_client/data/desk.dart' as _i23;
 import 'package:savage_client/data/user.dart' as _i20;
+import 'package:savage_client/services/booking_service.dart' as _i21;
 import 'package:savage_client/services/dependency_wrappers/analytics_service.dart'
     as _i17;
 import 'package:savage_client/services/dependency_wrappers/authentication_service.dart'
@@ -23,6 +25,7 @@ import 'package:savage_client/services/dependency_wrappers/functions_service.dar
     as _i15;
 import 'package:savage_client/services/dependency_wrappers/storage_service.dart'
     as _i16;
+import 'package:savage_client/services/desks_service.dart' as _i22;
 import 'package:savage_client/services/user_service.dart' as _i19;
 import 'package:stacked/stacked.dart' as _i2;
 import 'package:stacked_services/src/bottom_sheet/bottom_sheet_service.dart'
@@ -716,6 +719,94 @@ class MockDatabaseService extends _i1.Mock implements _i14.DatabaseService {
       ) as _i5.Future<void>);
 
   @override
+  _i5.Future<List<Map<String, dynamic>>> getCollection({
+    required String? collection,
+    Object? queryField,
+    Object? isEqualTo,
+    Object? isNotEqualTo,
+    Object? isLessThan,
+    Object? isLessThanOrEqualTo,
+    Object? isGreaterThan,
+    Object? isGreaterThanOrEqualTo,
+    Object? arrayContains,
+    Iterable<Object?>? arrayContainsAny,
+    Iterable<Object?>? whereIn,
+    Iterable<Object?>? whereNotIn,
+    bool? isNull,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getCollection,
+          [],
+          {
+            #collection: collection,
+            #queryField: queryField,
+            #isEqualTo: isEqualTo,
+            #isNotEqualTo: isNotEqualTo,
+            #isLessThan: isLessThan,
+            #isLessThanOrEqualTo: isLessThanOrEqualTo,
+            #isGreaterThan: isGreaterThan,
+            #isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+            #arrayContains: arrayContains,
+            #arrayContainsAny: arrayContainsAny,
+            #whereIn: whereIn,
+            #whereNotIn: whereNotIn,
+            #isNull: isNull,
+          },
+        ),
+        returnValue: _i5.Future<List<Map<String, dynamic>>>.value(
+            <Map<String, dynamic>>[]),
+        returnValueForMissingStub: _i5.Future<List<Map<String, dynamic>>>.value(
+            <Map<String, dynamic>>[]),
+      ) as _i5.Future<List<Map<String, dynamic>>>);
+
+  @override
+  _i5.Future<List<Map<String, dynamic>>> getSubCollection({
+    required String? collection,
+    required String? documentId,
+    required String? subCollection,
+    Object? queryField,
+    Object? isEqualTo,
+    Object? isNotEqualTo,
+    Object? isLessThan,
+    Object? isLessThanOrEqualTo,
+    Object? isGreaterThan,
+    Object? isGreaterThanOrEqualTo,
+    Object? arrayContains,
+    Iterable<Object?>? arrayContainsAny,
+    Iterable<Object?>? whereIn,
+    Iterable<Object?>? whereNotIn,
+    bool? isNull,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getSubCollection,
+          [],
+          {
+            #collection: collection,
+            #documentId: documentId,
+            #subCollection: subCollection,
+            #queryField: queryField,
+            #isEqualTo: isEqualTo,
+            #isNotEqualTo: isNotEqualTo,
+            #isLessThan: isLessThan,
+            #isLessThanOrEqualTo: isLessThanOrEqualTo,
+            #isGreaterThan: isGreaterThan,
+            #isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+            #arrayContains: arrayContains,
+            #arrayContainsAny: arrayContainsAny,
+            #whereIn: whereIn,
+            #whereNotIn: whereNotIn,
+            #isNull: isNull,
+          },
+        ),
+        returnValue: _i5.Future<List<Map<String, dynamic>>>.value(
+            <Map<String, dynamic>>[]),
+        returnValueForMissingStub: _i5.Future<List<Map<String, dynamic>>>.value(
+            <Map<String, dynamic>>[]),
+      ) as _i5.Future<List<Map<String, dynamic>>>);
+
+  @override
   _i5.Future<Map<String, dynamic>?> getDocument({
     required String? collection,
     required String? documentId,
@@ -732,16 +823,6 @@ class MockDatabaseService extends _i1.Mock implements _i14.DatabaseService {
         returnValue: _i5.Future<Map<String, dynamic>?>.value(),
         returnValueForMissingStub: _i5.Future<Map<String, dynamic>?>.value(),
       ) as _i5.Future<Map<String, dynamic>?>);
-
-  @override
-  _i5.Future<void> addDummyData() => (super.noSuchMethod(
-        Invocation.method(
-          #addDummyData,
-          [],
-        ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
 }
 
 /// A class which mocks [FunctionsService].
@@ -847,4 +928,25 @@ class MockUserService extends _i1.Mock implements _i19.UserService {
         returnValue: _i5.Future<void>.value(),
         returnValueForMissingStub: _i5.Future<void>.value(),
       ) as _i5.Future<void>);
+}
+
+/// A class which mocks [BookingService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockBookingService extends _i1.Mock implements _i21.BookingService {}
+
+/// A class which mocks [DesksService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockDesksService extends _i1.Mock implements _i22.DesksService {
+  @override
+  _i5.Future<List<_i23.Desk>> fetchAvailableHotDesks() => (super.noSuchMethod(
+        Invocation.method(
+          #fetchAvailableHotDesks,
+          [],
+        ),
+        returnValue: _i5.Future<List<_i23.Desk>>.value(<_i23.Desk>[]),
+        returnValueForMissingStub:
+            _i5.Future<List<_i23.Desk>>.value(<_i23.Desk>[]),
+      ) as _i5.Future<List<_i23.Desk>>);
 }

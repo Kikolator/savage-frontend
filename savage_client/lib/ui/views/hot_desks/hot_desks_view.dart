@@ -24,6 +24,12 @@ class HotDesksView extends StackedView<DesksViewModel> {
   }
 
   @override
+  void onViewModelReady(DesksViewModel viewModel) async {
+    await viewModel.fetchHotDesks();
+    super.onViewModelReady(viewModel);
+  }
+
+  @override
   DesksViewModel viewModelBuilder(
     BuildContext context,
   ) =>

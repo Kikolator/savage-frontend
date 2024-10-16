@@ -10,6 +10,7 @@ class Desk {
   static const String _kAssignedTo = 'assigned_to';
   static const String _kAssignedUntil = 'assigned_until';
   static const String _kBookings = 'bookings';
+  static const String _kPhotoUrl = 'photo_url';
 
   final String deskId;
   final String workspaceId;
@@ -19,7 +20,8 @@ class Desk {
   final String? assignedTo; // User ID (for fixed desks, null if flexible)
   final DateTime?
       assignedUntil; // Date until the desk is assigned (for fixed desks)
-  final List<Booking> bookings; // Bookings for flex desks.
+  final List<Booking> bookings; // Bookings for flex desks
+  final String? photoUrl; // A photo of the desk
 
   Desk({
     required this.deskId,
@@ -30,6 +32,7 @@ class Desk {
     this.assignedTo,
     this.assignedUntil,
     required this.bookings,
+    this.photoUrl,
   });
 
   // Factory method to create a Desk from Firestore document data
@@ -41,10 +44,13 @@ class Desk {
       type: data[_kType],
       available: data[_kAvailable],
       assignedTo: data[_kAssignedTo],
-      assignedUntil: (data[_kAssignedUntil] as Timestamp).toDate(),
-      bookings: (data[_kBookings] as List<Map<String, dynamic>>)
+      assignedUntil: data[_kAssignedUntil] != null
+          ? (data[_kAssignedUntil] as Timestamp).toDate()
+          : null,
+      bookings: (data[_kBookings] as List<dynamic>)
           .map<Booking>((e) => Booking.fromData(e))
           .toList(),
+      photoUrl: data[_kPhotoUrl],
     );
   }
 
@@ -60,6 +66,7 @@ class Desk {
       _kAssignedUntil:
           assignedUntil != null ? Timestamp.fromDate(assignedUntil!) : null,
       _kBookings: bookings.map((e) => e.toData()).toList(),
+      _kPhotoUrl: photoUrl,
     };
   }
 }

@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:savage_client/dummy_data/dummy_db.dart';
 import 'package:savage_client/env.dart';
 
 class DatabaseService {
@@ -30,6 +29,90 @@ class DatabaseService {
     await _db.collection(collection).doc(documentId).update(data);
   }
 
+  Future<List<Map<String, dynamic>>> getCollection({
+    required String collection,
+    Object? queryField,
+    Object? isEqualTo,
+    Object? isNotEqualTo,
+    Object? isLessThan,
+    Object? isLessThanOrEqualTo,
+    Object? isGreaterThan,
+    Object? isGreaterThanOrEqualTo,
+    Object? arrayContains,
+    Iterable<Object?>? arrayContainsAny,
+    Iterable<Object?>? whereIn,
+    Iterable<Object?>? whereNotIn,
+    bool? isNull,
+  }) async {
+    late final QuerySnapshot<Map<String, dynamic>> querySnapshot;
+    if (queryField != null) {
+      querySnapshot = await _db
+          .collection(collection)
+          .where(queryField,
+              isEqualTo: isEqualTo,
+              isNotEqualTo: isNotEqualTo,
+              isLessThan: isLessThan,
+              isLessThanOrEqualTo: isLessThanOrEqualTo,
+              isGreaterThan: isGreaterThan,
+              isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+              arrayContains: arrayContains,
+              arrayContainsAny: arrayContainsAny,
+              whereIn: whereIn,
+              whereNotIn: whereNotIn,
+              isNull: isNull)
+          .get();
+    } else {
+      querySnapshot = await _db.collection(collection).get();
+    }
+    return querySnapshot.docs.map((doc) => doc.data()).toList();
+  }
+
+  Future<List<Map<String, dynamic>>> getSubCollection({
+    required String collection,
+    required String documentId,
+    required String subCollection,
+    Object? queryField,
+    Object? isEqualTo,
+    Object? isNotEqualTo,
+    Object? isLessThan,
+    Object? isLessThanOrEqualTo,
+    Object? isGreaterThan,
+    Object? isGreaterThanOrEqualTo,
+    Object? arrayContains,
+    Iterable<Object?>? arrayContainsAny,
+    Iterable<Object?>? whereIn,
+    Iterable<Object?>? whereNotIn,
+    bool? isNull,
+  }) async {
+    late final QuerySnapshot<Map<String, dynamic>> querySnapshot;
+    if (queryField != null) {
+      querySnapshot = await _db
+          .collection(collection)
+          .doc(documentId)
+          .collection(subCollection)
+          .where(queryField,
+              isEqualTo: isEqualTo,
+              isNotEqualTo: isNotEqualTo,
+              isLessThan: isLessThan,
+              isLessThanOrEqualTo: isLessThanOrEqualTo,
+              isGreaterThan: isGreaterThan,
+              isGreaterThanOrEqualTo: isGreaterThanOrEqualTo,
+              arrayContains: arrayContains,
+              arrayContainsAny: arrayContainsAny,
+              whereIn: whereIn,
+              whereNotIn: whereNotIn,
+              isNull: isNull)
+          .get();
+    } else {
+      querySnapshot = await _db
+          .collection(collection)
+          .doc(documentId)
+          .collection(subCollection)
+          .get();
+    }
+    return querySnapshot.docs.map((doc) => doc.data()).toList();
+  }
+
   Future<Map<String, dynamic>?> getDocument(
       {required String collection, required String documentId}) async {
     final snapshot = await _db.collection(collection).doc(documentId).get();
@@ -45,23 +128,23 @@ class DatabaseService {
     }
   }
 
-  Future<void> addDummyData() async {
-    final dummyData = DummyData.fromLocal();
-    final workspace = dummyData.workspace;
-    final workspaceId = workspace.workspaceId;
-    final desks = dummyData.desks;
-    final workspaceDocumentRef = _db.collection('workspaces').doc(workspaceId);
-    final desksCollectionRef = workspaceDocumentRef.collection('desks');
-    final batch = _db.batch();
-    batch.set(workspaceDocumentRef, workspace.toData());
-    for (int i = 0; i < desks.length; i++) {
-      final deskId = desks[i].deskId;
-      batch.set(desksCollectionRef.doc(deskId), desks[i].toData());
-    }
-    try {
-      await batch.commit();
-    } catch (error) {
-      print({'function': 'addDummyData()', 'error': error});
-    }
-  }
+  // Future<void> addDummyData() async {
+  //   final dummyData = DummyData.fromLocal();
+  //   final workspace = dummyData.workspace;
+  //   final workspaceId = workspace.workspaceId;
+  //   final desks = dummyData.desks;
+  //   final workspaceDocumentRef = _db.collection('workspaces').doc(workspaceId);
+  //   final desksCollectionRef = workspaceDocumentRef.collection('desks');
+  //   final batch = _db.batch();
+  //   batch.set(workspaceDocumentRef, workspace.toData());
+  //   for (int i = 0; i < desks.length; i++) {
+  //     final deskId = desks[i].deskId;
+  //     batch.set(desksCollectionRef.doc(deskId), desks[i].toData());
+  //   }
+  //   try {
+  //     await batch.commit();
+  //   } catch (error) {
+  //     print({'function': 'addDummyData()', 'error': error});
+  //   }
+  // }
 }

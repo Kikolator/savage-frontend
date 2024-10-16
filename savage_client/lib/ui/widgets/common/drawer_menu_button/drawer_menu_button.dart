@@ -7,14 +7,14 @@ class DrawerMenuButton extends StackedView<DrawerMenuButtonModel> {
   final PageRouteInfo route;
   final bool selected;
   final String title;
-  final IconData icon;
+  final IconData? icon;
   final void Function() onSelected;
 
   const DrawerMenuButton({
     required this.route,
     required this.selected,
     required this.title,
-    required this.icon,
+    this.icon,
     required this.onSelected,
     super.key,
   });

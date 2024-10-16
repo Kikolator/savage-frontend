@@ -9,6 +9,8 @@ import 'package:savage_client/services/dependency_wrappers/storage_service.dart'
 import 'package:savage_client/services/dependency_wrappers/analytics_service.dart';
 import 'package:savage_client/services/dependency_wrappers/crashlytics_service.dart';
 import 'package:savage_client/services/user_service.dart';
+import 'package:savage_client/services/booking_service.dart';
+import 'package:savage_client/services/desks_service.dart';
 // @stacked-import
 
 import 'test_helpers.mocks.dart';
@@ -24,6 +26,8 @@ import 'test_helpers.mocks.dart';
   MockSpec<AnalyticsService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<CrashlyticsService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<UserService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<BookingService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<DesksService>(onMissingStub: OnMissingStub.returnDefault),
 // @stacked-mock-spec
 ])
 void registerServices() {
@@ -37,6 +41,8 @@ void registerServices() {
   getAndRegisterAnalyticsService();
   getAndRegisterCrashlyticsService();
   getAndRegisterUserService();
+  getAndRegisterBookingService();
+  getAndRegisterDesksService();
 // @stacked-mock-register
 }
 
@@ -136,6 +142,20 @@ MockUserService getAndRegisterUserService() {
   _removeRegistrationIfExists<UserService>();
   final service = MockUserService();
   locator.registerSingleton<UserService>(service);
+  return service;
+}
+
+MockBookingService getAndRegisterBookingService() {
+  _removeRegistrationIfExists<BookingService>();
+  final service = MockBookingService();
+  locator.registerSingleton<BookingService>(service);
+  return service;
+}
+
+MockDesksService getAndRegisterDesksService() {
+  _removeRegistrationIfExists<DesksService>();
+  final service = MockDesksService();
+  locator.registerSingleton<DesksService>(service);
   return service;
 }
 // @stacked-mock-create

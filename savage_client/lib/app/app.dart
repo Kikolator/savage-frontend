@@ -20,8 +20,15 @@ import 'package:savage_client/ui/views/hot_desks/hot_desks_view.dart';
 import 'package:savage_client/ui/views/savages/savages_view.dart';
 import 'package:savage_client/ui/views/meeting_room/meeting_room_view.dart';
 import 'package:savage_client/ui/views/billing/billing_view.dart';
+import 'package:savage_client/ui/views/profile/profile_view.dart';
+import 'package:savage_client/ui/views/bookings/bookings_view.dart';
+import 'package:savage_client/ui/views/invoices/invoices_view.dart';
+import 'package:savage_client/services/booking_service.dart';
+import 'package:savage_client/services/desks_service.dart';
+import 'package:savage_client/ui/dialogs/cupertino_date_time_picker/cupertino_date_time_picker_dialog.dart';
 // @stacked-import
 
+// TODO implement route guards
 @StackedApp(
   routes: [
     CustomRoute(page: StartupView, initial: true),
@@ -34,6 +41,9 @@ import 'package:savage_client/ui/views/billing/billing_view.dart';
         CustomRoute(path: 'hot-desks', page: HotDesksView),
         CustomRoute(path: 'meeting-room', page: MeetingRoomView),
         CustomRoute(path: 'billing', page: BillingView),
+        CustomRoute(path: 'profile', page: ProfileView),
+        CustomRoute(path: 'bookings', page: BookingsView),
+        CustomRoute(path: 'invoices', page: InvoicesView),
       ],
     ),
     CustomRoute(page: LoginView),
@@ -50,6 +60,7 @@ import 'package:savage_client/ui/views/billing/billing_view.dart';
   dependencies: [
     LazySingleton(classType: BottomSheetService),
     LazySingleton(classType: DialogService),
+    LazySingleton(classType: SnackbarService),
     LazySingleton(classType: RouterService),
     LazySingleton(
         classType: AuthenticationService,
@@ -61,6 +72,8 @@ import 'package:savage_client/ui/views/billing/billing_view.dart';
     LazySingleton(classType: AnalyticsService),
     LazySingleton(classType: CrashlyticsService),
     LazySingleton(classType: UserService),
+    LazySingleton(classType: BookingService),
+    LazySingleton(classType: DesksService),
 // @stacked-service
   ],
   bottomsheets: [
@@ -69,7 +82,8 @@ import 'package:savage_client/ui/views/billing/billing_view.dart';
   ],
   dialogs: [
     StackedDialog(classType: InfoAlertDialog),
-    // @stacked-dialog
+    StackedDialog(classType: CupertinoDateTimePickerDialog),
+// @stacked-dialog
   ],
 )
 class App {}

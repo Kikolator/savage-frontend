@@ -4,7 +4,8 @@ import 'package:stacked/stacked.dart';
 import 'profile_button_model.dart';
 
 class ProfileButton extends StackedView<ProfileButtonModel> {
-  const ProfileButton({super.key});
+  final bool buttonActive;
+  const ProfileButton({this.buttonActive = true, super.key});
 
   @override
   Widget builder(
@@ -14,9 +15,11 @@ class ProfileButton extends StackedView<ProfileButtonModel> {
   ) {
     return InkWell(
       customBorder: CircleBorder(),
-      onTap: () {
-        Scaffold.of(context).openEndDrawer();
-      },
+      onTap: buttonActive
+          ? () {
+              Scaffold.of(context).openEndDrawer();
+            }
+          : null,
       child: Container(
         height: 50,
         width: 50,
