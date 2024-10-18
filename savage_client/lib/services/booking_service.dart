@@ -15,6 +15,7 @@ class BookingService {
       {required DateTime startDateTime,
       required DateTime endDateTime,
       required Desk hotDesk}) async {
+    // TODO check membership status
     // TODO check desk is available
     // Get uid
     final String uid = _authenticationService.uid;
@@ -27,6 +28,7 @@ class BookingService {
         bookingId: docId,
         workspaceId: hotDesk.workspaceId,
         deskId: hotDesk.deskId,
+        deskNumber: hotDesk.number,
         startDateTime: startDateTime,
         endDateTime: endDateTime,
         status: BookingStatus.confirmed);
@@ -34,5 +36,13 @@ class BookingService {
     await _databaseService.setNewBooking(booking: booking);
     // return booking
     return booking;
+  }
+
+  Future<List<Booking>> fetchBookings() async {
+    // Get uid
+    final String uid = _authenticationService.uid;
+    // Get bookings for uid
+    final bookings = _databaseService.fetchBookings(uid: uid);
+    return bookings;
   }
 }

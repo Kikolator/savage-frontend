@@ -25,11 +25,22 @@ class AddUserDataValidators {
     return null;
   }
 
-  static String? validatePhoneWhatsapp(String? value) {
+  static String? validateContactPhone(String? value) {
     if (value == null || value.isEmpty) {
       return 'Phone number is required';
     }
     if (!RegExp(r'^\+(?:[0-9] ?){6,14}[0-9]$').hasMatch(value)) {
+      return 'Invalid phone number. Valid format +34 638 038 055';
+    }
+    return null;
+  }
+
+  static String? validatePhoneWhatsapp(String? value) {
+    if (value == null || value.isEmpty) {
+      return null;
+    }
+    if (value.isNotEmpty &&
+        !RegExp(r'^\+(?:[0-9] ?){6,14}[0-9]$').hasMatch(value)) {
       return 'Invalid phone number. Valid format +34 638 038 055';
     }
     return null;

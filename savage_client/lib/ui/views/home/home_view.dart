@@ -120,6 +120,12 @@ class HomeView extends StackedView<HomeViewModel> {
             ),
             const Divider(),
             ...viewModel.endDrawerItems(),
+            const Divider(),
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: const Text('Log Out'),
+              onTap: viewModel.logOut,
+            ),
           ],
         ),
       ),

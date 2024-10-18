@@ -10,7 +10,7 @@ class EmailVerificationScreenModel extends BaseViewModel {
 
   void onAuthCancelled() async {
     await _userService.signOut();
-    _routerService.clearStackAndShow(const LoginViewRoute());
+    _routerService.clearStackAndShow(LoginViewRoute());
   }
 
   void onEmailVerified() {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:savage_client/ui/views/add_user_data/add_user_data_validators.dart';
 import 'package:savage_client/ui/views/add_user_data/add_user_data_view.form.dart';
+import 'package:savage_client/ui/widgets/common/loader/loader.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 
@@ -26,6 +27,9 @@ import 'add_user_data_viewmodel.dart';
       name: 'contactEmail',
       validator: AddUserDataValidators.validateContactEmail),
   FormTextField(
+      name: 'contactPhone',
+      validator: AddUserDataValidators.validateContactPhone),
+  FormTextField(
       name: 'phoneWhatsapp',
       validator: AddUserDataValidators.validatePhoneWhatsapp),
 ])
@@ -39,6 +43,9 @@ class AddUserDataView extends StackedView<AddUserDataViewModel>
     AddUserDataViewModel viewModel,
     Widget? child,
   ) {
+    if (viewModel.isBusy) {
+      return const Loader();
+    }
     return ScreenTypeLayout.builder(
       mobile: (_) => const AddUserDataViewMobile(),
       tablet: (_) => const AddUserDataViewTablet(),
@@ -53,10 +60,10 @@ class AddUserDataView extends StackedView<AddUserDataViewModel>
       AddUserDataViewModel();
 
   @override
-  void onViewModelReady(AddUserDataViewModel viewModel) {
+  void onViewModelReady(AddUserDataViewModel viewModel) async {
     syncFormWithViewModel(viewModel);
-    viewModel.initialise();
-    contactEmailController.text = viewModel.signupEmail;
+    await viewModel.initialise();
+    contactEmailController.text = viewModel.contactEmail;
   }
 
   @override

@@ -9,16 +9,34 @@ class AddUserDataViewModel extends FormViewModel {
   final _userService = locator<UserService>();
   final _routerService = locator<RouterService>();
 
-  late String _signupEmail;
-  String get signupEmail => _signupEmail;
+  late String _contactEmail;
+  String get contactEmail => _contactEmail;
 
-  void initialise() {
-    _signupEmail = _userService.getSignupEmail;
-    contactEmailValue = _signupEmail;
-    setFirstNameValidationMessage(null);
-    setLastNameValidationMessage(null);
-    setContactEmailValidationMessage(null);
-    setPhoneWhatsappValidationMessage(null);
+  Future<void> initialise() async {
+    try {
+      final user = await _userService.getUser();
+      if (user == null) {
+        _contactEmail = _userService.getSignupEmail;
+        contactEmailValue = _contactEmail;
+        // contactPhoneValue = _userService.getSignupPhone;
+        // setFirstNameValidationMessage(null);
+        // setLastNameValidationMessage(null);
+        // setContactEmailValidationMessage(null);
+        // setPhoneWhatsappValidationMessage(null);
+      } else {
+        _contactEmail = user.contactEmail;
+        contactEmailValue = user.contactEmail;
+        firstNameValue = user.firstName;
+        lastNameValue = user.lastName;
+        contactEmailValue = user.contactEmail;
+        contactPhoneValue = user.contactPhone;
+        phoneWhatsappValue = user.phoneWhatsapp;
+      }
+    } catch (error) {
+      setError(error.toString());
+    } finally {
+      setBusy(false);
+    }
   }
 
   bool _showValidationMessages = false;
@@ -31,15 +49,19 @@ class AddUserDataViewModel extends FormViewModel {
       if (hasFirstName &&
           hasLastName &&
           hasContactEmail &&
-          hasPhoneWhatsapp &&
+          hasContactPhone &&
           !hasAnyValidationMessage) {
+        phoneWhatsappValue =
+            phoneWhatsappValue == null || phoneWhatsappValue!.isEmpty
+                ? contactPhoneValue
+                : phoneWhatsappValue;
         await _userService.createUser(
-          firstName: firstNameValue!,
-          lastName: lastNameValue!,
-          contactEmail: contactEmailValue!,
-          phoneWhatsapp: phoneWhatsappValue!,
-        );
-        _routerService.replaceWithHomeView();
+            firstName: firstNameValue!,
+            lastName: lastNameValue!,
+            contactEmail: contactEmailValue!,
+            phoneWhatsapp: phoneWhatsappValue!,
+            contactPhone: contactPhoneValue!);
+        _routerService.navigateToCreateBusinessProfileView();
       } else {
         _showValidationMessages = true;
         rebuildUi();

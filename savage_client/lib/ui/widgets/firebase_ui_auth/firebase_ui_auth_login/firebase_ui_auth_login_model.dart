@@ -12,6 +12,11 @@ class FirebaseUiAuthLoginModel extends BaseViewModel {
 
   get auth => _authenticationService.firebaseAuth;
 
+  Function(bool)? _onLoginCallback;
+  set onLoginCallback(Function(bool)? function) {
+    _onLoginCallback = function;
+  }
+
   void userCreated() {
     _routerService.replaceWithVerifyEmailView();
     return;
@@ -25,9 +30,20 @@ class FirebaseUiAuthLoginModel extends BaseViewModel {
   Future<void> userEmailVerified() async {
     // Check if user doc exists
     final user = await _userService.getUser();
+    // If user data is null, we need to create a user
     if (user == null) {
       _routerService.replaceWithAddUserDataView();
       return;
+      // If there is a callback function, redirect the user to rout before
+      // login call
+    } else if (_onLoginCallback != null) {
+      _onLoginCallback!.call(true);
+      return;
+      // If member data is empty, redirect the user to create a business profile
+    } else if (user.memberData.isEmpty) {
+      _routerService.replaceWithCreateBusinessProfileView();
+      return;
+      // Anything else, return the home view
     } else {
       _routerService.replaceWithHomeView();
       return;

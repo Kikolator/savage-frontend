@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:savage_client/ui/widgets/common/loader/loader.dart';
 import 'package:stacked/stacked.dart';
 
 import 'bookings_view.desktop.dart';
@@ -16,11 +17,20 @@ class BookingsView extends StackedView<BookingsViewModel> {
     BookingsViewModel viewModel,
     Widget? child,
   ) {
+    if (viewModel.isBusy) {
+      return const Loader();
+    }
     return ScreenTypeLayout.builder(
       mobile: (_) => const BookingsViewMobile(),
       tablet: (_) => const BookingsViewTablet(),
       desktop: (_) => const BookingsViewDesktop(),
     );
+  }
+
+  @override
+  void onViewModelReady(BookingsViewModel viewModel) async {
+    await viewModel.fetchBookings();
+    super.onViewModelReady(viewModel);
   }
 
   @override

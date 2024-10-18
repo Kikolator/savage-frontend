@@ -6,7 +6,10 @@ import 'package:stacked/stacked.dart';
 import 'firebase_ui_auth_login_model.dart';
 
 class FirebaseUiAuthLogin extends StackedView<FirebaseUiAuthLoginModel> {
-  const FirebaseUiAuthLogin({super.key});
+  final String? errorMessage;
+  final Function(bool)? onLoginCallback;
+  const FirebaseUiAuthLogin(
+      {required this.errorMessage, required this.onLoginCallback, super.key});
 
   @override
   Widget builder(
@@ -29,12 +32,25 @@ class FirebaseUiAuthLogin extends StackedView<FirebaseUiAuthLoginModel> {
       ],
       child: LoginView(
         action: AuthAction.signUp,
+        showPasswordVisibilityToggle: true,
+        footerBuilder: errorMessage != null
+            ? (context, action) => Text(
+                  errorMessage!,
+                  style: const TextStyle(color: Colors.red),
+                )
+            : null,
         providers: FirebaseUIAuth.providersFor(
           FirebaseAuth.instance.app,
         ),
         auth: viewModel.auth,
       ),
     );
+  }
+
+  @override
+  void onViewModelReady(FirebaseUiAuthLoginModel viewModel) {
+    viewModel.onLoginCallback = onLoginCallback;
+    super.onViewModelReady(viewModel);
   }
 
   @override

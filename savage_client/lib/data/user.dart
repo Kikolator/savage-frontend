@@ -2,45 +2,63 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:savage_client/data/booking.dart';
 import 'package:savage_client/data/enums/membership_status.dart';
 import 'package:savage_client/data/enums/membership_type.dart';
-import 'package:savage_client/data/payment_method.dart';
 
 class User {
   static const kUid = 'uid';
   static const kFirstName = 'first_name';
   static const kLastName = 'last_name';
-  static const kPhoneWhatsapp = 'phone_whatsapp';
   static const kContactEmail = 'contact_email';
+  static const kContactPhone = 'contact_phone';
   static const kSignupEmail = 'signup_email';
   static const kSignupPhone = 'signup_phone';
+  static const kPhoneWhatsapp = 'phone_whatsapp';
   static const kPhotoUrl = 'photo_url';
   static const kMembershipStatus = 'membership_status';
-  static const kMembershipType = 'membership_type';
-  static const kBookings = 'bookings';
+  static const kMembershipTypes = 'membership_types';
+  static const kAvailableCredits = 'available_credits';
   static const kJoinedAt = 'joined_at';
-  static const kPaymentMethods = 'payment_methods';
+  static const kMemberVisible = 'member_visible';
+  static const kMemberData = 'member_data';
+  static const kRequestInvoice = 'request_invoice';
+  static const kInvoiceData = 'invoice_data';
 
-  final String uid, firstName, lastName, contactEmail;
+  final String uid, firstName, lastName, contactEmail, contactPhone;
   final String? signupEmail, signupPhone, phoneWhatsapp, photoUrl;
+
+  /// active when the user has a membership or set to inactive
+  /// when no membership
   final MembershipStatus membershipStatus;
-  final MembershipType? membershipType;
-  final List<Booking>? bookings;
-  final DateTime? joinedAt;
-  final List<PaymentMethod>? paymentMethods;
+
+  /// A list of active membership types
+  final List<MembershipType> membershipTypes;
+
+  /// Amount of credits.
+  /// 1 credit = 1 hour of hot desk
+  /// Null in case membership type does not require credits
+  final double? availableCredits;
+  final DateTime joinedAt;
+  final bool memberVisible, requestInvoice;
+  final Map<String, dynamic> memberData;
+  final Map<String, dynamic> invoiceData;
 
   User({
     required this.uid,
     required this.firstName,
     required this.lastName,
     required this.contactEmail,
-    this.phoneWhatsapp,
-    this.signupEmail,
-    this.signupPhone,
-    this.photoUrl,
+    required this.contactPhone,
+    required this.signupEmail,
+    required this.signupPhone,
+    required this.phoneWhatsapp,
+    required this.photoUrl,
     required this.membershipStatus,
-    this.membershipType,
-    this.bookings,
-    this.joinedAt,
-    this.paymentMethods,
+    required this.membershipTypes,
+    required this.availableCredits,
+    required this.joinedAt,
+    required this.memberVisible,
+    required this.memberData,
+    required this.requestInvoice,
+    required this.invoiceData,
   });
 
   factory User.fromData(Map<String, dynamic> data) {
@@ -48,23 +66,26 @@ class User {
       uid: data[kUid],
       firstName: data[kFirstName],
       lastName: data[kLastName],
-      phoneWhatsapp: data[kPhoneWhatsapp],
       contactEmail: data[kContactEmail],
+      contactPhone: data[kContactPhone],
       signupEmail: data[kSignupEmail],
       signupPhone: data[kSignupPhone],
+      phoneWhatsapp: data[kPhoneWhatsapp],
       photoUrl: data[kPhotoUrl],
       membershipStatus: MembershipStatus.values.firstWhere(
-          (element) => element.toString() == data[kMembershipStatus]),
-      membershipType: data[kMembershipType] != null
-          ? MembershipType.values
-              .firstWhere((e) => e.name == data[kMembershipType])
-          : null,
-      joinedAt: data[kJoinedAt] != null
-          ? (data[kJoinedAt] as Timestamp).toDate()
-          : null,
-      bookings: data[kBookings] != null
-          ? (data[kBookings] as List).map((e) => Booking.fromData(e)).toList()
-          : null,
+        (element) => element.name == data[kMembershipStatus],
+      ),
+      membershipTypes: (data[kMembershipTypes] as List)
+          .map((e) => MembershipType.values.firstWhere(
+                (element) => element.name == e,
+              ))
+          .toList(),
+      availableCredits: data[kAvailableCredits],
+      joinedAt: (data[kJoinedAt] as Timestamp).toDate(),
+      memberVisible: data[kMemberVisible],
+      memberData: data[kMemberData],
+      requestInvoice: data[kRequestInvoice],
+      invoiceData: data[kInvoiceData],
     );
   }
 
@@ -72,15 +93,19 @@ class User {
         kUid: uid,
         kFirstName: firstName,
         kLastName: lastName,
-        kPhoneWhatsapp: phoneWhatsapp,
         kContactEmail: contactEmail,
+        kContactPhone: contactPhone,
         kSignupEmail: signupEmail,
         kSignupPhone: signupPhone,
+        kPhoneWhatsapp: phoneWhatsapp,
         kPhotoUrl: photoUrl,
-        kMembershipStatus: membershipStatus.toString(),
-        kMembershipType: membershipType?.name,
-        kBookings: bookings?.map((e) => e.toData()).toList(),
-        kJoinedAt: joinedAt == null ? null : Timestamp.fromDate(joinedAt!),
-        kPaymentMethods: paymentMethods?.map((e) => e.toData()).toList(),
+        kMembershipStatus: membershipStatus.name,
+        kMembershipTypes: membershipTypes.map((e) => e.name).toList(),
+        kAvailableCredits: availableCredits,
+        kJoinedAt: Timestamp.fromDate(joinedAt),
+        kMemberVisible: memberVisible,
+        kMemberData: memberData,
+        kRequestInvoice: requestInvoice,
+        kInvoiceData: invoiceData,
       };
 }

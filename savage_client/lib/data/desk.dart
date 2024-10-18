@@ -9,7 +9,7 @@ class Desk {
   static const String _kAvailable = 'available';
   static const String _kAssignedTo = 'assigned_to';
   static const String _kAssignedUntil = 'assigned_until';
-  static const String _kBookings = 'bookings';
+  static const String kBookings = 'bookings';
   static const String _kPhotoUrl = 'photo_url';
 
   final String deskId;
@@ -47,7 +47,7 @@ class Desk {
       assignedUntil: data[_kAssignedUntil] != null
           ? (data[_kAssignedUntil] as Timestamp).toDate()
           : null,
-      bookings: (data[_kBookings] as List<dynamic>)
+      bookings: (data[kBookings] as List<dynamic>)
           .map<Booking>((e) => Booking.fromData(e))
           .toList(),
       photoUrl: data[_kPhotoUrl],
@@ -65,7 +65,7 @@ class Desk {
       _kAssignedTo: assignedTo,
       _kAssignedUntil:
           assignedUntil != null ? Timestamp.fromDate(assignedUntil!) : null,
-      _kBookings: bookings.map((e) => e.toData()).toList(),
+      kBookings: bookings.map((e) => e.toData()).toList(),
       _kPhotoUrl: photoUrl,
     };
   }

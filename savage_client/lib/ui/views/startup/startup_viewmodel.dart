@@ -33,6 +33,9 @@ class StartupViewModel extends BaseViewModel {
     if (user == null) {
       _routerService.replaceWithAddUserDataView();
       return;
+    } else if (user.memberData.isEmpty) {
+      _routerService.replaceWithCreateBusinessProfileView();
+      return;
     } else {
       _routerService.replaceWithHomeView();
       return;

@@ -1,3 +1,4 @@
+import 'package:savage_client/route_guards/authentication_guard.dart';
 import 'package:savage_client/ui/bottom_sheets/notice/notice_sheet.dart';
 import 'package:savage_client/ui/dialogs/info_alert/info_alert_dialog.dart';
 import 'package:savage_client/ui/views/home/home_view.dart';
@@ -26,6 +27,7 @@ import 'package:savage_client/ui/views/invoices/invoices_view.dart';
 import 'package:savage_client/services/booking_service.dart';
 import 'package:savage_client/services/desks_service.dart';
 import 'package:savage_client/ui/dialogs/cupertino_date_time_picker/cupertino_date_time_picker_dialog.dart';
+import 'package:savage_client/ui/views/create_business_profile/create_business_profile_view.dart';
 // @stacked-import
 
 // TODO implement route guards
@@ -35,6 +37,9 @@ import 'package:savage_client/ui/dialogs/cupertino_date_time_picker/cupertino_da
     CustomRoute(
       page: HomeView,
       path: '/',
+      guards: [
+        AuthenticationGuard,
+      ],
       children: [
         MaterialRoute(path: 'overview', page: OverviewView),
         CustomRoute(path: 'savages', page: SavagesView),
@@ -47,9 +52,25 @@ import 'package:savage_client/ui/dialogs/cupertino_date_time_picker/cupertino_da
       ],
     ),
     CustomRoute(page: LoginView),
-    CustomRoute(page: VerifyEmailView),
-    CustomRoute(page: AddUserDataView),
+    CustomRoute(
+      page: VerifyEmailView,
+      guards: [
+        AuthenticationGuard,
+      ],
+    ),
+    CustomRoute(
+      page: AddUserDataView,
+      guards: [
+        AuthenticationGuard,
+      ],
+    ),
 
+    MaterialRoute(
+      page: CreateBusinessProfileView,
+      guards: [
+        AuthenticationGuard,
+      ],
+    ),
 // @stacked-route
 
     CustomRoute(page: UnknownView, path: '/404'),

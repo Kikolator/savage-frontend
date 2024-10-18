@@ -15,6 +15,7 @@ const bool _autoTextFieldValidation = true;
 const String FirstNameValueKey = 'firstName';
 const String LastNameValueKey = 'lastName';
 const String ContactEmailValueKey = 'contactEmail';
+const String ContactPhoneValueKey = 'contactPhone';
 const String PhoneWhatsappValueKey = 'phoneWhatsapp';
 
 final Map<String, TextEditingController>
@@ -27,6 +28,7 @@ final Map<String, String? Function(String?)?> _AddUserDataViewTextValidations =
   FirstNameValueKey: AddUserDataValidators.validateFirstName,
   LastNameValueKey: AddUserDataValidators.validateLastName,
   ContactEmailValueKey: AddUserDataValidators.validateContactEmail,
+  ContactPhoneValueKey: AddUserDataValidators.validateContactPhone,
   PhoneWhatsappValueKey: AddUserDataValidators.validatePhoneWhatsapp,
 };
 
@@ -37,6 +39,8 @@ mixin $AddUserDataView {
       _getFormTextEditingController(LastNameValueKey);
   TextEditingController get contactEmailController =>
       _getFormTextEditingController(ContactEmailValueKey);
+  TextEditingController get contactPhoneController =>
+      _getFormTextEditingController(ContactPhoneValueKey);
   TextEditingController get phoneWhatsappController =>
       _getFormTextEditingController(PhoneWhatsappValueKey);
 
@@ -44,6 +48,8 @@ mixin $AddUserDataView {
   FocusNode get lastNameFocusNode => _getFormFocusNode(LastNameValueKey);
   FocusNode get contactEmailFocusNode =>
       _getFormFocusNode(ContactEmailValueKey);
+  FocusNode get contactPhoneFocusNode =>
+      _getFormFocusNode(ContactPhoneValueKey);
   FocusNode get phoneWhatsappFocusNode =>
       _getFormFocusNode(PhoneWhatsappValueKey);
 
@@ -74,6 +80,7 @@ mixin $AddUserDataView {
     firstNameController.addListener(() => _updateFormData(model));
     lastNameController.addListener(() => _updateFormData(model));
     contactEmailController.addListener(() => _updateFormData(model));
+    contactPhoneController.addListener(() => _updateFormData(model));
     phoneWhatsappController.addListener(() => _updateFormData(model));
 
     _updateFormData(model, forceValidate: _autoTextFieldValidation);
@@ -89,6 +96,7 @@ mixin $AddUserDataView {
     firstNameController.addListener(() => _updateFormData(model));
     lastNameController.addListener(() => _updateFormData(model));
     contactEmailController.addListener(() => _updateFormData(model));
+    contactPhoneController.addListener(() => _updateFormData(model));
     phoneWhatsappController.addListener(() => _updateFormData(model));
 
     _updateFormData(model, forceValidate: _autoTextFieldValidation);
@@ -102,6 +110,7 @@ mixin $AddUserDataView {
           FirstNameValueKey: firstNameController.text,
           LastNameValueKey: lastNameController.text,
           ContactEmailValueKey: contactEmailController.text,
+          ContactPhoneValueKey: contactPhoneController.text,
           PhoneWhatsappValueKey: phoneWhatsappController.text,
         }),
     );
@@ -148,6 +157,8 @@ extension ValueProperties on FormStateHelper {
   String? get lastNameValue => this.formValueMap[LastNameValueKey] as String?;
   String? get contactEmailValue =>
       this.formValueMap[ContactEmailValueKey] as String?;
+  String? get contactPhoneValue =>
+      this.formValueMap[ContactPhoneValueKey] as String?;
   String? get phoneWhatsappValue =>
       this.formValueMap[PhoneWhatsappValueKey] as String?;
 
@@ -185,6 +196,18 @@ extension ValueProperties on FormStateHelper {
     }
   }
 
+  set contactPhoneValue(String? value) {
+    this.setData(
+      this.formValueMap..addAll({ContactPhoneValueKey: value}),
+    );
+
+    if (_AddUserDataViewTextEditingControllers.containsKey(
+        ContactPhoneValueKey)) {
+      _AddUserDataViewTextEditingControllers[ContactPhoneValueKey]?.text =
+          value ?? '';
+    }
+  }
+
   set phoneWhatsappValue(String? value) {
     this.setData(
       this.formValueMap..addAll({PhoneWhatsappValueKey: value}),
@@ -206,6 +229,9 @@ extension ValueProperties on FormStateHelper {
   bool get hasContactEmail =>
       this.formValueMap.containsKey(ContactEmailValueKey) &&
       (contactEmailValue?.isNotEmpty ?? false);
+  bool get hasContactPhone =>
+      this.formValueMap.containsKey(ContactPhoneValueKey) &&
+      (contactPhoneValue?.isNotEmpty ?? false);
   bool get hasPhoneWhatsapp =>
       this.formValueMap.containsKey(PhoneWhatsappValueKey) &&
       (phoneWhatsappValue?.isNotEmpty ?? false);
@@ -216,6 +242,8 @@ extension ValueProperties on FormStateHelper {
       this.fieldsValidationMessages[LastNameValueKey]?.isNotEmpty ?? false;
   bool get hasContactEmailValidationMessage =>
       this.fieldsValidationMessages[ContactEmailValueKey]?.isNotEmpty ?? false;
+  bool get hasContactPhoneValidationMessage =>
+      this.fieldsValidationMessages[ContactPhoneValueKey]?.isNotEmpty ?? false;
   bool get hasPhoneWhatsappValidationMessage =>
       this.fieldsValidationMessages[PhoneWhatsappValueKey]?.isNotEmpty ?? false;
 
@@ -225,6 +253,8 @@ extension ValueProperties on FormStateHelper {
       this.fieldsValidationMessages[LastNameValueKey];
   String? get contactEmailValidationMessage =>
       this.fieldsValidationMessages[ContactEmailValueKey];
+  String? get contactPhoneValidationMessage =>
+      this.fieldsValidationMessages[ContactPhoneValueKey];
   String? get phoneWhatsappValidationMessage =>
       this.fieldsValidationMessages[PhoneWhatsappValueKey];
 }
@@ -236,6 +266,8 @@ extension Methods on FormStateHelper {
       this.fieldsValidationMessages[LastNameValueKey] = validationMessage;
   setContactEmailValidationMessage(String? validationMessage) =>
       this.fieldsValidationMessages[ContactEmailValueKey] = validationMessage;
+  setContactPhoneValidationMessage(String? validationMessage) =>
+      this.fieldsValidationMessages[ContactPhoneValueKey] = validationMessage;
   setPhoneWhatsappValidationMessage(String? validationMessage) =>
       this.fieldsValidationMessages[PhoneWhatsappValueKey] = validationMessage;
 
@@ -244,6 +276,7 @@ extension Methods on FormStateHelper {
     firstNameValue = '';
     lastNameValue = '';
     contactEmailValue = '';
+    contactPhoneValue = '';
     phoneWhatsappValue = '';
   }
 
@@ -253,6 +286,7 @@ extension Methods on FormStateHelper {
       FirstNameValueKey: getValidationMessage(FirstNameValueKey),
       LastNameValueKey: getValidationMessage(LastNameValueKey),
       ContactEmailValueKey: getValidationMessage(ContactEmailValueKey),
+      ContactPhoneValueKey: getValidationMessage(ContactPhoneValueKey),
       PhoneWhatsappValueKey: getValidationMessage(PhoneWhatsappValueKey),
     });
   }
@@ -276,5 +310,6 @@ void updateValidationData(FormStateHelper model) =>
       FirstNameValueKey: getValidationMessage(FirstNameValueKey),
       LastNameValueKey: getValidationMessage(LastNameValueKey),
       ContactEmailValueKey: getValidationMessage(ContactEmailValueKey),
+      ContactPhoneValueKey: getValidationMessage(ContactPhoneValueKey),
       PhoneWhatsappValueKey: getValidationMessage(PhoneWhatsappValueKey),
     });

@@ -14,13 +14,15 @@ class AddUserDataViewMobile extends ViewModelWidget<AddUserDataViewModel>
   Widget build(BuildContext context, AddUserDataViewModel viewModel) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: false,
         title: const Text('How do we reach you?'),
       ),
       body: viewModel.isBusy
           ? const Center(child: Loader())
-          : Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: SingleChildScrollView(
+          : SingleChildScrollView(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 32),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -72,7 +74,32 @@ class AddUserDataViewMobile extends ViewModelWidget<AddUserDataViewModel>
                       )
                     ],
                     verticalSpaceMedium,
-                    const Text('Whatsapp number:'),
+                    const Text('Contact phone number:'),
+                    const Text(
+                      'include international code eg: +34612345678',
+                      style: TextStyle(color: Colors.grey),
+                    ),
+                    verticalSpaceSmall,
+                    TextFormField(
+                      controller: contactPhoneController,
+                    ),
+                    if (viewModel.showValidationMessages &&
+                        viewModel.hasContactPhoneValidationMessage) ...[
+                      verticalSpaceTiny,
+                      Text(
+                        viewModel.contactPhoneValidationMessage!,
+                        style: const TextStyle(
+                          color: Colors.red,
+                          fontSize: 12,
+                        ),
+                      )
+                    ],
+                    verticalSpaceMedium,
+                    const Text('Whatsapp number (optional):'),
+                    const Text(
+                      'In case different from contact phone number',
+                      style: TextStyle(color: Colors.grey),
+                    ),
                     verticalSpaceSmall,
                     TextFormField(controller: phoneWhatsappController),
                     if (viewModel.showValidationMessages &&
@@ -100,7 +127,8 @@ class AddUserDataViewMobile extends ViewModelWidget<AddUserDataViewModel>
                           fontSize: 12,
                         ),
                       )
-                    ]
+                    ],
+                    verticalSpaceLarge,
                   ],
                 ),
               ),

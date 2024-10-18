@@ -24,6 +24,7 @@ class UserService {
     required String lastName,
     required String phoneWhatsapp,
     required String contactEmail,
+    required String contactPhone,
   }) async {
     // Get Firebase uid
     final uid = _authenticationService.uid;
@@ -37,9 +38,17 @@ class UserService {
       lastName: lastName,
       phoneWhatsapp: phoneWhatsapp,
       contactEmail: contactEmail,
+      contactPhone: contactPhone,
       signupEmail: email,
       signupPhone: null,
-      membershipStatus: MembershipStatus.none,
+      membershipStatus: MembershipStatus.inactive,
+      membershipTypes: [],
+      availableCredits: null,
+      joinedAt: DateTime.now(),
+      memberVisible: false,
+      memberData: {},
+      requestInvoice: false,
+      invoiceData: {},
       photoUrl: photoUrl,
     );
     // Set to database

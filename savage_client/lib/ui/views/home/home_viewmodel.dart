@@ -137,12 +137,12 @@ class HomeViewModel extends IndexTrackingViewModel {
         //   title: kProfileViewtitle,
         //   onSelected: () => setIndex(kProfileViewIndex),
         // ),
-        // DrawerMenuButton(
-        //   route: const BookingsViewRoute(),
-        //   selected: currentIndex == kBookingsViewIndex,
-        //   title: kBookingsViewTitle,
-        //   onSelected: () => setIndex(kBookingsViewIndex),
-        // ),
+        DrawerMenuButton(
+          route: const BookingsViewRoute(),
+          selected: currentIndex == kBookingsViewIndex,
+          title: kBookingsViewTitle,
+          onSelected: () => setIndex(kBookingsViewIndex),
+        ),
         // DrawerMenuButton(
         //   route: const InvoicesViewRoute(),
         //   selected: currentIndex == kInvoicesViewIndex,
@@ -150,4 +150,9 @@ class HomeViewModel extends IndexTrackingViewModel {
         //   onSelected: () => setIndex(kInvoicesViewIndex),
         // ),
       ];
+
+  Future<void> logOut() async {
+    await _userService.signOut();
+    _routerService.clearStackAndShow(LoginViewRoute());
+  }
 }

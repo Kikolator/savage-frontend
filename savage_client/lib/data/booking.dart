@@ -5,9 +5,10 @@ import 'package:savage_client/data/enums/booking_status.dart';
 
 class Booking {
   static const String _kBookingId = 'booking_id';
-  static const String _kUserId = 'user_id';
+  static const String kUserId = 'user_id';
   static const String _kWorkspaceId = 'workspace_id';
   static const String _kDeskId = 'desk_id';
+  static const String _kDeskNumber = 'desk_number';
   static const String _kStartDateTime = 'start_date_time';
   static const String _kEndDateTime = 'end_date_time';
   // static const String _kPrice = 'price';
@@ -19,6 +20,7 @@ class Booking {
   final String userId;
   final String workspaceId;
   final String deskId;
+  final String deskNumber;
   final DateTime startDateTime;
   final DateTime endDateTime;
   // final double price;
@@ -31,6 +33,7 @@ class Booking {
     required this.userId,
     required this.workspaceId,
     required this.deskId,
+    required this.deskNumber,
     required this.startDateTime,
     required this.endDateTime,
     // required this.price,
@@ -42,9 +45,10 @@ class Booking {
   factory Booking.fromData(Map<String, dynamic> data) {
     return Booking(
       bookingId: data[_kBookingId],
-      userId: data[_kUserId],
+      userId: data[kUserId],
       workspaceId: data[_kWorkspaceId],
       deskId: data[_kDeskId],
+      deskNumber: data[_kDeskNumber],
       startDateTime: (data[_kStartDateTime] as Timestamp).toDate(),
       endDateTime: (data[_kEndDateTime] as Timestamp).toDate(),
       // price: data[_kPrice],
@@ -60,9 +64,10 @@ class Booking {
   Map<String, dynamic> toData() {
     return {
       _kBookingId: bookingId,
-      _kUserId: userId,
+      kUserId: userId,
       _kWorkspaceId: workspaceId,
       _kDeskId: deskId,
+      _kDeskNumber: deskNumber,
       _kStartDateTime: Timestamp.fromDate(startDateTime),
       _kEndDateTime: Timestamp.fromDate(endDateTime),
       // _kPrice: price,

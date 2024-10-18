@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:savage_client/data/booking.dart';
+import 'package:savage_client/data/desk.dart';
 import 'package:savage_client/env.dart';
 
 class DatabaseService {
@@ -25,7 +26,7 @@ class DatabaseService {
   static const _kUsersCollectionPath = 'users';
 
   // Collection References
-  CollectionReference get _bookingsCollection =>
+  CollectionReference<Map<String, dynamic>> get _bookingsCollection =>
       _db.collection(_kBookingCollectionPath);
   CollectionReference _desksCollection(String workspaceId) => _db
       .collection(_kWorkspacesCollectionPath)
@@ -39,9 +40,23 @@ class DatabaseService {
       final batch = _db.batch();
       batch.set(_bookingsCollection.doc(booking.bookingId), booking.toData());
       batch.update(_desksCollection(_kWorkspaceId).doc(booking.deskId), {
-        'bookings': FieldValue.arrayUnion([booking.toData()])
+        Desk.kBookings: FieldValue.arrayUnion([booking.toData()])
       });
       await batch.commit();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<List<Booking>> fetchBookings({required String uid}) async {
+    try {
+      final QuerySnapshot<Map<String, dynamic>> querySnapshot =
+          await _bookingsCollection
+              .where(Booking.kUserId, isEqualTo: uid)
+              .get();
+      return querySnapshot.docs
+          .map((doc) => Booking.fromData(doc.data()))
+          .toList();
     } catch (error) {
       rethrow;
     }
