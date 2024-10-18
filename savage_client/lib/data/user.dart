@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:savage_client/data/booking.dart';
 import 'package:savage_client/data/enums/membership_status.dart';
 import 'package:savage_client/data/enums/membership_type.dart';
+import 'package:savage_client/data/member_data.dart';
 
 class User {
   static const kUid = 'uid';
@@ -18,7 +19,7 @@ class User {
   static const kAvailableCredits = 'available_credits';
   static const kJoinedAt = 'joined_at';
   static const kMemberVisible = 'member_visible';
-  static const kMemberData = 'member_data';
+  static const kMemberDataId = 'member_data_id';
   static const kRequestInvoice = 'request_invoice';
   static const kInvoiceData = 'invoice_data';
 
@@ -38,7 +39,7 @@ class User {
   final double? availableCredits;
   final DateTime joinedAt;
   final bool memberVisible, requestInvoice;
-  final Map<String, dynamic> memberData;
+  final String? memberDataId;
   final Map<String, dynamic> invoiceData;
 
   User({
@@ -56,7 +57,7 @@ class User {
     required this.availableCredits,
     required this.joinedAt,
     required this.memberVisible,
-    required this.memberData,
+    required this.memberDataId,
     required this.requestInvoice,
     required this.invoiceData,
   });
@@ -83,7 +84,7 @@ class User {
       availableCredits: data[kAvailableCredits],
       joinedAt: (data[kJoinedAt] as Timestamp).toDate(),
       memberVisible: data[kMemberVisible],
-      memberData: data[kMemberData],
+      memberDataId: data[kMemberDataId],
       requestInvoice: data[kRequestInvoice],
       invoiceData: data[kInvoiceData],
     );
@@ -104,7 +105,7 @@ class User {
         kAvailableCredits: availableCredits,
         kJoinedAt: Timestamp.fromDate(joinedAt),
         kMemberVisible: memberVisible,
-        kMemberData: memberData,
+        kMemberDataId: memberDataId,
         kRequestInvoice: requestInvoice,
         kInvoiceData: invoiceData,
       };

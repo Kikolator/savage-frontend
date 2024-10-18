@@ -1,4 +1,5 @@
 import 'package:savage_client/route_guards/authentication_guard.dart';
+import 'package:savage_client/route_guards/email_verified_guard.dart';
 import 'package:savage_client/ui/bottom_sheets/notice/notice_sheet.dart';
 import 'package:savage_client/ui/dialogs/info_alert/info_alert_dialog.dart';
 import 'package:savage_client/ui/views/home/home_view.dart';
@@ -39,10 +40,11 @@ import 'package:savage_client/ui/views/create_business_profile/create_business_p
       path: '/',
       guards: [
         AuthenticationGuard,
+        EmailVerifiedGuard,
       ],
       children: [
         MaterialRoute(path: 'overview', page: OverviewView),
-        CustomRoute(path: 'savages', page: SavagesView),
+        CustomRoute(path: 'savages', page: SavagesView, initial: true),
         CustomRoute(path: 'hot-desks', page: HotDesksView),
         CustomRoute(path: 'meeting-room', page: MeetingRoomView),
         CustomRoute(path: 'billing', page: BillingView),
@@ -62,6 +64,7 @@ import 'package:savage_client/ui/views/create_business_profile/create_business_p
       page: AddUserDataView,
       guards: [
         AuthenticationGuard,
+        EmailVerifiedGuard,
       ],
     ),
 
@@ -69,6 +72,7 @@ import 'package:savage_client/ui/views/create_business_profile/create_business_p
       page: CreateBusinessProfileView,
       guards: [
         AuthenticationGuard,
+        EmailVerifiedGuard,
       ],
     ),
 // @stacked-route

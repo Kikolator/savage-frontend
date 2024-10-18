@@ -177,6 +177,13 @@ class StackedRouterWeb extends _i18.RootStackRouter {
           guards: [authenticationGuard],
           children: [
             _i18.RouteConfig(
+              '#redirect',
+              path: '',
+              parent: HomeViewRoute.name,
+              redirectTo: 'savages',
+              fullMatch: true,
+            ),
+            _i18.RouteConfig(
               OverviewViewRoute.name,
               path: 'overview',
               parent: HomeViewRoute.name,

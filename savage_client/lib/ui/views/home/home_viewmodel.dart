@@ -89,20 +89,20 @@ class HomeViewModel extends IndexTrackingViewModel {
   /// MeetingRoom
   /// Billing
   List<Widget> drawerItems() => [
-        DrawerMenuButton(
-          title: kOverviewViewTitle,
-          icon: kOverviewViewIconData,
-          route: const OverviewViewRoute(),
-          selected: currentIndex == kOverviewViewIndex,
-          onSelected: () => setIndex(kOverviewViewIndex),
-        ),
         // DrawerMenuButton(
-        //   title: kSavagesViewTitle,
-        //   icon: kSavagesViewIconData,
-        //   route: const SavagesViewRoute(),
-        //   selected: currentIndex == kSavagesViewIndex,
-        //   onSelected: () => setIndex(kSavagesViewIndex),
+        //   title: kOverviewViewTitle,
+        //   icon: kOverviewViewIconData,
+        //   route: const OverviewViewRoute(),
+        //   selected: currentIndex == kOverviewViewIndex,
+        //   onSelected: () => setIndex(kOverviewViewIndex),
         // ),
+        DrawerMenuButton(
+          title: kSavagesViewTitle,
+          icon: kSavagesViewIconData,
+          route: const SavagesViewRoute(),
+          selected: currentIndex == kSavagesViewIndex,
+          onSelected: () => setIndex(kSavagesViewIndex),
+        ),
         DrawerMenuButton(
           title: kHotDesksViewTitle,
           icon: kHotDesksViewIconData,

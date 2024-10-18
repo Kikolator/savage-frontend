@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:savage_client/data/booking.dart';
 import 'package:savage_client/data/desk.dart';
+import 'package:savage_client/data/member_data.dart';
+import 'package:savage_client/data/user.dart';
 import 'package:savage_client/env.dart';
 
 class DatabaseService {
@@ -24,6 +26,7 @@ class DatabaseService {
   static const _kDesksCollectionPath = 'desks';
   static const _kBookingCollectionPath = 'bookings';
   static const _kUsersCollectionPath = 'users';
+  static const _kMemberDataCollectionPath = 'member_data';
 
   // Collection References
   CollectionReference<Map<String, dynamic>> get _bookingsCollection =>
@@ -32,6 +35,10 @@ class DatabaseService {
       .collection(_kWorkspacesCollectionPath)
       .doc(workspaceId)
       .collection(_kDesksCollectionPath);
+  CollectionReference<Map<String, dynamic>> get _memberDataCollection =>
+      _db.collection(_kMemberDataCollectionPath);
+  CollectionReference<Map<String, dynamic>> get _userCollection =>
+      _db.collection(_kUsersCollectionPath);
 
   Future<void> setNewBooking({
     required Booking booking,
@@ -176,6 +183,51 @@ class DatabaseService {
       }
     } else {
       return null;
+    }
+  }
+
+  Future<String> setMemberData({
+    required String uid,
+    required String? companyName,
+    required String? website,
+    required String? description,
+    required String? photoUrl,
+    required bool memberVisible,
+  }) async {
+    final batch = _db.batch();
+    final memberDataDocumentReference = _memberDataCollection.doc();
+    final memberData = MemberData(
+        id: memberDataDocumentReference.id,
+        companyName: companyName,
+        website: website,
+        description: description,
+        photoUrl: photoUrl,
+        uid: uid,
+        memberVisible: memberVisible);
+    batch.set(memberDataDocumentReference, memberData.toData());
+    final userDocumentReference = _userCollection.doc(uid);
+    batch.update(userDocumentReference, {
+      User.kMemberDataId: memberDataDocumentReference.id,
+    });
+    await batch.commit();
+    return memberData.id;
+  }
+
+  Future<List<Map<String, dynamic>>> queryMemberData() async {
+    final query = await _memberDataCollection
+        .where(MemberData.kMemberVisible, isEqualTo: true)
+        .get();
+    final result = query.docs.map((doc) => doc.data()).toList();
+    return result;
+  }
+
+  Future<Map<String, dynamic>> getUserMemberData(
+      {required String memberDataId}) async {
+    final snapshot = await _memberDataCollection.doc(memberDataId).get();
+    if (snapshot.exists) {
+      return snapshot.data()!;
+    } else {
+      throw Exception('Document does not exist');
     }
   }
 

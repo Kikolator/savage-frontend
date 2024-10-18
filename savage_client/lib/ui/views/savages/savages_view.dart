@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:responsive_builder/responsive_builder.dart';
+import 'package:savage_client/ui/common/ui_helpers.dart';
+import 'package:savage_client/ui/widgets/common/loader/loader.dart';
 import 'package:stacked/stacked.dart';
 
-import 'savages_view.desktop.dart';
-import 'savages_view.tablet.dart';
-import 'savages_view.mobile.dart';
 import 'savages_viewmodel.dart';
 
 class SavagesView extends StackedView<SavagesViewModel> {
@@ -16,11 +14,35 @@ class SavagesView extends StackedView<SavagesViewModel> {
     SavagesViewModel viewModel,
     Widget? child,
   ) {
-    return ScreenTypeLayout.builder(
-      mobile: (_) => const SavagesViewMobile(),
-      tablet: (_) => const SavagesViewTablet(),
-      desktop: (_) => const SavagesViewDesktop(),
-    );
+    if (viewModel.isBusy) {
+      return const Loader();
+    }
+    return Scaffold(
+        body: SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          verticalSpaceMedium,
+          if (viewModel.memberData.isEmpty) ...[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: viewModel.navigateToCreateBusinessProfile,
+                  child: const Text('Create Your Profile'),
+                ),
+              ],
+            ),
+          ]
+        ],
+      ),
+    ));
+  }
+
+  @override
+  void onViewModelReady(SavagesViewModel viewModel) async {
+    await viewModel.setMemberData();
+    super.onViewModelReady(viewModel);
   }
 
   @override

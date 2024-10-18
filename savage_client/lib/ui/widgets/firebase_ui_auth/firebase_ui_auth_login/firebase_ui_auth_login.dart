@@ -33,9 +33,9 @@ class FirebaseUiAuthLogin extends StackedView<FirebaseUiAuthLoginModel> {
       child: LoginView(
         action: AuthAction.signUp,
         showPasswordVisibilityToggle: true,
-        footerBuilder: errorMessage != null
+        footerBuilder: viewModel.hasError
             ? (context, action) => Text(
-                  errorMessage!,
+                  viewModel.modelError,
                   style: const TextStyle(color: Colors.red),
                 )
             : null,
@@ -50,6 +50,7 @@ class FirebaseUiAuthLogin extends StackedView<FirebaseUiAuthLoginModel> {
   @override
   void onViewModelReady(FirebaseUiAuthLoginModel viewModel) {
     viewModel.onLoginCallback = onLoginCallback;
+    viewModel.setError(errorMessage);
     super.onViewModelReady(viewModel);
   }
 

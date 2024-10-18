@@ -1,5 +1,6 @@
 import 'package:savage_client/app/app.locator.dart';
 import 'package:savage_client/data/enums/membership_status.dart';
+import 'package:savage_client/data/member_data.dart';
 import 'package:savage_client/data/user.dart';
 import 'package:savage_client/services/dependency_wrappers/authentication_service.dart';
 import 'package:savage_client/services/dependency_wrappers/database_service.dart';
@@ -46,7 +47,7 @@ class UserService {
       availableCredits: null,
       joinedAt: DateTime.now(),
       memberVisible: false,
-      memberData: {},
+      memberDataId: null,
       requestInvoice: false,
       invoiceData: {},
       photoUrl: photoUrl,
@@ -90,5 +91,40 @@ class UserService {
 
   Future<void> signOut() async {
     await _authenticationService.signOut();
+  }
+
+  Future<MemberData> getUserMemberData() async {
+    // TODO get member data from database.
+    final memberDataId = _user?.memberDataId;
+    if (memberDataId == null) {
+      throw Exception('User or memberDataId is null. Cannot get member data.');
+    }
+    final Map<String, dynamic> data =
+        await _databaseService.getUserMemberData(memberDataId: memberDataId);
+    return MemberData.fromData(data);
+  }
+
+  Future<void> setMemberData(
+      {required String? companyName,
+      required String? website,
+      required String? description,
+      required String? photoUrl,
+      required bool memberVisible}) async {
+    final uid = _authenticationService.uid;
+    final String memberDataId = await _databaseService.setMemberData(
+      uid: uid,
+      companyName: companyName,
+      website: website,
+      description: description,
+      photoUrl: photoUrl,
+      memberVisible: memberVisible,
+    );
+    // TODO update user model member data id locally.
+  }
+
+  Future<List<MemberData>> queryMemberData() async {
+    final List<Map<String, dynamic>> memberData =
+        await _databaseService.queryMemberData();
+    return memberData.map((data) => MemberData.fromData(data)).toList();
   }
 }

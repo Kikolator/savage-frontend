@@ -18,7 +18,9 @@ class FirebaseUiAuthLoginModel extends BaseViewModel {
   }
 
   void userCreated() {
-    _routerService.replaceWithVerifyEmailView();
+    _routerService.replaceWithVerifyEmailView(onFailure: (fail) {
+      setError(fail.toString());
+    });
     return;
   }
 
@@ -40,7 +42,7 @@ class FirebaseUiAuthLoginModel extends BaseViewModel {
       _onLoginCallback!.call(true);
       return;
       // If member data is empty, redirect the user to create a business profile
-    } else if (user.memberData.isEmpty) {
+    } else if (user.memberDataId == null) {
       _routerService.replaceWithCreateBusinessProfileView();
       return;
       // Anything else, return the home view
