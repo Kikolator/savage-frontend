@@ -17,6 +17,23 @@ class EmailVerificationScreen
     Widget? child,
   ) {
     return firebase_ui_auth.EmailVerificationScreen(
+      headerBuilder: (context, constraints, shrinkOffset) =>
+          Image.asset('assets/images/icon.png'),
+      sideBuilder: (context, constraints) => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/images/icon.png',
+            width: 200,
+          ),
+          Image.asset(
+            'assets/images/logo.png',
+            width: 200,
+          ),
+        ],
+      ),
       actionCodeSettings: ActionCodeSettings(
         url: Env.actionCodeUrl,
       ),

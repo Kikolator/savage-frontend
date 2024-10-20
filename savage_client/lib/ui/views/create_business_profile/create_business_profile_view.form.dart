@@ -14,7 +14,8 @@ const bool _autoTextFieldValidation = false;
 const String CompanyNameValueKey = 'companyName';
 const String WebsiteValueKey = 'website';
 const String DescriptionValueKey = 'description';
-const String ProfilePicValueKey = 'profilePic';
+const String CompanyEmailValueKey = 'companyEmail';
+const String CompanyPhoneValueKey = 'companyPhone';
 
 final Map<String, TextEditingController>
     _CreateBusinessProfileViewTextEditingControllers = {};
@@ -26,7 +27,8 @@ final Map<String, String? Function(String?)?>
   CompanyNameValueKey: null,
   WebsiteValueKey: null,
   DescriptionValueKey: null,
-  ProfilePicValueKey: null,
+  CompanyEmailValueKey: null,
+  CompanyPhoneValueKey: null,
 };
 
 mixin $CreateBusinessProfileView {
@@ -36,13 +38,18 @@ mixin $CreateBusinessProfileView {
       _getFormTextEditingController(WebsiteValueKey);
   TextEditingController get descriptionController =>
       _getFormTextEditingController(DescriptionValueKey);
-  TextEditingController get profilePicController =>
-      _getFormTextEditingController(ProfilePicValueKey);
+  TextEditingController get companyEmailController =>
+      _getFormTextEditingController(CompanyEmailValueKey);
+  TextEditingController get companyPhoneController =>
+      _getFormTextEditingController(CompanyPhoneValueKey);
 
   FocusNode get companyNameFocusNode => _getFormFocusNode(CompanyNameValueKey);
   FocusNode get websiteFocusNode => _getFormFocusNode(WebsiteValueKey);
   FocusNode get descriptionFocusNode => _getFormFocusNode(DescriptionValueKey);
-  FocusNode get profilePicFocusNode => _getFormFocusNode(ProfilePicValueKey);
+  FocusNode get companyEmailFocusNode =>
+      _getFormFocusNode(CompanyEmailValueKey);
+  FocusNode get companyPhoneFocusNode =>
+      _getFormFocusNode(CompanyPhoneValueKey);
 
   TextEditingController _getFormTextEditingController(
     String key, {
@@ -71,7 +78,8 @@ mixin $CreateBusinessProfileView {
     companyNameController.addListener(() => _updateFormData(model));
     websiteController.addListener(() => _updateFormData(model));
     descriptionController.addListener(() => _updateFormData(model));
-    profilePicController.addListener(() => _updateFormData(model));
+    companyEmailController.addListener(() => _updateFormData(model));
+    companyPhoneController.addListener(() => _updateFormData(model));
 
     _updateFormData(model, forceValidate: _autoTextFieldValidation);
   }
@@ -86,7 +94,8 @@ mixin $CreateBusinessProfileView {
     companyNameController.addListener(() => _updateFormData(model));
     websiteController.addListener(() => _updateFormData(model));
     descriptionController.addListener(() => _updateFormData(model));
-    profilePicController.addListener(() => _updateFormData(model));
+    companyEmailController.addListener(() => _updateFormData(model));
+    companyPhoneController.addListener(() => _updateFormData(model));
 
     _updateFormData(model, forceValidate: _autoTextFieldValidation);
   }
@@ -99,7 +108,8 @@ mixin $CreateBusinessProfileView {
           CompanyNameValueKey: companyNameController.text,
           WebsiteValueKey: websiteController.text,
           DescriptionValueKey: descriptionController.text,
-          ProfilePicValueKey: profilePicController.text,
+          CompanyEmailValueKey: companyEmailController.text,
+          CompanyPhoneValueKey: companyPhoneController.text,
         }),
     );
 
@@ -147,8 +157,10 @@ extension ValueProperties on FormStateHelper {
   String? get websiteValue => this.formValueMap[WebsiteValueKey] as String?;
   String? get descriptionValue =>
       this.formValueMap[DescriptionValueKey] as String?;
-  String? get profilePicValue =>
-      this.formValueMap[ProfilePicValueKey] as String?;
+  String? get companyEmailValue =>
+      this.formValueMap[CompanyEmailValueKey] as String?;
+  String? get companyPhoneValue =>
+      this.formValueMap[CompanyPhoneValueKey] as String?;
 
   set companyNameValue(String? value) {
     this.setData(
@@ -186,14 +198,26 @@ extension ValueProperties on FormStateHelper {
     }
   }
 
-  set profilePicValue(String? value) {
+  set companyEmailValue(String? value) {
     this.setData(
-      this.formValueMap..addAll({ProfilePicValueKey: value}),
+      this.formValueMap..addAll({CompanyEmailValueKey: value}),
     );
 
     if (_CreateBusinessProfileViewTextEditingControllers.containsKey(
-        ProfilePicValueKey)) {
-      _CreateBusinessProfileViewTextEditingControllers[ProfilePicValueKey]
+        CompanyEmailValueKey)) {
+      _CreateBusinessProfileViewTextEditingControllers[CompanyEmailValueKey]
+          ?.text = value ?? '';
+    }
+  }
+
+  set companyPhoneValue(String? value) {
+    this.setData(
+      this.formValueMap..addAll({CompanyPhoneValueKey: value}),
+    );
+
+    if (_CreateBusinessProfileViewTextEditingControllers.containsKey(
+        CompanyPhoneValueKey)) {
+      _CreateBusinessProfileViewTextEditingControllers[CompanyPhoneValueKey]
           ?.text = value ?? '';
     }
   }
@@ -207,9 +231,12 @@ extension ValueProperties on FormStateHelper {
   bool get hasDescription =>
       this.formValueMap.containsKey(DescriptionValueKey) &&
       (descriptionValue?.isNotEmpty ?? false);
-  bool get hasProfilePic =>
-      this.formValueMap.containsKey(ProfilePicValueKey) &&
-      (profilePicValue?.isNotEmpty ?? false);
+  bool get hasCompanyEmail =>
+      this.formValueMap.containsKey(CompanyEmailValueKey) &&
+      (companyEmailValue?.isNotEmpty ?? false);
+  bool get hasCompanyPhone =>
+      this.formValueMap.containsKey(CompanyPhoneValueKey) &&
+      (companyPhoneValue?.isNotEmpty ?? false);
 
   bool get hasCompanyNameValidationMessage =>
       this.fieldsValidationMessages[CompanyNameValueKey]?.isNotEmpty ?? false;
@@ -217,8 +244,10 @@ extension ValueProperties on FormStateHelper {
       this.fieldsValidationMessages[WebsiteValueKey]?.isNotEmpty ?? false;
   bool get hasDescriptionValidationMessage =>
       this.fieldsValidationMessages[DescriptionValueKey]?.isNotEmpty ?? false;
-  bool get hasProfilePicValidationMessage =>
-      this.fieldsValidationMessages[ProfilePicValueKey]?.isNotEmpty ?? false;
+  bool get hasCompanyEmailValidationMessage =>
+      this.fieldsValidationMessages[CompanyEmailValueKey]?.isNotEmpty ?? false;
+  bool get hasCompanyPhoneValidationMessage =>
+      this.fieldsValidationMessages[CompanyPhoneValueKey]?.isNotEmpty ?? false;
 
   String? get companyNameValidationMessage =>
       this.fieldsValidationMessages[CompanyNameValueKey];
@@ -226,8 +255,10 @@ extension ValueProperties on FormStateHelper {
       this.fieldsValidationMessages[WebsiteValueKey];
   String? get descriptionValidationMessage =>
       this.fieldsValidationMessages[DescriptionValueKey];
-  String? get profilePicValidationMessage =>
-      this.fieldsValidationMessages[ProfilePicValueKey];
+  String? get companyEmailValidationMessage =>
+      this.fieldsValidationMessages[CompanyEmailValueKey];
+  String? get companyPhoneValidationMessage =>
+      this.fieldsValidationMessages[CompanyPhoneValueKey];
 }
 
 extension Methods on FormStateHelper {
@@ -237,15 +268,18 @@ extension Methods on FormStateHelper {
       this.fieldsValidationMessages[WebsiteValueKey] = validationMessage;
   setDescriptionValidationMessage(String? validationMessage) =>
       this.fieldsValidationMessages[DescriptionValueKey] = validationMessage;
-  setProfilePicValidationMessage(String? validationMessage) =>
-      this.fieldsValidationMessages[ProfilePicValueKey] = validationMessage;
+  setCompanyEmailValidationMessage(String? validationMessage) =>
+      this.fieldsValidationMessages[CompanyEmailValueKey] = validationMessage;
+  setCompanyPhoneValidationMessage(String? validationMessage) =>
+      this.fieldsValidationMessages[CompanyPhoneValueKey] = validationMessage;
 
   /// Clears text input fields on the Form
   void clearForm() {
     companyNameValue = '';
     websiteValue = '';
     descriptionValue = '';
-    profilePicValue = '';
+    companyEmailValue = '';
+    companyPhoneValue = '';
   }
 
   /// Validates text input fields on the Form
@@ -254,7 +288,8 @@ extension Methods on FormStateHelper {
       CompanyNameValueKey: getValidationMessage(CompanyNameValueKey),
       WebsiteValueKey: getValidationMessage(WebsiteValueKey),
       DescriptionValueKey: getValidationMessage(DescriptionValueKey),
-      ProfilePicValueKey: getValidationMessage(ProfilePicValueKey),
+      CompanyEmailValueKey: getValidationMessage(CompanyEmailValueKey),
+      CompanyPhoneValueKey: getValidationMessage(CompanyPhoneValueKey),
     });
   }
 }
@@ -277,5 +312,6 @@ void updateValidationData(FormStateHelper model) =>
       CompanyNameValueKey: getValidationMessage(CompanyNameValueKey),
       WebsiteValueKey: getValidationMessage(WebsiteValueKey),
       DescriptionValueKey: getValidationMessage(DescriptionValueKey),
-      ProfilePicValueKey: getValidationMessage(ProfilePicValueKey),
+      CompanyEmailValueKey: getValidationMessage(CompanyEmailValueKey),
+      CompanyPhoneValueKey: getValidationMessage(CompanyPhoneValueKey),
     });

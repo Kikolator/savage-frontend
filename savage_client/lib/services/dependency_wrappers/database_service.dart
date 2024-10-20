@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:savage_client/data/booking.dart';
+import 'package:savage_client/data/check_in_out.dart';
 import 'package:savage_client/data/desk.dart';
+import 'package:savage_client/data/enums/membership_status.dart';
 import 'package:savage_client/data/member_data.dart';
 import 'package:savage_client/data/user.dart';
 import 'package:savage_client/env.dart';
@@ -27,6 +29,7 @@ class DatabaseService {
   static const _kBookingCollectionPath = 'bookings';
   static const _kUsersCollectionPath = 'users';
   static const _kMemberDataCollectionPath = 'member_data';
+  static const _kCheckedInOutCollectionPath = 'check_in_out_sessions';
 
   // Collection References
   CollectionReference<Map<String, dynamic>> get _bookingsCollection =>
@@ -39,6 +42,8 @@ class DatabaseService {
       _db.collection(_kMemberDataCollectionPath);
   CollectionReference<Map<String, dynamic>> get _userCollection =>
       _db.collection(_kUsersCollectionPath);
+  CollectionReference<Map<String, dynamic>> get _checkedInOutCollection =>
+      _db.collection(_kCheckedInOutCollectionPath);
 
   Future<void> setNewBooking({
     required Booking booking,
@@ -186,36 +191,32 @@ class DatabaseService {
     }
   }
 
-  Future<String> setMemberData({
-    required String uid,
-    required String? companyName,
-    required String? website,
-    required String? description,
-    required String? photoUrl,
-    required bool memberVisible,
-  }) async {
+  Future<MemberData> setMemberData({required MemberData memberData}) async {
     final batch = _db.batch();
-    final memberDataDocumentReference = _memberDataCollection.doc();
-    final memberData = MemberData(
-        id: memberDataDocumentReference.id,
-        companyName: companyName,
-        website: website,
-        description: description,
-        photoUrl: photoUrl,
-        uid: uid,
-        memberVisible: memberVisible);
-    batch.set(memberDataDocumentReference, memberData.toData());
-    final userDocumentReference = _userCollection.doc(uid);
-    batch.update(userDocumentReference, {
-      User.kMemberDataId: memberDataDocumentReference.id,
-    });
+    final memberDataId = memberData.id;
+    // If memberData.id is empty, we need to set it
+    // Else we can update existing.
+    if (memberDataId.isEmpty) {
+      final memberDataReference = _memberDataCollection.doc();
+      memberData.setId(memberDataReference.id);
+
+      batch.set(memberDataReference, memberData.toData());
+      batch.update(_userCollection.doc(memberData.uid),
+          {User.kMemberDataId: memberDataReference.id});
+    } else {
+      batch.update(
+          _memberDataCollection.doc(memberDataId), memberData.toData());
+    }
+
     await batch.commit();
-    return memberData.id;
+    return memberData;
   }
 
   Future<List<Map<String, dynamic>>> queryMemberData() async {
     final query = await _memberDataCollection
         .where(MemberData.kMemberVisible, isEqualTo: true)
+        .where(MemberData.kMembershipStatus,
+            isEqualTo: MembershipStatus.active.name)
         .get();
     final result = query.docs.map((doc) => doc.data()).toList();
     return result;
@@ -229,6 +230,42 @@ class DatabaseService {
     } else {
       throw Exception('Document does not exist');
     }
+  }
+
+  Future<void> createUser(
+      {required String uid,
+      required User user,
+      required MemberData memberData}) async {
+    final batch = _db.batch();
+    // set memberData
+    final memberDataReference = _memberDataCollection.doc();
+    memberData.setId(memberDataReference.id);
+    batch.set(memberDataReference, memberData.toData());
+    // update memberDataId on User
+    user.setMemberDataId(memberDataReference.id);
+    // set user
+    batch.set(_userCollection.doc(uid), user.toData());
+    // commit batch
+    await batch.commit();
+    return;
+  }
+
+  /// Checks in User by:
+  ///   - adding object to checkedInOut collection
+  ///   - updating user checkedIn variable
+  Future<void> checkInOutUser(
+      {required String uid, required bool checkedIn}) async {
+    final batch = _db.batch();
+    batch.update(_userCollection.doc(uid), {User.kCheckedIn: checkedIn});
+    final checkInOutReference = _checkedInOutCollection.doc();
+    final checkInOut = CheckInOut(
+        id: checkInOutReference.id,
+        uid: uid,
+        checkedIn: checkedIn,
+        timestamp: DateTime.now(),
+        workspaceId: _kWorkspaceId);
+    batch.set(checkInOutReference, checkInOut.toData());
+    await batch.commit();
   }
 
   // Future<void> addDummyData() async {

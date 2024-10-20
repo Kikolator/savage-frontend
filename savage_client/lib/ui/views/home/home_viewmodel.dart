@@ -16,6 +16,10 @@ class HomeViewModel extends IndexTrackingViewModel {
   final _routerService = locator<RouterService>();
   final _snackbarService = locator<SnackbarService>();
   final _userService = locator<UserService>();
+  final _dialogService = locator<DialogService>();
+
+  // Busy objects
+  static const kCheckInOutBusyObject = 'checkInOut';
 
   // Titles for the drawer menu
   static const String kOverviewViewTitle = 'Overview';
@@ -51,10 +55,11 @@ class HomeViewModel extends IndexTrackingViewModel {
   String? get lastName => _user?.lastName;
   String get signupEmail => _userService.getSignupEmail;
 
-  bool _checkedIn = false;
+  late bool _checkedIn;
   bool get checkedIn => _checkedIn;
 
   Future<void> fetchUser() async {
+    setBusy(true);
     final User? user = await _userService.getUser();
     if (user == null) {
       throw UnimplementedError('User not found');
@@ -62,14 +67,20 @@ class HomeViewModel extends IndexTrackingViewModel {
       // TODO Clear stack and navigate to signin
     } else {
       _user = user;
-      rebuildUi();
+      _checkedIn = user.checkedIn;
     }
+    setBusy(false);
   }
 
-  void checkInOut() {
-    // TODO implement check in/out
+  // TODO listen to user
+
+  Future<void> checkInOut() async {
+    setBusyForObject(kCheckInOutBusyObject, true);
     _checkedIn = !_checkedIn;
-    rebuildUi();
+    await _userService.setCheckInOut(_checkedIn);
+    _user?.setCheckedIn(_checkedIn);
+    setBusyForObject(kCheckInOutBusyObject, false);
+    // Show snackbar
     if (_checkedIn) {
       _snackbarService.showSnackbar(
           title: 'Check In',
@@ -99,7 +110,7 @@ class HomeViewModel extends IndexTrackingViewModel {
         DrawerMenuButton(
           title: kSavagesViewTitle,
           icon: kSavagesViewIconData,
-          route: const SavagesViewRoute(),
+          route: const FamilyViewRoute(),
           selected: currentIndex == kSavagesViewIndex,
           onSelected: () => setIndex(kSavagesViewIndex),
         ),
@@ -152,7 +163,15 @@ class HomeViewModel extends IndexTrackingViewModel {
       ];
 
   Future<void> logOut() async {
-    await _userService.signOut();
-    _routerService.clearStackAndShow(LoginViewRoute());
+    final response = await _dialogService.showConfirmationDialog(
+      title: 'Sign Out',
+      description: 'Are you sure you want to log out?',
+      confirmationTitle: 'Log Out',
+      cancelTitle: 'Cancel',
+    );
+    if (response != null && response.confirmed) {
+      await _userService.signOut();
+      _routerService.clearStackAndShow(LoginViewRoute());
+    }
   }
 }

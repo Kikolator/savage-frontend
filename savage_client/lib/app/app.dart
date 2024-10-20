@@ -19,7 +19,7 @@ import 'package:savage_client/services/user_service.dart';
 import 'package:savage_client/ui/views/add_user_data/add_user_data_view.dart';
 import 'package:savage_client/ui/views/overview/overview_view.dart';
 import 'package:savage_client/ui/views/hot_desks/hot_desks_view.dart';
-import 'package:savage_client/ui/views/savages/savages_view.dart';
+import 'package:savage_client/ui/views/family/family_view.dart';
 import 'package:savage_client/ui/views/meeting_room/meeting_room_view.dart';
 import 'package:savage_client/ui/views/billing/billing_view.dart';
 import 'package:savage_client/ui/views/profile/profile_view.dart';
@@ -29,6 +29,8 @@ import 'package:savage_client/services/booking_service.dart';
 import 'package:savage_client/services/desks_service.dart';
 import 'package:savage_client/ui/dialogs/cupertino_date_time_picker/cupertino_date_time_picker_dialog.dart';
 import 'package:savage_client/ui/views/create_business_profile/create_business_profile_view.dart';
+import 'package:savage_client/services/member_data_service.dart';
+import 'package:savage_client/ui/dialogs/member_card/member_card_dialog.dart';
 // @stacked-import
 
 // TODO implement route guards
@@ -43,8 +45,8 @@ import 'package:savage_client/ui/views/create_business_profile/create_business_p
         EmailVerifiedGuard,
       ],
       children: [
-        MaterialRoute(path: 'overview', page: OverviewView),
-        CustomRoute(path: 'savages', page: SavagesView, initial: true),
+        CustomRoute(path: 'overview', page: OverviewView),
+        CustomRoute(path: 'family', page: FamilyView, initial: true),
         CustomRoute(path: 'hot-desks', page: HotDesksView),
         CustomRoute(path: 'meeting-room', page: MeetingRoomView),
         CustomRoute(path: 'billing', page: BillingView),
@@ -67,8 +69,7 @@ import 'package:savage_client/ui/views/create_business_profile/create_business_p
         EmailVerifiedGuard,
       ],
     ),
-
-    MaterialRoute(
+    CustomRoute(
       page: CreateBusinessProfileView,
       guards: [
         AuthenticationGuard,
@@ -99,6 +100,7 @@ import 'package:savage_client/ui/views/create_business_profile/create_business_p
     LazySingleton(classType: UserService),
     LazySingleton(classType: BookingService),
     LazySingleton(classType: DesksService),
+    LazySingleton(classType: MemberDataService),
 // @stacked-service
   ],
   bottomsheets: [
@@ -108,6 +110,7 @@ import 'package:savage_client/ui/views/create_business_profile/create_business_p
   dialogs: [
     StackedDialog(classType: InfoAlertDialog),
     StackedDialog(classType: CupertinoDateTimePickerDialog),
+    StackedDialog(classType: MemberCardDialog),
 // @stacked-dialog
   ],
 )

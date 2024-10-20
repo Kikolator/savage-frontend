@@ -5,7 +5,10 @@ import 'profile_button_model.dart';
 
 class ProfileButton extends StackedView<ProfileButtonModel> {
   final bool buttonActive;
-  const ProfileButton({this.buttonActive = true, super.key});
+  final String? photoUrl;
+  final double? size;
+  const ProfileButton(
+      {this.buttonActive = true, this.photoUrl, this.size = 50, super.key});
 
   @override
   Widget builder(
@@ -21,8 +24,8 @@ class ProfileButton extends StackedView<ProfileButtonModel> {
             }
           : null,
       child: Container(
-        height: 50,
-        width: 50,
+        height: size,
+        width: size,
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
@@ -35,6 +38,12 @@ class ProfileButton extends StackedView<ProfileButtonModel> {
               ),
       ),
     );
+  }
+
+  @override
+  void onViewModelReady(ProfileButtonModel viewModel) {
+    viewModel.setPhotoUrl(photoUrl);
+    super.onViewModelReady(viewModel);
   }
 
   @override

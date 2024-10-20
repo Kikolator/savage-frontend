@@ -16,7 +16,8 @@ import 'create_business_profile_viewmodel.dart';
   FormTextField(name: 'companyName'),
   FormTextField(name: 'website'),
   FormTextField(name: 'description'),
-  FormTextField(name: 'profilePic'),
+  FormTextField(name: 'companyEmail'),
+  FormTextField(name: 'companyPhone'),
 ], autoTextFieldValidation: false)
 class CreateBusinessProfileView
     extends StackedView<CreateBusinessProfileViewModel>
@@ -31,6 +32,7 @@ class CreateBusinessProfileView
   ) {
     return Scaffold(
       appBar: AppBar(
+          leading: Image.asset('assets/images/icon.png'),
           title: const Text('Create Your Business Profile'),
           centerTitle: false,
           actions: [
@@ -52,6 +54,7 @@ class CreateBusinessProfileView
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   verticalSpaceMedium,
+                  // profile pic
                   // Company name
                   const Text('Company Name:'),
                   verticalSpaceSmall,
@@ -61,6 +64,16 @@ class CreateBusinessProfileView
                   const Text('Website:'),
                   verticalSpaceSmall,
                   TextFormField(controller: websiteController),
+                  verticalSpaceMedium,
+                  // Company phone
+                  const Text('Company Phone:'),
+                  verticalSpaceSmall,
+                  TextFormField(controller: companyPhoneController),
+                  verticalSpaceMedium,
+                  // Company Email
+                  const Text('Company Email:'),
+                  verticalSpaceSmall,
+                  TextFormField(controller: companyEmailController),
                   verticalSpaceMedium,
                   // description
                   const Text('Description:'),
@@ -73,7 +86,13 @@ class CreateBusinessProfileView
                   ),
                   verticalSpaceMedium,
                   // socials
-                  // profile pic
+                  // Profile visible to other members
+                  SwitchListTile(
+                    value: viewModel.memberVisisbleValue,
+                    title: const Text('Profile visible to other members'),
+                    onChanged: viewModel.onMemberVisibleValueChange,
+                  ),
+                  verticalSpaceMedium,
                   // Save button
                   ElevatedButton(
                     onPressed: viewModel.submit,
@@ -94,6 +113,13 @@ class CreateBusinessProfileView
               ),
             )),
     );
+  }
+
+  @override
+  void onViewModelReady(CreateBusinessProfileViewModel viewModel) {
+    syncFormWithViewModel(viewModel);
+    viewModel.getUserData();
+    super.onViewModelReady(viewModel);
   }
 
   @override

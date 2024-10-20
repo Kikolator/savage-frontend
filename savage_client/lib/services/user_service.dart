@@ -12,6 +12,7 @@ class UserService {
   static const String kUserDbCollection = 'users';
 
   User? _user;
+  User? get user => _user;
 
   bool get isSignedIn => _authenticationService.isSignedIn;
   bool get isEmailVerified => _authenticationService.isEmailVerified;
@@ -20,6 +21,7 @@ class UserService {
   String? get firstName => _user?.firstName;
   String? get lastName => _user?.lastName;
 
+  /// Creates user and empty memberData in firestore
   Future<void> createUser({
     required String firstName,
     required String lastName,
@@ -51,13 +53,20 @@ class UserService {
       requestInvoice: false,
       invoiceData: {},
       photoUrl: photoUrl,
+      checkedIn: false,
     );
-    // Set to database
-    await _databaseService.createDocument(
-      collection: kUserDbCollection,
-      documentId: uid,
-      data: user.toData(),
+    final memberData = MemberData.empty();
+    memberData.setUid(uid);
+    memberData.setFirstName(firstName);
+    memberData.setLastName(lastName);
+    await _databaseService.createUser(
+      uid: uid,
+      user: user,
+      memberData: memberData,
     );
+    // set local _user
+    _user = user;
+    return;
   }
 
   Future<void> updateUser(User user) async {
@@ -65,6 +74,8 @@ class UserService {
         data: user.toData(),
         collection: kUserDbCollection,
         documentId: user.uid);
+    _user = user;
+    return;
   }
 
   /// Returns User? object
@@ -75,7 +86,8 @@ class UserService {
       final Map<String, dynamic>? data = await _databaseService.getDocument(
           collection: kUserDbCollection, documentId: uid);
       if (data != null) {
-        return User.fromData(data);
+        _user = User.fromData(data);
+        return _user;
       } else {
         return null;
       }
@@ -89,42 +101,20 @@ class UserService {
     }
   }
 
+  // TODO listen to user
+
   Future<void> signOut() async {
     await _authenticationService.signOut();
+    // TODO dispose();
+    return;
   }
 
-  Future<MemberData> getUserMemberData() async {
-    // TODO get member data from database.
-    final memberDataId = _user?.memberDataId;
-    if (memberDataId == null) {
-      throw Exception('User or memberDataId is null. Cannot get member data.');
+  Future<void> setCheckInOut(bool checkedIn) async {
+    if (!isSignedIn) {
+      throw Exception('user is not signed in');
     }
-    final Map<String, dynamic> data =
-        await _databaseService.getUserMemberData(memberDataId: memberDataId);
-    return MemberData.fromData(data);
-  }
-
-  Future<void> setMemberData(
-      {required String? companyName,
-      required String? website,
-      required String? description,
-      required String? photoUrl,
-      required bool memberVisible}) async {
     final uid = _authenticationService.uid;
-    final String memberDataId = await _databaseService.setMemberData(
-      uid: uid,
-      companyName: companyName,
-      website: website,
-      description: description,
-      photoUrl: photoUrl,
-      memberVisible: memberVisible,
-    );
-    // TODO update user model member data id locally.
-  }
-
-  Future<List<MemberData>> queryMemberData() async {
-    final List<Map<String, dynamic>> memberData =
-        await _databaseService.queryMemberData();
-    return memberData.map((data) => MemberData.fromData(data)).toList();
+    await _databaseService.checkInOutUser(uid: uid, checkedIn: checkedIn);
+    _user!.setCheckedIn(checkedIn);
   }
 }

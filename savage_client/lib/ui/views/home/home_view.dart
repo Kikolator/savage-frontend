@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:savage_client/env.dart';
 import 'package:savage_client/ui/common/ui_helpers.dart';
-import 'package:savage_client/ui/views/overview/overview_view.dart';
+import 'package:savage_client/ui/widgets/common/loader/loader.dart';
 import 'package:savage_client/ui/widgets/common/profile_button/profile_button.dart';
 import 'package:stacked/stacked.dart';
 
@@ -15,6 +16,9 @@ class HomeView extends StackedView<HomeViewModel> {
     HomeViewModel viewModel,
     Widget? child,
   ) {
+    if (viewModel.isBusy) {
+      return const Scaffold(body: Loader());
+    }
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -45,15 +49,28 @@ class HomeView extends StackedView<HomeViewModel> {
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
               ),
-              child: Align(
-                alignment: Alignment.topRight,
-                child: SizedBox(
-                  height: 75,
-                  width: 75,
-                  child: Image.asset(
-                    'assets/images/icon.png',
+              child: Column(
+                // mainAxisSize: MainAxisSize.max,
+                children: [
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: SizedBox(
+                      height: 75,
+                      width: 75,
+                      child: Image.asset(
+                        'assets/images/icon-light.png',
+                      ),
+                    ),
                   ),
-                ),
+                  const Spacer(),
+                  Align(
+                    alignment: Alignment.bottomLeft,
+                    child: Text(Env.kVersionNumber,
+                        style: const TextStyle(
+                          fontSize: 10,
+                        )),
+                  ),
+                ],
               ),
             ),
             ...viewModel.drawerItems(),
@@ -113,10 +130,13 @@ class HomeView extends StackedView<HomeViewModel> {
                   ),
                 ],
               ),
-              trailing: IconButton(
-                onPressed: viewModel.checkInOut,
-                icon: Icon(viewModel.checkedIn ? Icons.logout : Icons.login),
-              ),
+              trailing: viewModel.busy(HomeViewModel.kCheckInOutBusyObject)
+                  ? const CircularProgressIndicator()
+                  : IconButton(
+                      onPressed: viewModel.checkInOut,
+                      icon: Icon(
+                          viewModel.checkedIn ? Icons.logout : Icons.login),
+                    ),
             ),
             const Divider(),
             ...viewModel.endDrawerItems(),
@@ -131,7 +151,7 @@ class HomeView extends StackedView<HomeViewModel> {
       ),
       body: NestedRouter(
         builder: (context, child) => child,
-        placeholder: (_) => const OverviewView(),
+        // placeholder: (_) => const OverviewView(),
       ),
     );
   }

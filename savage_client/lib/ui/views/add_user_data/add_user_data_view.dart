@@ -46,6 +46,7 @@ class AddUserDataView extends StackedView<AddUserDataViewModel>
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
+        leading: Image.asset('assets/images/icon.png'),
         title: const Text('How do we reach you?'),
       ),
       body: viewModel.isBusy

@@ -15,8 +15,6 @@ class LoginViewModel extends BaseViewModel {
         final user = await _userService.getUser();
         if (user == null) {
           _routerService.replaceWithAddUserDataView();
-        } else if (user.memberDataId == null || user.memberDataId!.isEmpty) {
-          _routerService.replaceWithCreateBusinessProfileView();
         } else {
           _routerService.replaceWithHomeView();
         }

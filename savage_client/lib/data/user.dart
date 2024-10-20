@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:savage_client/data/booking.dart';
 import 'package:savage_client/data/enums/membership_status.dart';
 import 'package:savage_client/data/enums/membership_type.dart';
-import 'package:savage_client/data/member_data.dart';
 
 class User {
   static const kUid = 'uid';
@@ -22,6 +20,7 @@ class User {
   static const kMemberDataId = 'member_data_id';
   static const kRequestInvoice = 'request_invoice';
   static const kInvoiceData = 'invoice_data';
+  static const kCheckedIn = 'checked_in';
 
   final String uid, firstName, lastName, contactEmail, contactPhone;
   final String? signupEmail, signupPhone, phoneWhatsapp, photoUrl;
@@ -38,8 +37,8 @@ class User {
   /// Null in case membership type does not require credits
   final double? availableCredits;
   final DateTime joinedAt;
-  final bool memberVisible, requestInvoice;
-  final String? memberDataId;
+  bool memberVisible, requestInvoice, checkedIn;
+  String? memberDataId;
   final Map<String, dynamic> invoiceData;
 
   User({
@@ -60,6 +59,7 @@ class User {
     required this.memberDataId,
     required this.requestInvoice,
     required this.invoiceData,
+    required this.checkedIn,
   });
 
   factory User.fromData(Map<String, dynamic> data) {
@@ -87,6 +87,7 @@ class User {
       memberDataId: data[kMemberDataId],
       requestInvoice: data[kRequestInvoice],
       invoiceData: data[kInvoiceData],
+      checkedIn: data[kCheckedIn],
     );
   }
 
@@ -108,5 +109,14 @@ class User {
         kMemberDataId: memberDataId,
         kRequestInvoice: requestInvoice,
         kInvoiceData: invoiceData,
+        kCheckedIn: checkedIn,
       };
+
+  void setMemberDataId(String id) {
+    memberDataId = id;
+  }
+
+  void setCheckedIn(bool checkedIn) {
+    this.checkedIn = checkedIn;
+  }
 }

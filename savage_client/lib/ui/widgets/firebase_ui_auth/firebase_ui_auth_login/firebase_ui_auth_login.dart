@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:savage_client/ui/common/ui_helpers.dart';
 import 'package:stacked/stacked.dart';
 
 import 'firebase_ui_auth_login_model.dart';
@@ -30,19 +31,34 @@ class FirebaseUiAuthLogin extends StackedView<FirebaseUiAuthLoginModel> {
           }
         }),
       ],
-      child: LoginView(
-        action: AuthAction.signUp,
-        showPasswordVisibilityToggle: true,
-        footerBuilder: viewModel.hasError
-            ? (context, action) => Text(
-                  viewModel.modelError,
-                  style: const TextStyle(color: Colors.red),
-                )
-            : null,
-        providers: FirebaseUIAuth.providersFor(
-          FirebaseAuth.instance.app,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            verticalSpaceMedium,
+            Center(
+              child: Image.asset(
+                'assets/images/logo.png',
+                width: 200,
+                fit: BoxFit.contain,
+              ),
+            ),
+            verticalSpaceLarge,
+            LoginView(
+              action: AuthAction.signUp,
+              showPasswordVisibilityToggle: true,
+              footerBuilder: viewModel.hasError
+                  ? (context, action) => Text(
+                        viewModel.modelError,
+                        style: const TextStyle(color: Colors.red),
+                      )
+                  : null,
+              providers: FirebaseUIAuth.providersFor(
+                FirebaseAuth.instance.app,
+              ),
+              auth: viewModel.auth,
+            ),
+          ],
         ),
-        auth: viewModel.auth,
       ),
     );
   }

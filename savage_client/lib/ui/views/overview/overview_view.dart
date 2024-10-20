@@ -13,7 +13,6 @@ class OverviewView extends StackedView<OverviewViewModel> {
     Widget? child,
   ) {
     return Container(
-      color: Colors.red,
       child: Center(
         child: Text('This is the overview'),
       ),
