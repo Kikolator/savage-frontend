@@ -35,13 +35,14 @@ class HotDesksViewMobile extends ViewModelWidget<DesksViewModel> {
                         ),
                       ),
                       options: BoardDateTimeOptions(
+                          backgroundColor: Colors.white,
                           languages: const BoardPickerLanguages.en(),
                           pickerFormat: PickerFormat.dmy,
                           startDayOfWeek: DateTime.monday,
                           customOptions: BoardPickerCustomOptions(
                             minutes: [0, 30],
                           )),
-                      showPickerType: BoardDateTimeFieldPickerType.standard,
+                      showPickerType: BoardDateTimeFieldPickerType.mini,
                       onChanged: viewModel.changeStartDateTime,
                       controller: viewModel.startDateTimeTextController,
                     ),
@@ -58,13 +59,14 @@ class HotDesksViewMobile extends ViewModelWidget<DesksViewModel> {
                         ),
                       ),
                       options: BoardDateTimeOptions(
+                          backgroundColor: Colors.white,
                           languages: const BoardPickerLanguages.en(),
                           pickerFormat: PickerFormat.dmy,
                           startDayOfWeek: DateTime.monday,
                           customOptions: BoardPickerCustomOptions(
                             minutes: [0, 30],
                           )),
-                      showPickerType: BoardDateTimeFieldPickerType.standard,
+                      showPickerType: BoardDateTimeFieldPickerType.mini,
                       onChanged: viewModel.changeEndDateTime,
                       controller: viewModel.endDateTimeTextController,
                     ),

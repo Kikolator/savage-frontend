@@ -1,8 +1,13 @@
+import 'dart:io';
+
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:savage_client/app/app.logger.dart';
 import 'package:savage_client/env.dart';
 
 class StorageService {
+  final _logger = getLogger('StorageService');
   final FirebaseStorage _storage;
 
   StorageService(this._storage);
@@ -17,9 +22,24 @@ class StorageService {
   }
 
   // Storage references
-  Reference get rootReference => _storage.ref();
-  Reference userReference(String uid) =>
-      rootReference.child('users').child(uid);
+  Reference get _rootReference => _storage.ref();
+  Reference _userReference(String uid) =>
+      _rootReference.child('users').child(uid);
+  Reference _profilePictureReference(String uid) =>
+      _userReference(uid).child('profile_picture');
 
-  Future<void> addProfilePicture() async {}
+  /// Sets a profile image for the user and returns the storage url
+  Future<String> updateProfilePicture(
+      {required String uid, required XFile file}) async {
+    _logger.v(
+        'Putting file ${file.path} on profile reference: ${_profilePictureReference(uid).fullPath}');
+    if (kIsWeb) {
+      await _profilePictureReference(uid).putData(await file.readAsBytes());
+    } else {
+      await _profilePictureReference(uid).putFile(File(file.path));
+    }
+
+    _logger.v('Getting download url');
+    return _profilePictureReference(uid).getDownloadURL();
+  }
 }

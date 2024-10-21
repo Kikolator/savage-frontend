@@ -4,6 +4,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i7;
+import 'dart:io' as _i20;
 import 'dart:ui' as _i11;
 
 import 'package:firebase_auth/firebase_auth.dart' as _i3;
@@ -11,25 +12,27 @@ import 'package:flutter/material.dart' as _i8;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i15;
 import 'package:savage_client/data/booking.dart' as _i5;
-import 'package:savage_client/data/desk.dart' as _i24;
+import 'package:savage_client/data/desk.dart' as _i25;
 import 'package:savage_client/data/member_data.dart' as _i4;
 import 'package:savage_client/data/user.dart' as _i17;
-import 'package:savage_client/services/booking_service.dart' as _i23;
+import 'package:savage_client/services/booking_service.dart' as _i24;
 import 'package:savage_client/services/dependency_wrappers/analytics_service.dart'
-    as _i20;
+    as _i21;
 import 'package:savage_client/services/dependency_wrappers/authentication_service.dart'
     as _i14;
 import 'package:savage_client/services/dependency_wrappers/crashlytics_service.dart'
-    as _i21;
+    as _i22;
 import 'package:savage_client/services/dependency_wrappers/database_service.dart'
     as _i16;
 import 'package:savage_client/services/dependency_wrappers/functions_service.dart'
     as _i18;
+import 'package:savage_client/services/dependency_wrappers/image_picker_service.dart'
+    as _i28;
 import 'package:savage_client/services/dependency_wrappers/storage_service.dart'
     as _i19;
-import 'package:savage_client/services/desks_service.dart' as _i25;
-import 'package:savage_client/services/member_data_service.dart' as _i26;
-import 'package:savage_client/services/user_service.dart' as _i22;
+import 'package:savage_client/services/desks_service.dart' as _i26;
+import 'package:savage_client/services/member_data_service.dart' as _i27;
+import 'package:savage_client/services/user_service.dart' as _i23;
 import 'package:stacked/stacked.dart' as _i2;
 import 'package:stacked_services/src/bottom_sheet/bottom_sheet_service.dart'
     as _i9;
@@ -973,6 +976,42 @@ class MockDatabaseService extends _i1.Mock implements _i16.DatabaseService {
         returnValue: _i7.Future<void>.value(),
         returnValueForMissingStub: _i7.Future<void>.value(),
       ) as _i7.Future<void>);
+
+  @override
+  _i7.Future<void> checkInOutUser({
+    required String? uid,
+    required bool? checkedIn,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #checkInOutUser,
+          [],
+          {
+            #uid: uid,
+            #checkedIn: checkedIn,
+          },
+        ),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
+
+  @override
+  _i7.Future<void> updateProfilePicture({
+    required String? uid,
+    required String? photoUrl,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateProfilePicture,
+          [],
+          {
+            #uid: uid,
+            #photoUrl: photoUrl,
+          },
+        ),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
 }
 
 /// A class which mocks [FunctionsService].
@@ -983,23 +1022,62 @@ class MockFunctionsService extends _i1.Mock implements _i18.FunctionsService {}
 /// A class which mocks [StorageService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockStorageService extends _i1.Mock implements _i19.StorageService {}
+class MockStorageService extends _i1.Mock implements _i19.StorageService {
+  @override
+  _i7.Future<String> updateProfilePicture({
+    required String? uid,
+    required _i20.File? file,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateProfilePicture,
+          [],
+          {
+            #uid: uid,
+            #file: file,
+          },
+        ),
+        returnValue: _i7.Future<String>.value(_i15.dummyValue<String>(
+          this,
+          Invocation.method(
+            #updateProfilePicture,
+            [],
+            {
+              #uid: uid,
+              #file: file,
+            },
+          ),
+        )),
+        returnValueForMissingStub:
+            _i7.Future<String>.value(_i15.dummyValue<String>(
+          this,
+          Invocation.method(
+            #updateProfilePicture,
+            [],
+            {
+              #uid: uid,
+              #file: file,
+            },
+          ),
+        )),
+      ) as _i7.Future<String>);
+}
 
 /// A class which mocks [AnalyticsService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockAnalyticsService extends _i1.Mock implements _i20.AnalyticsService {}
+class MockAnalyticsService extends _i1.Mock implements _i21.AnalyticsService {}
 
 /// A class which mocks [CrashlyticsService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockCrashlyticsService extends _i1.Mock
-    implements _i21.CrashlyticsService {}
+    implements _i22.CrashlyticsService {}
 
 /// A class which mocks [UserService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockUserService extends _i1.Mock implements _i22.UserService {
+class MockUserService extends _i1.Mock implements _i23.UserService {
   @override
   bool get isSignedIn => (super.noSuchMethod(
         Invocation.getter(#isSignedIn),
@@ -1080,17 +1158,54 @@ class MockUserService extends _i1.Mock implements _i22.UserService {
         returnValue: _i7.Future<void>.value(),
         returnValueForMissingStub: _i7.Future<void>.value(),
       ) as _i7.Future<void>);
+
+  @override
+  _i7.Future<void> setCheckInOut(bool? checkedIn) => (super.noSuchMethod(
+        Invocation.method(
+          #setCheckInOut,
+          [checkedIn],
+        ),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
+
+  @override
+  _i7.Future<String> updateProfilePicture({required _i20.File? file}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateProfilePicture,
+          [],
+          {#file: file},
+        ),
+        returnValue: _i7.Future<String>.value(_i15.dummyValue<String>(
+          this,
+          Invocation.method(
+            #updateProfilePicture,
+            [],
+            {#file: file},
+          ),
+        )),
+        returnValueForMissingStub:
+            _i7.Future<String>.value(_i15.dummyValue<String>(
+          this,
+          Invocation.method(
+            #updateProfilePicture,
+            [],
+            {#file: file},
+          ),
+        )),
+      ) as _i7.Future<String>);
 }
 
 /// A class which mocks [BookingService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockBookingService extends _i1.Mock implements _i23.BookingService {
+class MockBookingService extends _i1.Mock implements _i24.BookingService {
   @override
   _i7.Future<_i5.Booking> bookDesk({
     required DateTime? startDateTime,
     required DateTime? endDateTime,
-    required _i24.Desk? hotDesk,
+    required _i25.Desk? hotDesk,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1143,23 +1258,23 @@ class MockBookingService extends _i1.Mock implements _i23.BookingService {
 /// A class which mocks [DesksService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockDesksService extends _i1.Mock implements _i25.DesksService {
+class MockDesksService extends _i1.Mock implements _i26.DesksService {
   @override
-  _i7.Future<List<_i24.Desk>> fetchAvailableHotDesks() => (super.noSuchMethod(
+  _i7.Future<List<_i25.Desk>> fetchAvailableHotDesks() => (super.noSuchMethod(
         Invocation.method(
           #fetchAvailableHotDesks,
           [],
         ),
-        returnValue: _i7.Future<List<_i24.Desk>>.value(<_i24.Desk>[]),
+        returnValue: _i7.Future<List<_i25.Desk>>.value(<_i25.Desk>[]),
         returnValueForMissingStub:
-            _i7.Future<List<_i24.Desk>>.value(<_i24.Desk>[]),
-      ) as _i7.Future<List<_i24.Desk>>);
+            _i7.Future<List<_i25.Desk>>.value(<_i25.Desk>[]),
+      ) as _i7.Future<List<_i25.Desk>>);
 }
 
 /// A class which mocks [MemberDataService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockMemberDataService extends _i1.Mock implements _i26.MemberDataService {
+class MockMemberDataService extends _i1.Mock implements _i27.MemberDataService {
   @override
   List<_i4.MemberData> get workspaceMembers => (super.noSuchMethod(
         Invocation.getter(#workspaceMembers),
@@ -1208,6 +1323,18 @@ class MockMemberDataService extends _i1.Mock implements _i26.MemberDataService {
       ) as _i7.Future<void>);
 
   @override
+  _i7.Future<void> updateMemberProfilePicture({required String? photoUrl}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #updateMemberProfilePicture,
+          [],
+          {#photoUrl: photoUrl},
+        ),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
+
+  @override
   _i7.Future<List<_i4.MemberData>> queryWorkspaceMembers() =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1218,4 +1345,20 @@ class MockMemberDataService extends _i1.Mock implements _i26.MemberDataService {
         returnValueForMissingStub:
             _i7.Future<List<_i4.MemberData>>.value(<_i4.MemberData>[]),
       ) as _i7.Future<List<_i4.MemberData>>);
+}
+
+/// A class which mocks [ImagePickerService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockImagePickerService extends _i1.Mock
+    implements _i28.ImagePickerService {
+  @override
+  _i7.Future<_i20.File?> pickImage() => (super.noSuchMethod(
+        Invocation.method(
+          #pickImage,
+          [],
+        ),
+        returnValue: _i7.Future<_i20.File?>.value(),
+        returnValueForMissingStub: _i7.Future<_i20.File?>.value(),
+      ) as _i7.Future<_i20.File?>);
 }

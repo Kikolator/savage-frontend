@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:savage_client/ui/common/ui_helpers.dart';
 import 'package:savage_client/ui/views/create_business_profile/create_business_profile_view.form.dart';
+import 'package:savage_client/ui/widgets/common/image_uploader/image_uploader.dart';
 import 'package:savage_client/ui/widgets/common/loader/loader.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
@@ -55,6 +56,14 @@ class CreateBusinessProfileView
                 children: [
                   verticalSpaceMedium,
                   // profile pic
+                  const Text('Profile Picture:'),
+                  Center(
+                    child: ImageUploader(
+                      imageUrl: viewModel.photoUrl,
+                      onImageSelected: viewModel.onImageSelected,
+                    ),
+                  ),
+                  verticalSpaceMedium,
                   // Company name
                   const Text('Company Name:'),
                   verticalSpaceSmall,

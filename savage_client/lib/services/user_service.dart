@@ -1,13 +1,20 @@
+import 'dart:io';
+
+import 'package:image_picker/image_picker.dart';
 import 'package:savage_client/app/app.locator.dart';
+import 'package:savage_client/app/app.logger.dart';
 import 'package:savage_client/data/enums/membership_status.dart';
 import 'package:savage_client/data/member_data.dart';
 import 'package:savage_client/data/user.dart';
 import 'package:savage_client/services/dependency_wrappers/authentication_service.dart';
 import 'package:savage_client/services/dependency_wrappers/database_service.dart';
+import 'package:savage_client/services/dependency_wrappers/storage_service.dart';
 
 class UserService {
+  final _logger = getLogger('UserService');
   final _authenticationService = locator<AuthenticationService>();
   final _databaseService = locator<DatabaseService>();
+  final _storageService = locator<StorageService>();
 
   static const String kUserDbCollection = 'users';
 
@@ -116,5 +123,30 @@ class UserService {
     final uid = _authenticationService.uid;
     await _databaseService.checkInOutUser(uid: uid, checkedIn: checkedIn);
     _user!.setCheckedIn(checkedIn);
+  }
+
+  /// Sets new file to storage, updates user object, and returns storage url
+  Future<String> updateProfilePicture({required XFile file}) async {
+    _logger.v('updating profile picture');
+    if (!isSignedIn) {
+      _logger.e('user is not signed in');
+      throw Exception('User is not signed in');
+    }
+    final uid = _authenticationService.uid;
+    // Update storage
+    final String imageUrl =
+        await _storageService.updateProfilePicture(uid: uid, file: file);
+    _logger.v('download url: $imageUrl');
+    // Update local objects
+    _user?.photoUrl = imageUrl;
+    _logger.v('set download url on User object');
+    // update database
+    await _databaseService.updateProfilePicture(
+      uid: uid,
+      photoUrl: imageUrl,
+    );
+    _logger.v('download url set in database');
+
+    return imageUrl;
   }
 }

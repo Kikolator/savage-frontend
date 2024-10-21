@@ -25,7 +25,7 @@ class MemberData {
   final String? website;
   final String? companyEmail;
   final String? companyPhone;
-  final String? photoUrl;
+  String? photoUrl;
 
   MemberData({
     required this.id,

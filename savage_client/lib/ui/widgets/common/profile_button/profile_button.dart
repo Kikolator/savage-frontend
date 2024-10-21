@@ -17,7 +17,7 @@ class ProfileButton extends StackedView<ProfileButtonModel> {
     Widget? child,
   ) {
     return InkWell(
-      customBorder: CircleBorder(),
+      customBorder: const CircleBorder(),
       onTap: buttonActive
           ? () {
               Scaffold.of(context).openEndDrawer();
@@ -27,12 +27,15 @@ class ProfileButton extends StackedView<ProfileButtonModel> {
         height: size,
         width: size,
         clipBehavior: Clip.antiAlias,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           shape: BoxShape.circle,
         ),
         child: viewModel.photoUrl != null
-            ? Image.network(viewModel.photoUrl!)
-            : Icon(
+            ? Image.network(
+                viewModel.photoUrl!,
+                fit: BoxFit.cover,
+              )
+            : const Icon(
                 Icons.person,
                 size: 50,
               ),

@@ -23,7 +23,8 @@ class User {
   static const kCheckedIn = 'checked_in';
 
   final String uid, firstName, lastName, contactEmail, contactPhone;
-  final String? signupEmail, signupPhone, phoneWhatsapp, photoUrl;
+  final String? signupEmail, signupPhone, phoneWhatsapp;
+  String? photoUrl;
 
   /// active when the user has a membership or set to inactive
   /// when no membership

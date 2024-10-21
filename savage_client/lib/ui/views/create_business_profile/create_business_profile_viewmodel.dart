@@ -1,4 +1,6 @@
+import 'package:image_picker/image_picker.dart';
 import 'package:savage_client/app/app.locator.dart';
+import 'package:savage_client/app/app.logger.dart';
 import 'package:savage_client/app/app.router.dart';
 import 'package:savage_client/data/member_data.dart';
 import 'package:savage_client/data/user.dart';
@@ -12,6 +14,7 @@ class CreateBusinessProfileViewModel extends FormViewModel {
   // TODO add onNavigationCallback to determine if Navigator should pop or replace
   CreateBusinessProfileViewModel();
 
+  final _logger = getLogger('CreateBusinessProfileViewModel');
   final _routerService = locator<RouterService>();
   final _memberDataService = locator<MemberDataService>();
   final _userService = locator<UserService>();
@@ -23,6 +26,9 @@ class CreateBusinessProfileViewModel extends FormViewModel {
   MemberData get memberData => _memberData;
 
   String? _photoUrl;
+  String? get photoUrl => _photoUrl;
+
+  XFile? _imageFile;
 
   bool _memberVisibleValue = true;
   bool get memberVisisbleValue => _memberVisibleValue;
@@ -77,6 +83,12 @@ class CreateBusinessProfileViewModel extends FormViewModel {
     if (!hasCompanyNameValidationMessage &&
         !hasDescriptionValidationMessage &&
         !hasWebsiteValidationMessage) {
+      // If _imageFile is not null, update user profile pic
+      if (_imageFile != null) {
+        _photoUrl = await _userService.updateProfilePicture(
+          file: _imageFile!,
+        );
+      }
       _memberData = MemberData(
         id: memberDataId ?? '',
         uid: uid,
@@ -129,5 +141,9 @@ class CreateBusinessProfileViewModel extends FormViewModel {
     } finally {
       setBusy(false);
     }
+  }
+
+  void onImageSelected(XFile file) {
+    _imageFile = file;
   }
 }

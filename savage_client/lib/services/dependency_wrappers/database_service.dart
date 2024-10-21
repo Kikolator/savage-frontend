@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:savage_client/app/app.logger.dart';
 import 'package:savage_client/data/booking.dart';
 import 'package:savage_client/data/check_in_out.dart';
 import 'package:savage_client/data/desk.dart';
@@ -8,6 +9,7 @@ import 'package:savage_client/data/user.dart';
 import 'package:savage_client/env.dart';
 
 class DatabaseService {
+  final _logger = getLogger('DatabaseService');
   final FirebaseFirestore _db;
   DatabaseService(this._db);
 
@@ -266,6 +268,14 @@ class DatabaseService {
         workspaceId: _kWorkspaceId);
     batch.set(checkInOutReference, checkInOut.toData());
     await batch.commit();
+  }
+
+  /// Updates the photo url on the user object
+  Future<void> updateProfilePicture(
+      {required String uid, required String photoUrl}) async {
+    _logger.v('Updating ${User.kPhotoUrl}: $photoUrl on user doc: $uid, ');
+    await _userCollection.doc(uid).update({User.kPhotoUrl: photoUrl});
+    return;
   }
 
   // Future<void> addDummyData() async {

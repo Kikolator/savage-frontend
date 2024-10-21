@@ -31,6 +31,7 @@ import 'package:savage_client/ui/dialogs/cupertino_date_time_picker/cupertino_da
 import 'package:savage_client/ui/views/create_business_profile/create_business_profile_view.dart';
 import 'package:savage_client/services/member_data_service.dart';
 import 'package:savage_client/ui/dialogs/member_card/member_card_dialog.dart';
+import 'package:savage_client/services/dependency_wrappers/image_picker_service.dart';
 // @stacked-import
 
 // TODO implement route guards
@@ -94,13 +95,15 @@ import 'package:savage_client/ui/dialogs/member_card/member_card_dialog.dart';
     LazySingleton(
         classType: DatabaseService, resolveUsing: DatabaseService.getInstance),
     LazySingleton(classType: FunctionsService),
-    LazySingleton(classType: StorageService),
+    LazySingleton(
+        classType: StorageService, resolveUsing: StorageService.getInstance),
     LazySingleton(classType: AnalyticsService),
     LazySingleton(classType: CrashlyticsService),
     LazySingleton(classType: UserService),
     LazySingleton(classType: BookingService),
     LazySingleton(classType: DesksService),
     LazySingleton(classType: MemberDataService),
+    LazySingleton(classType: ImagePickerService),
 // @stacked-service
   ],
   bottomsheets: [
@@ -113,5 +116,6 @@ import 'package:savage_client/ui/dialogs/member_card/member_card_dialog.dart';
     StackedDialog(classType: MemberCardDialog),
 // @stacked-dialog
   ],
+  logger: StackedLogger(),
 )
 class App {}

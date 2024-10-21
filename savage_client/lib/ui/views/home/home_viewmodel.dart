@@ -23,7 +23,7 @@ class HomeViewModel extends IndexTrackingViewModel {
 
   // Titles for the drawer menu
   static const String kOverviewViewTitle = 'Overview';
-  static const String kSavagesViewTitle = 'Savages';
+  static const String kSavagesViewTitle = 'Family';
   static const String kHotDesksViewTitle = 'Hot Desks';
   static const String kMeetingRoomViewTitle = 'Meeting Room';
   static const String kBillingViewTitle = 'Billing';

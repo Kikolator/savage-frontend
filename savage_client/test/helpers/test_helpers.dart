@@ -12,6 +12,7 @@ import 'package:savage_client/services/user_service.dart';
 import 'package:savage_client/services/booking_service.dart';
 import 'package:savage_client/services/desks_service.dart';
 import 'package:savage_client/services/member_data_service.dart';
+import 'package:savage_client/services/dependency_wrappers/image_picker_service.dart';
 // @stacked-import
 
 import 'test_helpers.mocks.dart';
@@ -30,6 +31,7 @@ import 'test_helpers.mocks.dart';
   MockSpec<BookingService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<DesksService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<MemberDataService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<ImagePickerService>(onMissingStub: OnMissingStub.returnDefault),
 // @stacked-mock-spec
 ])
 void registerServices() {
@@ -46,6 +48,7 @@ void registerServices() {
   getAndRegisterBookingService();
   getAndRegisterDesksService();
   getAndRegisterMemberDataService();
+  getAndRegisterImagePickerService();
 // @stacked-mock-register
 }
 
@@ -166,6 +169,13 @@ MockMemberDataService getAndRegisterMemberDataService() {
   _removeRegistrationIfExists<MemberDataService>();
   final service = MockMemberDataService();
   locator.registerSingleton<MemberDataService>(service);
+  return service;
+}
+
+MockImagePickerService getAndRegisterImagePickerService() {
+  _removeRegistrationIfExists<ImagePickerService>();
+  final service = MockImagePickerService();
+  locator.registerSingleton<ImagePickerService>(service);
   return service;
 }
 // @stacked-mock-create

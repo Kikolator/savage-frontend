@@ -32,6 +32,12 @@ class MemberDataService {
     return;
   }
 
+  /// Update member profile picture
+  Future<void> updateMemberProfilePicture({required String photoUrl}) async {
+    _memberData?.photoUrl = photoUrl;
+    return;
+  }
+
   /// Query the workspace member data
   Future<List<MemberData>> queryWorkspaceMembers() async {
     final List<Map<String, dynamic>> memberData =
