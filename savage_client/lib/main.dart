@@ -34,6 +34,7 @@ class MainApp extends StatelessWidget {
       builder: (_) => MaterialApp.router(
           routerDelegate: stackedRouter.delegate(),
           routeInformationParser: stackedRouter.defaultRouteParser(),
+          title: 'My Savage Coworking',
           theme: ThemeData(
               useMaterial3: true,
               colorScheme:

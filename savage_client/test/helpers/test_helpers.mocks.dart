@@ -30,10 +30,10 @@ import 'package:savage_client/services/dependency_wrappers/image_picker_service.
     as _i28;
 import 'package:savage_client/services/dependency_wrappers/storage_service.dart'
     as _i19;
-import 'package:savage_client/services/desks_service.dart' as _i26;
-import 'package:savage_client/services/member_data_service.dart' as _i27;
 import 'package:savage_client/services/dependency_wrappers/url_launcher_service.dart'
     as _i29;
+import 'package:savage_client/services/desks_service.dart' as _i26;
+import 'package:savage_client/services/member_data_service.dart' as _i27;
 import 'package:savage_client/services/user_service.dart' as _i23;
 import 'package:stacked/stacked.dart' as _i2;
 import 'package:stacked_services/src/bottom_sheet/bottom_sheet_service.dart'
@@ -1369,4 +1369,42 @@ class MockImagePickerService extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockUrlLauncherService extends _i1.Mock
-    implements _i29.UrlLauncherService {}
+    implements _i29.UrlLauncherService {
+  @override
+  _i7.Future<void> launchWeb({
+    required String? host,
+    String? path,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #launchWeb,
+          [],
+          {
+            #host: host,
+            #path: path,
+          },
+        ),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
+
+  @override
+  _i7.Future<void> launchPhone(String? phone) => (super.noSuchMethod(
+        Invocation.method(
+          #launchPhone,
+          [phone],
+        ),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
+
+  @override
+  _i7.Future<void> launchMail(String? mail) => (super.noSuchMethod(
+        Invocation.method(
+          #launchMail,
+          [mail],
+        ),
+        returnValue: _i7.Future<void>.value(),
+        returnValueForMissingStub: _i7.Future<void>.value(),
+      ) as _i7.Future<void>);
+}

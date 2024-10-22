@@ -34,7 +34,7 @@ class CreateBusinessProfileView
     return Scaffold(
       appBar: AppBar(
           leading: Image.asset('assets/images/icon.png'),
-          title: const Text('Create Your Business Profile'),
+          title: const Text('My Profile'),
           centerTitle: false,
           actions: [
             TextButton(
@@ -65,7 +65,7 @@ class CreateBusinessProfileView
                   ),
                   verticalSpaceMedium,
                   // Company name
-                  const Text('Company Name:'),
+                  const Text('Business Name:'),
                   verticalSpaceSmall,
                   TextFormField(controller: companyNameController),
                   verticalSpaceMedium,
@@ -75,12 +75,12 @@ class CreateBusinessProfileView
                   TextFormField(controller: websiteController),
                   verticalSpaceMedium,
                   // Company phone
-                  const Text('Company Phone:'),
+                  const Text('Business Phone:'),
                   verticalSpaceSmall,
                   TextFormField(controller: companyPhoneController),
                   verticalSpaceMedium,
                   // Company Email
-                  const Text('Company Email:'),
+                  const Text('Business Email:'),
                   verticalSpaceSmall,
                   TextFormField(controller: companyEmailController),
                   verticalSpaceMedium,

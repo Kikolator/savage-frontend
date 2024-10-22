@@ -38,7 +38,7 @@ import 'package:savage_client/services/dependency_wrappers/url_launcher_service.
 // TODO implement route guards
 @StackedApp(
   routes: [
-    CustomRoute(page: StartupView, initial: true),
+    CustomRoute(path: '/', page: StartupView, initial: true),
     CustomRoute(
       page: HomeView,
       path: '/',
@@ -57,14 +57,16 @@ import 'package:savage_client/services/dependency_wrappers/url_launcher_service.
         CustomRoute(path: 'invoices', page: InvoicesView),
       ],
     ),
-    CustomRoute(page: LoginView),
+    CustomRoute(path: '/login', page: LoginView),
     CustomRoute(
+      path: '/email-verification',
       page: VerifyEmailView,
       guards: [
         AuthenticationGuard,
       ],
     ),
     CustomRoute(
+      path: '/setup-account',
       page: AddUserDataView,
       guards: [
         AuthenticationGuard,
@@ -72,6 +74,7 @@ import 'package:savage_client/services/dependency_wrappers/url_launcher_service.
       ],
     ),
     CustomRoute(
+      path: 'my-profile',
       page: CreateBusinessProfileView,
       guards: [
         AuthenticationGuard,

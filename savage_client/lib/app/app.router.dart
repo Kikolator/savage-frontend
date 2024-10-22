@@ -239,16 +239,16 @@ class StackedRouterWeb extends _i19.RootStackRouter {
         ),
         _i19.RouteConfig(
           LoginViewRoute.name,
-          path: '/login-view',
+          path: '/login',
         ),
         _i19.RouteConfig(
           VerifyEmailViewRoute.name,
-          path: '/verify-email-view',
+          path: '/email-verification',
           guards: [authenticationGuard],
         ),
         _i19.RouteConfig(
           AddUserDataViewRoute.name,
-          path: '/add-user-data-view',
+          path: '/setup-account',
           guards: [
             authenticationGuard,
             emailVerifiedGuard,
@@ -256,7 +256,7 @@ class StackedRouterWeb extends _i19.RootStackRouter {
         ),
         _i19.RouteConfig(
           CreateBusinessProfileViewRoute.name,
-          path: '/create-business-profile-view',
+          path: 'my-profile',
           guards: [
             authenticationGuard,
             emailVerifiedGuard,
@@ -308,7 +308,7 @@ class LoginViewRoute extends _i19.PageRouteInfo<LoginViewArgs> {
     _i20.Key? key,
   }) : super(
           LoginViewRoute.name,
-          path: '/login-view',
+          path: '/login',
           args: LoginViewArgs(
             onLoginCallback: onLoginCallback,
             key: key,
@@ -340,7 +340,7 @@ class VerifyEmailViewRoute extends _i19.PageRouteInfo<void> {
   const VerifyEmailViewRoute()
       : super(
           VerifyEmailViewRoute.name,
-          path: '/verify-email-view',
+          path: '/email-verification',
         );
 
   static const String name = 'VerifyEmailView';
@@ -352,7 +352,7 @@ class AddUserDataViewRoute extends _i19.PageRouteInfo<void> {
   const AddUserDataViewRoute()
       : super(
           AddUserDataViewRoute.name,
-          path: '/add-user-data-view',
+          path: '/setup-account',
         );
 
   static const String name = 'AddUserDataView';
@@ -364,7 +364,7 @@ class CreateBusinessProfileViewRoute extends _i19.PageRouteInfo<void> {
   const CreateBusinessProfileViewRoute()
       : super(
           CreateBusinessProfileViewRoute.name,
-          path: '/create-business-profile-view',
+          path: 'my-profile',
         );
 
   static const String name = 'CreateBusinessProfileView';

@@ -96,7 +96,12 @@ class HomeView extends StackedView<HomeViewModel> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Firstname Lastname
-                      Text('${viewModel.firstName} ${viewModel.lastName}'),
+                      Text(
+                        '${viewModel.firstName} ${viewModel.lastName}',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       // Email
                       Text(viewModel.signupEmail),
                     ],

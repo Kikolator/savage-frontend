@@ -11,7 +11,7 @@ class ImageUploader extends StackedView<ImageUploaderModel> {
   final bool buttonActive;
   final String? imageUrl;
   final XFile? imageFile;
-  final double? size;
+  final double size;
   final void Function(XFile file)? onImageSelected;
 
   const ImageUploader({
@@ -56,18 +56,44 @@ class ImageUploader extends StackedView<ImageUploaderModel> {
     ImageUploaderModel viewModel,
     Widget? child,
   ) {
-    return InkWell(
-      customBorder: const CircleBorder(),
-      onTap: buttonActive ? viewModel.selectImageFile : null,
-      child: Container(
-        height: size,
-        width: size,
-        clipBehavior: Clip.antiAlias,
-        decoration: const BoxDecoration(
-          shape: BoxShape.circle,
+    return Stack(
+      alignment: AlignmentDirectional.topEnd,
+      children: [
+        Padding(
+          padding: EdgeInsets.all(size / 9),
+          child: InkWell(
+            customBorder: const CircleBorder(),
+            onTap: buttonActive ? viewModel.selectImageFile : null,
+            child: Container(
+              height: size,
+              width: size,
+              clipBehavior: Clip.antiAlias,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+              ),
+              child: _imageBuilder(
+                  context, viewModel.imageUrl, viewModel.imageFile),
+            ),
+          ),
         ),
-        child: _imageBuilder(context, viewModel.imageUrl, viewModel.imageFile),
-      ),
+        if (buttonActive) ...[
+          IconButton(
+            onPressed: viewModel.selectImageFile,
+            iconSize: size / 5,
+            icon: Container(
+              height: size / 3,
+              width: size / 3,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.onPrimary,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                Icons.add_a_photo,
+              ),
+            ),
+          ),
+        ],
+      ],
     );
   }
 

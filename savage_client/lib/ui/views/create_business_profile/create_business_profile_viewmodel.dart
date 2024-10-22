@@ -123,6 +123,7 @@ class CreateBusinessProfileViewModel extends FormViewModel {
             confirmationTitle: 'Yes',
             cancelTitle: 'No');
         if (dialogResponse != null && dialogResponse.confirmed) {
+          setBusy(true);
           // Set data
           _setMemberData();
           return;
@@ -132,6 +133,7 @@ class CreateBusinessProfileViewModel extends FormViewModel {
           return;
         }
       } else {
+        setBusy(true);
         // set data
         _setMemberData();
         return;

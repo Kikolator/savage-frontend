@@ -20,9 +20,9 @@ import '../services/dependency_wrappers/database_service.dart';
 import '../services/dependency_wrappers/functions_service.dart';
 import '../services/dependency_wrappers/image_picker_service.dart';
 import '../services/dependency_wrappers/storage_service.dart';
+import '../services/dependency_wrappers/url_launcher_service.dart';
 import '../services/desks_service.dart';
 import '../services/member_data_service.dart';
-import '../services/dependency_wrappers/url_launcher_service.dart';
 import '../services/user_service.dart';
 import 'app.router.dart';
 
