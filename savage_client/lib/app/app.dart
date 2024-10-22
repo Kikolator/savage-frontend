@@ -32,6 +32,7 @@ import 'package:savage_client/ui/views/create_business_profile/create_business_p
 import 'package:savage_client/services/member_data_service.dart';
 import 'package:savage_client/ui/dialogs/member_card/member_card_dialog.dart';
 import 'package:savage_client/services/dependency_wrappers/image_picker_service.dart';
+import 'package:savage_client/services/dependency_wrappers/url_launcher_service.dart';
 // @stacked-import
 
 // TODO implement route guards
@@ -104,6 +105,7 @@ import 'package:savage_client/services/dependency_wrappers/image_picker_service.
     LazySingleton(classType: DesksService),
     LazySingleton(classType: MemberDataService),
     LazySingleton(classType: ImagePickerService),
+    LazySingleton(classType: UrlLauncherService),
 // @stacked-service
   ],
   bottomsheets: [

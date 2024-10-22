@@ -4,11 +4,11 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i7;
-import 'dart:io' as _i20;
 import 'dart:ui' as _i11;
 
 import 'package:firebase_auth/firebase_auth.dart' as _i3;
 import 'package:flutter/material.dart' as _i8;
+import 'package:image_picker/image_picker.dart' as _i20;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:mockito/src/dummies.dart' as _i15;
 import 'package:savage_client/data/booking.dart' as _i5;
@@ -32,6 +32,8 @@ import 'package:savage_client/services/dependency_wrappers/storage_service.dart'
     as _i19;
 import 'package:savage_client/services/desks_service.dart' as _i26;
 import 'package:savage_client/services/member_data_service.dart' as _i27;
+import 'package:savage_client/services/dependency_wrappers/url_launcher_service.dart'
+    as _i29;
 import 'package:savage_client/services/user_service.dart' as _i23;
 import 'package:stacked/stacked.dart' as _i2;
 import 'package:stacked_services/src/bottom_sheet/bottom_sheet_service.dart'
@@ -1026,7 +1028,7 @@ class MockStorageService extends _i1.Mock implements _i19.StorageService {
   @override
   _i7.Future<String> updateProfilePicture({
     required String? uid,
-    required _i20.File? file,
+    required _i20.XFile? file,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1170,7 +1172,7 @@ class MockUserService extends _i1.Mock implements _i23.UserService {
       ) as _i7.Future<void>);
 
   @override
-  _i7.Future<String> updateProfilePicture({required _i20.File? file}) =>
+  _i7.Future<String> updateProfilePicture({required _i20.XFile? file}) =>
       (super.noSuchMethod(
         Invocation.method(
           #updateProfilePicture,
@@ -1353,12 +1355,18 @@ class MockMemberDataService extends _i1.Mock implements _i27.MemberDataService {
 class MockImagePickerService extends _i1.Mock
     implements _i28.ImagePickerService {
   @override
-  _i7.Future<_i20.File?> pickImage() => (super.noSuchMethod(
+  _i7.Future<_i20.XFile?> pickImage() => (super.noSuchMethod(
         Invocation.method(
           #pickImage,
           [],
         ),
-        returnValue: _i7.Future<_i20.File?>.value(),
-        returnValueForMissingStub: _i7.Future<_i20.File?>.value(),
-      ) as _i7.Future<_i20.File?>);
+        returnValue: _i7.Future<_i20.XFile?>.value(),
+        returnValueForMissingStub: _i7.Future<_i20.XFile?>.value(),
+      ) as _i7.Future<_i20.XFile?>);
 }
+
+/// A class which mocks [UrlLauncherService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockUrlLauncherService extends _i1.Mock
+    implements _i29.UrlLauncherService {}
