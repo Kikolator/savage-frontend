@@ -16,7 +16,6 @@ class User {
   static const kMembershipTypes = 'membership_types';
   static const kAvailableCredits = 'available_credits';
   static const kJoinedAt = 'joined_at';
-  static const kMemberVisible = 'member_visible';
   static const kMemberDataId = 'member_data_id';
   static const kRequestInvoice = 'request_invoice';
   static const kInvoiceData = 'invoice_data';
@@ -38,7 +37,7 @@ class User {
   /// Null in case membership type does not require credits
   final double? availableCredits;
   final DateTime joinedAt;
-  bool memberVisible, requestInvoice, checkedIn;
+  bool requestInvoice, checkedIn;
   String? memberDataId;
   final Map<String, dynamic> invoiceData;
 
@@ -56,7 +55,6 @@ class User {
     required this.membershipTypes,
     required this.availableCredits,
     required this.joinedAt,
-    required this.memberVisible,
     required this.memberDataId,
     required this.requestInvoice,
     required this.invoiceData,
@@ -84,7 +82,6 @@ class User {
           .toList(),
       availableCredits: data[kAvailableCredits],
       joinedAt: (data[kJoinedAt] as Timestamp).toDate(),
-      memberVisible: data[kMemberVisible],
       memberDataId: data[kMemberDataId],
       requestInvoice: data[kRequestInvoice],
       invoiceData: data[kInvoiceData],
@@ -106,7 +103,6 @@ class User {
         kMembershipTypes: membershipTypes.map((e) => e.name).toList(),
         kAvailableCredits: availableCredits,
         kJoinedAt: Timestamp.fromDate(joinedAt),
-        kMemberVisible: memberVisible,
         kMemberDataId: memberDataId,
         kRequestInvoice: requestInvoice,
         kInvoiceData: invoiceData,

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:image_picker/image_picker.dart';
 import 'package:savage_client/app/app.locator.dart';
 import 'package:savage_client/app/app.logger.dart';
@@ -55,7 +53,6 @@ class UserService {
       membershipTypes: [],
       availableCredits: null,
       joinedAt: DateTime.now(),
-      memberVisible: false,
       memberDataId: null,
       requestInvoice: false,
       invoiceData: {},
