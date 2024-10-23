@@ -1,3 +1,4 @@
+import 'package:board_datetime_picker/board_datetime_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:savage_client/ui/common/ui_helpers.dart';
 import 'package:savage_client/ui/views/add_user_data/add_user_data_validators.dart';
@@ -83,6 +84,33 @@ class AddUserDataView extends StackedView<AddUserDataViewModel>
                       Text(
                         viewModel.lastNameValidationMessage!,
                         style: const TextStyle(
+                          color: Colors.red,
+                          fontSize: 12,
+                        ),
+                      )
+                    ],
+                    // Date of birth
+                    verticalSpaceMedium,
+                    const Text('Date of birth:'),
+                    verticalSpaceSmall,
+                    BoardDateTimeInputField(
+                      pickerType: DateTimePickerType.date,
+                      options: const BoardDateTimeOptions(
+                        backgroundColor: Colors.white,
+                        showDateButton: false,
+                        pickerFormat: PickerFormat.dmy,
+                      ),
+                      readOnly: true,
+                      controller: viewModel.dateOfBirthController,
+                      onChanged: viewModel.setDateOfBirth,
+                      initialDate: viewModel.dateOfBirthValue,
+                    ),
+                    if (viewModel.showValidationMessages &&
+                        viewModel.dateOfBirthValue == null) ...[
+                      verticalSpaceTiny,
+                      const Text(
+                        'Date of birth is required',
+                        style: TextStyle(
                           color: Colors.red,
                           fontSize: 12,
                         ),

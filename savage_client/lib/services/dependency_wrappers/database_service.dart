@@ -238,6 +238,7 @@ class DatabaseService {
       {required String uid,
       required User user,
       required MemberData memberData}) async {
+    _logger.d('setting user in db');
     final batch = _db.batch();
     // set memberData
     final memberDataReference = _memberDataCollection.doc();
@@ -248,7 +249,9 @@ class DatabaseService {
     // set user
     batch.set(_userCollection.doc(uid), user.toData());
     // commit batch
+    _logger.v('commiting batch');
     await batch.commit();
+    _logger.v('user set in db');
     return;
   }
 

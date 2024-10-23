@@ -33,7 +33,9 @@ class UserService {
     required String phoneWhatsapp,
     required String contactEmail,
     required String contactPhone,
+    required DateTime dateOfBirth,
   }) async {
+    _logger.d('creating user');
     // Get Firebase uid
     final uid = _authenticationService.uid;
     final email = _authenticationService.email;
@@ -44,6 +46,7 @@ class UserService {
       uid: uid,
       firstName: firstName,
       lastName: lastName,
+      dateOfBirth: dateOfBirth,
       phoneWhatsapp: phoneWhatsapp,
       contactEmail: contactEmail,
       contactPhone: contactPhone,
@@ -59,6 +62,8 @@ class UserService {
       photoUrl: photoUrl,
       checkedIn: false,
     );
+    _logger.v(user.toString());
+    _logger.v('create member object');
     final memberData = MemberData.empty();
     memberData.setUid(uid);
     memberData.setFirstName(firstName);
@@ -69,7 +74,9 @@ class UserService {
       memberData: memberData,
     );
     // set local _user
+    _logger.v('setting local user object');
     _user = user;
+    _logger.v('User created');
     return;
   }
 

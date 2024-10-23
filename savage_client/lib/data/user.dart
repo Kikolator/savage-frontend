@@ -6,6 +6,7 @@ class User {
   static const kUid = 'uid';
   static const kFirstName = 'first_name';
   static const kLastName = 'last_name';
+  static const kDateOfBirth = 'date_of_birth';
   static const kContactEmail = 'contact_email';
   static const kContactPhone = 'contact_phone';
   static const kSignupEmail = 'signup_email';
@@ -36,7 +37,7 @@ class User {
   /// 1 credit = 1 hour of hot desk
   /// Null in case membership type does not require credits
   final double? availableCredits;
-  final DateTime joinedAt;
+  final DateTime joinedAt, dateOfBirth;
   bool requestInvoice, checkedIn;
   String? memberDataId;
   final Map<String, dynamic> invoiceData;
@@ -45,6 +46,7 @@ class User {
     required this.uid,
     required this.firstName,
     required this.lastName,
+    required this.dateOfBirth,
     required this.contactEmail,
     required this.contactPhone,
     required this.signupEmail,
@@ -66,6 +68,7 @@ class User {
       uid: data[kUid],
       firstName: data[kFirstName],
       lastName: data[kLastName],
+      dateOfBirth: (data[kDateOfBirth] as Timestamp).toDate(),
       contactEmail: data[kContactEmail],
       contactPhone: data[kContactPhone],
       signupEmail: data[kSignupEmail],
@@ -93,6 +96,7 @@ class User {
         kUid: uid,
         kFirstName: firstName,
         kLastName: lastName,
+        kDateOfBirth: Timestamp.fromDate(dateOfBirth),
         kContactEmail: contactEmail,
         kContactPhone: contactPhone,
         kSignupEmail: signupEmail,
