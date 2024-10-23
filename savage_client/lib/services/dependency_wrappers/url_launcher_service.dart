@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UrlLauncherService {
@@ -7,11 +8,16 @@ class UrlLauncherService {
       host: host,
       path: path,
     );
-    final bool launchResult = await launchUrl(uri);
-    if (!launchResult) {
-      throw Exception('Could not launch Uri $uri');
+    if (kIsWeb) {
+      launchUrl(uri);
+      return;
+    } else {
+      final bool launchResult = await launchUrl(uri);
+      if (!launchResult) {
+        throw Exception('Could not launch Uri $uri');
+      }
+      return;
     }
-    return;
   }
 
   Future<void> launchPhone(String phone) async {
