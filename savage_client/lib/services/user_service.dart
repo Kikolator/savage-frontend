@@ -2,7 +2,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:savage_client/app/app.locator.dart';
 import 'package:savage_client/app/app.logger.dart';
 import 'package:savage_client/data/enums/membership_status.dart';
-import 'package:savage_client/data/member_data.dart';
 import 'package:savage_client/data/user.dart';
 import 'package:savage_client/services/dependency_wrappers/authentication_service.dart';
 import 'package:savage_client/services/dependency_wrappers/database_service.dart';
@@ -63,15 +62,15 @@ class UserService {
       checkedIn: false,
     );
     _logger.v(user.toString());
-    _logger.v('create member object');
-    final memberData = MemberData.empty();
-    memberData.setUid(uid);
-    memberData.setFirstName(firstName);
-    memberData.setLastName(lastName);
+    // _logger.v('create member object');
+    // final memberData = MemberData.empty();
+    // memberData.setUid(uid);
+    // memberData.setFirstName(firstName);
+    // memberData.setLastName(lastName);
     await _databaseService.createUser(
       uid: uid,
       user: user,
-      memberData: memberData,
+      // memberData: memberData,
     );
     // set local _user
     _logger.v('setting local user object');

@@ -963,7 +963,6 @@ class MockDatabaseService extends _i1.Mock implements _i16.DatabaseService {
   _i7.Future<void> createUser({
     required String? uid,
     required _i17.User? user,
-    required _i4.MemberData? memberData,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -972,7 +971,6 @@ class MockDatabaseService extends _i1.Mock implements _i16.DatabaseService {
           {
             #uid: uid,
             #user: user,
-            #memberData: memberData,
           },
         ),
         returnValue: _i7.Future<void>.value(),
@@ -1114,6 +1112,7 @@ class MockUserService extends _i1.Mock implements _i23.UserService {
     required String? phoneWhatsapp,
     required String? contactEmail,
     required String? contactPhone,
+    required DateTime? dateOfBirth,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -1125,6 +1124,7 @@ class MockUserService extends _i1.Mock implements _i23.UserService {
             #phoneWhatsapp: phoneWhatsapp,
             #contactEmail: contactEmail,
             #contactPhone: contactPhone,
+            #dateOfBirth: dateOfBirth,
           },
         ),
         returnValue: _i7.Future<void>.value(),

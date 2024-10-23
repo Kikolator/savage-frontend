@@ -35,6 +35,7 @@ class CreateBusinessProfileViewModel extends FormViewModel {
 
   Future<void> getUserData() async {
     try {
+      _logger.d('getting user data');
       setBusy(true);
       _user = await _userService.getUser();
       if (_user == null) {
@@ -42,21 +43,27 @@ class CreateBusinessProfileViewModel extends FormViewModel {
       }
       final memberDataId = _user!.memberDataId;
       if (memberDataId == null) {
-        throw UnimplementedError('Member data id is null, handle error');
+        _logger.v('memberDataId is null');
+        // throw UnimplementedError('Member data id is null, handle error');
+        return;
+      } else {
+        _logger.v('memberDataId is not null, getting member data');
+        final memberData = await _memberDataService.getUserMemberData(
+            memberDataId: memberDataId);
+        _memberData = memberData;
+        companyNameValue = memberData.companyName;
+        descriptionValue = memberData.description;
+        websiteValue = memberData.website;
+        companyEmailValue = memberData.companyEmail;
+        companyPhoneValue = memberData.companyPhone;
+        _photoUrl = memberData.photoUrl;
+        return;
       }
-      final memberData = await _memberDataService.getUserMemberData(
-          memberDataId: memberDataId);
-      _memberData = memberData;
-      companyNameValue = memberData.companyName;
-      descriptionValue = memberData.description;
-      websiteValue = memberData.website;
-      companyEmailValue = memberData.companyEmail;
-      companyPhoneValue = memberData.companyPhone;
-      _photoUrl = memberData.photoUrl;
-      return;
     } catch (error) {
+      _logger.e('error getting user data');
       setError(error.toString());
     } finally {
+      _logger.v('setting busy to false');
       setBusy(false);
     }
   }

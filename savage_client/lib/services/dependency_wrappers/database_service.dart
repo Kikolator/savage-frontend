@@ -194,23 +194,29 @@ class DatabaseService {
   }
 
   Future<MemberData> setMemberData({required MemberData memberData}) async {
+    _logger.d('Setting member data in db');
     final batch = _db.batch();
     final memberDataId = memberData.id;
     // If memberData.id is empty, we need to set it
     // Else we can update existing.
     if (memberDataId.isEmpty) {
+      _logger.v('memberDataId is empty, creating new member data');
       final memberDataReference = _memberDataCollection.doc();
+      _logger.v('memberDataId: ${memberDataReference.id}');
       memberData.setId(memberDataReference.id);
-
+      _logger.v('setting member data on batch');
       batch.set(memberDataReference, memberData.toData());
+      _logger.v('updating user on batch');
       batch.update(_userCollection.doc(memberData.uid),
           {User.kMemberDataId: memberDataReference.id});
     } else {
+      _logger.v('memberDataId: $memberDataId, updating existing member data');
       batch.update(
           _memberDataCollection.doc(memberDataId), memberData.toData());
     }
-
+    _logger.v('commiting batch');
     await batch.commit();
+    _logger.v('member data set in db');
     return memberData;
   }
 
@@ -226,31 +232,25 @@ class DatabaseService {
 
   Future<Map<String, dynamic>> getUserMemberData(
       {required String memberDataId}) async {
+    _logger.d('Getting user member data');
+    _logger.v('memberDataId: $memberDataId');
     final snapshot = await _memberDataCollection.doc(memberDataId).get();
     if (snapshot.exists) {
+      _logger.v('snapshot exists');
       return snapshot.data()!;
     } else {
       throw Exception('Document does not exist');
     }
   }
 
-  Future<void> createUser(
-      {required String uid,
-      required User user,
-      required MemberData memberData}) async {
+  Future<void> createUser({
+    required String uid,
+    required User user,
+    // required MemberData memberData,
+  }) async {
     _logger.d('setting user in db');
-    final batch = _db.batch();
-    // set memberData
-    final memberDataReference = _memberDataCollection.doc();
-    memberData.setId(memberDataReference.id);
-    batch.set(memberDataReference, memberData.toData());
-    // update memberDataId on User
-    user.setMemberDataId(memberDataReference.id);
     // set user
-    batch.set(_userCollection.doc(uid), user.toData());
-    // commit batch
-    _logger.v('commiting batch');
-    await batch.commit();
+    await _userCollection.doc(uid).set(user.toData());
     _logger.v('user set in db');
     return;
   }

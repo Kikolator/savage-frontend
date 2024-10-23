@@ -256,7 +256,7 @@ class StackedRouterWeb extends _i19.RootStackRouter {
         ),
         _i19.RouteConfig(
           CreateBusinessProfileViewRoute.name,
-          path: 'my-profile',
+          path: '/my-profile',
           guards: [
             authenticationGuard,
             emailVerifiedGuard,
@@ -364,7 +364,7 @@ class CreateBusinessProfileViewRoute extends _i19.PageRouteInfo<void> {
   const CreateBusinessProfileViewRoute()
       : super(
           CreateBusinessProfileViewRoute.name,
-          path: 'my-profile',
+          path: '/my-profile',
         );
 
   static const String name = 'CreateBusinessProfileView';

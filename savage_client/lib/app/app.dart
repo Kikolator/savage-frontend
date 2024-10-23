@@ -74,7 +74,7 @@ import 'package:savage_client/services/dependency_wrappers/url_launcher_service.
       ],
     ),
     CustomRoute(
-      path: 'my-profile',
+      path: '/my-profile',
       page: CreateBusinessProfileView,
       guards: [
         AuthenticationGuard,

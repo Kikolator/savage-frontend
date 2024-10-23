@@ -1,9 +1,11 @@
 import 'package:savage_client/app/app.locator.dart';
+import 'package:savage_client/app/app.logger.dart';
 import 'package:savage_client/data/member_data.dart';
 import 'package:savage_client/services/dependency_wrappers/database_service.dart';
 import 'package:savage_client/services/user_service.dart';
 
 class MemberDataService {
+  final _logger = getLogger('MemberDataService');
   final _databaseService = locator<DatabaseService>();
   final _userService = locator<UserService>();
 
@@ -17,9 +19,11 @@ class MemberDataService {
 
   /// Fetch the user member data
   Future<MemberData> getUserMemberData({required String memberDataId}) async {
+    _logger.d('getting user member data');
     final Map<String, dynamic> data =
         await _databaseService.getUserMemberData(memberDataId: memberDataId);
     _memberData = MemberData.fromData(data);
+    _logger.v(_memberData.toString());
     return _memberData!;
   }
 
