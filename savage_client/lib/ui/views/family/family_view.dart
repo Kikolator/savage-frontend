@@ -19,6 +19,11 @@ class FamilyView extends StackedView<FamilyViewModel> {
     if (viewModel.isBusy) {
       return const Loader();
     }
+    final String? _photoUrl = viewModel.userMemberData?.photoUrl;
+    final String? _firstName = viewModel.userMemberData?.firstName;
+    final String? _lastName = viewModel.userMemberData?.lastName;
+    final String? _companyName = viewModel.userMemberData?.companyName;
+
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,11 +47,27 @@ class FamilyView extends StackedView<FamilyViewModel> {
                 horizontalSpaceSmall,
                 ProfileButton(
                   buttonActive: false,
-                  photoUrl: viewModel.userMemberData?.photoUrl,
+                  photoUrl: _photoUrl,
                 ),
                 horizontalSpaceSmall,
-                Text(viewModel.userMemberData!.companyName ??
-                    'Company name not set'),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (_firstName != null && _lastName != null) ...[
+                      Text(
+                        '$_firstName $_lastName',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                    if (_companyName != null) ...[
+                      Text(_companyName),
+                    ],
+                  ],
+                ),
                 const Spacer(),
                 TextButton(
                   onPressed: viewModel.editUserMemberData,
@@ -64,7 +85,7 @@ class FamilyView extends StackedView<FamilyViewModel> {
                 itemCount: viewModel.workspaceMembers.length,
                 itemBuilder: (context, index) {
                   final member = viewModel.workspaceMembers[index];
-                  return MemberCard(memberData: member);
+                  return MemberCard(key: Key(member.id), memberData: member);
                 },
               ),
             ),

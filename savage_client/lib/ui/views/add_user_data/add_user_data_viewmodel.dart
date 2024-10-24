@@ -50,7 +50,9 @@ class AddUserDataViewModel extends FormViewModel {
         contactEmailValue = user.contactEmail;
         contactPhoneValue = user.contactPhone;
         phoneWhatsappValue = user.phoneWhatsapp;
-        _dateOfBirthController.setDate(user.dateOfBirth);
+        if (user.dateOfBirth != null) {
+          _dateOfBirthController.setDate(user.dateOfBirth!);
+        }
         _dateOfBirthValue = user.dateOfBirth;
       }
     } catch (error) {

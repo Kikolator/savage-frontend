@@ -37,7 +37,8 @@ class User {
   /// 1 credit = 1 hour of hot desk
   /// Null in case membership type does not require credits
   final double? availableCredits;
-  final DateTime joinedAt, dateOfBirth;
+  final DateTime joinedAt;
+  final DateTime? dateOfBirth;
   bool requestInvoice, checkedIn;
   String? memberDataId;
   final Map<String, dynamic> invoiceData;
@@ -68,7 +69,9 @@ class User {
       uid: data[kUid],
       firstName: data[kFirstName],
       lastName: data[kLastName],
-      dateOfBirth: (data[kDateOfBirth] as Timestamp).toDate(),
+      dateOfBirth: data[kDateOfBirth] == null
+          ? null
+          : (data[kDateOfBirth] as Timestamp).toDate(),
       contactEmail: data[kContactEmail],
       contactPhone: data[kContactPhone],
       signupEmail: data[kSignupEmail],
@@ -96,7 +99,8 @@ class User {
         kUid: uid,
         kFirstName: firstName,
         kLastName: lastName,
-        kDateOfBirth: Timestamp.fromDate(dateOfBirth),
+        kDateOfBirth:
+            dateOfBirth == null ? null : Timestamp.fromDate(dateOfBirth!),
         kContactEmail: contactEmail,
         kContactPhone: contactPhone,
         kSignupEmail: signupEmail,

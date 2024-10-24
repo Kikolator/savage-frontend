@@ -12,5 +12,5 @@ class Env {
   static String actionCodeUrl = kLocalEmulatorMode
       ? '$kLocalHost:$kLocalFlutterDebugPort'
       : 'https://my.savage-coworking.com';
-  static String kVersionNumber = '0.1.0-beta';
+  static String kVersionNumber = '0.1.1';
 }
