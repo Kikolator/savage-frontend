@@ -99,11 +99,14 @@ class AddUserDataView extends StackedView<AddUserDataViewModel>
                         backgroundColor: Colors.white,
                         showDateButton: false,
                         pickerFormat: PickerFormat.dmy,
+                        inputable: false,
                       ),
-                      readOnly: true,
                       controller: viewModel.dateOfBirthController,
                       onChanged: viewModel.setDateOfBirth,
                       initialDate: viewModel.dateOfBirthValue,
+                      minimumDate: DateTime(1940, 1, 1),
+                      maximumDate: DateTime(DateTime.now().year - 18,
+                          DateTime.now().month, DateTime.now().day),
                     ),
                     if (viewModel.showValidationMessages &&
                         viewModel.dateOfBirthValue == null) ...[
