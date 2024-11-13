@@ -1,7 +1,7 @@
 name: savage_client
 description: The client Flutter application for Savage Coworking
 publish_to: 'none'
-version: 0.1.0
+version: 0.1.1
 
 environment:
   sdk: '>=3.0.3 <4.0.0'
