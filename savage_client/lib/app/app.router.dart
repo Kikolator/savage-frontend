@@ -5,50 +5,51 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:flutter/material.dart' as _i20;
-import 'package:stacked/stacked.dart' as _i19;
-import 'package:stacked_services/stacked_services.dart' as _i16;
+import 'package:flutter/material.dart' as _i21;
+import 'package:stacked/stacked.dart' as _i20;
+import 'package:stacked_services/stacked_services.dart' as _i17;
 
-import '../route_guards/authentication_guard.dart' as _i17;
-import '../route_guards/email_verified_guard.dart' as _i18;
+import '../route_guards/authentication_guard.dart' as _i18;
+import '../route_guards/email_verified_guard.dart' as _i19;
 import '../ui/views/add_user_data/add_user_data_view.dart' as _i5;
-import '../ui/views/billing/billing_view.dart' as _i12;
-import '../ui/views/bookings/bookings_view.dart' as _i14;
+import '../ui/views/billing/billing_view.dart' as _i13;
+import '../ui/views/bookings/bookings_view.dart' as _i15;
 import '../ui/views/create_business_profile/create_business_profile_view.dart'
     as _i6;
-import '../ui/views/family/family_view.dart' as _i9;
+import '../ui/views/family/family_view.dart' as _i10;
 import '../ui/views/home/home_view.dart' as _i2;
-import '../ui/views/hot_desks/hot_desks_view.dart' as _i10;
-import '../ui/views/invoices/invoices_view.dart' as _i15;
+import '../ui/views/hot_desks/hot_desks_view.dart' as _i11;
+import '../ui/views/invoices/invoices_view.dart' as _i16;
 import '../ui/views/login/login_view.dart' as _i3;
-import '../ui/views/meeting_room/meeting_room_view.dart' as _i11;
-import '../ui/views/overview/overview_view.dart' as _i8;
-import '../ui/views/profile/profile_view.dart' as _i13;
+import '../ui/views/meeting_room/meeting_room_view.dart' as _i12;
+import '../ui/views/overview/overview_view.dart' as _i9;
+import '../ui/views/profile/profile_view.dart' as _i14;
 import '../ui/views/startup/startup_view.dart' as _i1;
-import '../ui/views/unknown/unknown_view.dart' as _i7;
+import '../ui/views/terms_and_conditions/terms_and_conditions_view.dart' as _i7;
+import '../ui/views/unknown/unknown_view.dart' as _i8;
 import '../ui/views/verify_email/verify_email_view.dart' as _i4;
 
 final stackedRouter = StackedRouterWeb(
-  navigatorKey: _i16.StackedService.navigatorKey,
-  authenticationGuard: _i17.AuthenticationGuard(),
-  emailVerifiedGuard: _i18.EmailVerifiedGuard(),
+  navigatorKey: _i17.StackedService.navigatorKey,
+  authenticationGuard: _i18.AuthenticationGuard(),
+  emailVerifiedGuard: _i19.EmailVerifiedGuard(),
 );
 
-class StackedRouterWeb extends _i19.RootStackRouter {
+class StackedRouterWeb extends _i20.RootStackRouter {
   StackedRouterWeb({
-    _i20.GlobalKey<_i20.NavigatorState>? navigatorKey,
+    _i21.GlobalKey<_i21.NavigatorState>? navigatorKey,
     required this.authenticationGuard,
     required this.emailVerifiedGuard,
   }) : super(navigatorKey);
 
-  final _i17.AuthenticationGuard authenticationGuard;
+  final _i18.AuthenticationGuard authenticationGuard;
 
-  final _i18.EmailVerifiedGuard emailVerifiedGuard;
+  final _i19.EmailVerifiedGuard emailVerifiedGuard;
 
   @override
-  final Map<String, _i19.PageFactory> pagesMap = {
+  final Map<String, _i20.PageFactory> pagesMap = {
     StartupViewRoute.name: (routeData) {
-      return _i19.CustomPage<dynamic>(
+      return _i20.CustomPage<dynamic>(
         routeData: routeData,
         child: const _i1.StartupView(),
         opaque: true,
@@ -56,7 +57,7 @@ class StackedRouterWeb extends _i19.RootStackRouter {
       );
     },
     HomeViewRoute.name: (routeData) {
-      return _i19.CustomPage<dynamic>(
+      return _i20.CustomPage<dynamic>(
         routeData: routeData,
         child: const _i2.HomeView(),
         opaque: true,
@@ -66,7 +67,7 @@ class StackedRouterWeb extends _i19.RootStackRouter {
     LoginViewRoute.name: (routeData) {
       final args =
           routeData.argsAs<LoginViewArgs>(orElse: () => const LoginViewArgs());
-      return _i19.CustomPage<dynamic>(
+      return _i20.CustomPage<dynamic>(
         routeData: routeData,
         child: _i3.LoginView(
           onLoginCallback: args.onLoginCallback,
@@ -77,7 +78,7 @@ class StackedRouterWeb extends _i19.RootStackRouter {
       );
     },
     VerifyEmailViewRoute.name: (routeData) {
-      return _i19.CustomPage<dynamic>(
+      return _i20.CustomPage<dynamic>(
         routeData: routeData,
         child: const _i4.VerifyEmailView(),
         opaque: true,
@@ -85,7 +86,7 @@ class StackedRouterWeb extends _i19.RootStackRouter {
       );
     },
     AddUserDataViewRoute.name: (routeData) {
-      return _i19.CustomPage<dynamic>(
+      return _i20.CustomPage<dynamic>(
         routeData: routeData,
         child: const _i5.AddUserDataView(),
         opaque: true,
@@ -93,81 +94,87 @@ class StackedRouterWeb extends _i19.RootStackRouter {
       );
     },
     CreateBusinessProfileViewRoute.name: (routeData) {
-      return _i19.CustomPage<dynamic>(
+      return _i20.CustomPage<dynamic>(
         routeData: routeData,
         child: const _i6.CreateBusinessProfileView(),
         opaque: true,
         barrierDismissible: false,
       );
     },
-    UnknownViewRoute.name: (routeData) {
-      return _i19.CustomPage<dynamic>(
+    TermsAndConditionsViewRoute.name: (routeData) {
+      return _i20.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i7.UnknownView(),
+        child: const _i7.TermsAndConditionsView(),
+      );
+    },
+    UnknownViewRoute.name: (routeData) {
+      return _i20.CustomPage<dynamic>(
+        routeData: routeData,
+        child: const _i8.UnknownView(),
         opaque: true,
         barrierDismissible: false,
       );
     },
     OverviewViewRoute.name: (routeData) {
-      return _i19.CustomPage<dynamic>(
+      return _i20.CustomPage<dynamic>(
         routeData: routeData,
-        child: const _i8.OverviewView(),
+        child: const _i9.OverviewView(),
         opaque: true,
         barrierDismissible: false,
       );
     },
     FamilyViewRoute.name: (routeData) {
-      return _i19.CustomPage<dynamic>(
+      return _i20.CustomPage<dynamic>(
         routeData: routeData,
-        child: const _i9.FamilyView(),
+        child: const _i10.FamilyView(),
         opaque: true,
         barrierDismissible: false,
       );
     },
     HotDesksViewRoute.name: (routeData) {
-      return _i19.CustomPage<dynamic>(
+      return _i20.CustomPage<dynamic>(
         routeData: routeData,
-        child: const _i10.HotDesksView(),
+        child: const _i11.HotDesksView(),
         opaque: true,
         barrierDismissible: false,
       );
     },
     MeetingRoomViewRoute.name: (routeData) {
-      return _i19.CustomPage<dynamic>(
+      return _i20.CustomPage<dynamic>(
         routeData: routeData,
-        child: const _i11.MeetingRoomView(),
+        child: const _i12.MeetingRoomView(),
         opaque: true,
         barrierDismissible: false,
       );
     },
     BillingViewRoute.name: (routeData) {
-      return _i19.CustomPage<dynamic>(
+      return _i20.CustomPage<dynamic>(
         routeData: routeData,
-        child: const _i12.BillingView(),
+        child: const _i13.BillingView(),
         opaque: true,
         barrierDismissible: false,
       );
     },
     ProfileViewRoute.name: (routeData) {
-      return _i19.CustomPage<dynamic>(
+      return _i20.CustomPage<dynamic>(
         routeData: routeData,
-        child: const _i13.ProfileView(),
+        child: const _i14.ProfileView(),
         opaque: true,
         barrierDismissible: false,
       );
     },
     BookingsViewRoute.name: (routeData) {
-      return _i19.CustomPage<dynamic>(
+      return _i20.CustomPage<dynamic>(
         routeData: routeData,
-        child: const _i14.BookingsView(),
+        child: const _i15.BookingsView(),
         opaque: true,
         barrierDismissible: false,
       );
     },
     InvoicesViewRoute.name: (routeData) {
-      return _i19.CustomPage<dynamic>(
+      return _i20.CustomPage<dynamic>(
         routeData: routeData,
-        child: const _i15.InvoicesView(),
+        child: const _i16.InvoicesView(),
         opaque: true,
         barrierDismissible: false,
       );
@@ -175,12 +182,12 @@ class StackedRouterWeb extends _i19.RootStackRouter {
   };
 
   @override
-  List<_i19.RouteConfig> get routes => [
-        _i19.RouteConfig(
+  List<_i20.RouteConfig> get routes => [
+        _i20.RouteConfig(
           StartupViewRoute.name,
           path: '/',
         ),
-        _i19.RouteConfig(
+        _i20.RouteConfig(
           HomeViewRoute.name,
           path: '/',
           guards: [
@@ -188,65 +195,65 @@ class StackedRouterWeb extends _i19.RootStackRouter {
             emailVerifiedGuard,
           ],
           children: [
-            _i19.RouteConfig(
+            _i20.RouteConfig(
               '#redirect',
               path: '',
               parent: HomeViewRoute.name,
               redirectTo: 'family',
               fullMatch: true,
             ),
-            _i19.RouteConfig(
+            _i20.RouteConfig(
               OverviewViewRoute.name,
               path: 'overview',
               parent: HomeViewRoute.name,
             ),
-            _i19.RouteConfig(
+            _i20.RouteConfig(
               FamilyViewRoute.name,
               path: 'family',
               parent: HomeViewRoute.name,
             ),
-            _i19.RouteConfig(
+            _i20.RouteConfig(
               HotDesksViewRoute.name,
               path: 'hot-desks',
               parent: HomeViewRoute.name,
             ),
-            _i19.RouteConfig(
+            _i20.RouteConfig(
               MeetingRoomViewRoute.name,
               path: 'meeting-room',
               parent: HomeViewRoute.name,
             ),
-            _i19.RouteConfig(
+            _i20.RouteConfig(
               BillingViewRoute.name,
               path: 'billing',
               parent: HomeViewRoute.name,
             ),
-            _i19.RouteConfig(
+            _i20.RouteConfig(
               ProfileViewRoute.name,
               path: 'profile',
               parent: HomeViewRoute.name,
             ),
-            _i19.RouteConfig(
+            _i20.RouteConfig(
               BookingsViewRoute.name,
               path: 'bookings',
               parent: HomeViewRoute.name,
             ),
-            _i19.RouteConfig(
+            _i20.RouteConfig(
               InvoicesViewRoute.name,
               path: 'invoices',
               parent: HomeViewRoute.name,
             ),
           ],
         ),
-        _i19.RouteConfig(
+        _i20.RouteConfig(
           LoginViewRoute.name,
           path: '/login',
         ),
-        _i19.RouteConfig(
+        _i20.RouteConfig(
           VerifyEmailViewRoute.name,
           path: '/email-verification',
           guards: [authenticationGuard],
         ),
-        _i19.RouteConfig(
+        _i20.RouteConfig(
           AddUserDataViewRoute.name,
           path: '/setup-account',
           guards: [
@@ -254,7 +261,7 @@ class StackedRouterWeb extends _i19.RootStackRouter {
             emailVerifiedGuard,
           ],
         ),
-        _i19.RouteConfig(
+        _i20.RouteConfig(
           CreateBusinessProfileViewRoute.name,
           path: '/my-profile',
           guards: [
@@ -262,11 +269,15 @@ class StackedRouterWeb extends _i19.RootStackRouter {
             emailVerifiedGuard,
           ],
         ),
-        _i19.RouteConfig(
+        _i20.RouteConfig(
+          TermsAndConditionsViewRoute.name,
+          path: '/terms-and-conditions-view',
+        ),
+        _i20.RouteConfig(
           UnknownViewRoute.name,
           path: '/404',
         ),
-        _i19.RouteConfig(
+        _i20.RouteConfig(
           '*#redirect',
           path: '*',
           redirectTo: '/404',
@@ -277,7 +288,7 @@ class StackedRouterWeb extends _i19.RootStackRouter {
 
 /// generated route for
 /// [_i1.StartupView]
-class StartupViewRoute extends _i19.PageRouteInfo<void> {
+class StartupViewRoute extends _i20.PageRouteInfo<void> {
   const StartupViewRoute()
       : super(
           StartupViewRoute.name,
@@ -289,8 +300,8 @@ class StartupViewRoute extends _i19.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i2.HomeView]
-class HomeViewRoute extends _i19.PageRouteInfo<void> {
-  const HomeViewRoute({List<_i19.PageRouteInfo>? children})
+class HomeViewRoute extends _i20.PageRouteInfo<void> {
+  const HomeViewRoute({List<_i20.PageRouteInfo>? children})
       : super(
           HomeViewRoute.name,
           path: '/',
@@ -302,10 +313,10 @@ class HomeViewRoute extends _i19.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i3.LoginView]
-class LoginViewRoute extends _i19.PageRouteInfo<LoginViewArgs> {
+class LoginViewRoute extends _i20.PageRouteInfo<LoginViewArgs> {
   LoginViewRoute({
     dynamic Function(bool)? onLoginCallback,
-    _i20.Key? key,
+    _i21.Key? key,
   }) : super(
           LoginViewRoute.name,
           path: '/login',
@@ -326,7 +337,7 @@ class LoginViewArgs {
 
   final dynamic Function(bool)? onLoginCallback;
 
-  final _i20.Key? key;
+  final _i21.Key? key;
 
   @override
   String toString() {
@@ -336,7 +347,7 @@ class LoginViewArgs {
 
 /// generated route for
 /// [_i4.VerifyEmailView]
-class VerifyEmailViewRoute extends _i19.PageRouteInfo<void> {
+class VerifyEmailViewRoute extends _i20.PageRouteInfo<void> {
   const VerifyEmailViewRoute()
       : super(
           VerifyEmailViewRoute.name,
@@ -348,7 +359,7 @@ class VerifyEmailViewRoute extends _i19.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i5.AddUserDataView]
-class AddUserDataViewRoute extends _i19.PageRouteInfo<void> {
+class AddUserDataViewRoute extends _i20.PageRouteInfo<void> {
   const AddUserDataViewRoute()
       : super(
           AddUserDataViewRoute.name,
@@ -360,7 +371,7 @@ class AddUserDataViewRoute extends _i19.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i6.CreateBusinessProfileView]
-class CreateBusinessProfileViewRoute extends _i19.PageRouteInfo<void> {
+class CreateBusinessProfileViewRoute extends _i20.PageRouteInfo<void> {
   const CreateBusinessProfileViewRoute()
       : super(
           CreateBusinessProfileViewRoute.name,
@@ -371,8 +382,20 @@ class CreateBusinessProfileViewRoute extends _i19.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i7.UnknownView]
-class UnknownViewRoute extends _i19.PageRouteInfo<void> {
+/// [_i7.TermsAndConditionsView]
+class TermsAndConditionsViewRoute extends _i20.PageRouteInfo<void> {
+  const TermsAndConditionsViewRoute()
+      : super(
+          TermsAndConditionsViewRoute.name,
+          path: '/terms-and-conditions-view',
+        );
+
+  static const String name = 'TermsAndConditionsView';
+}
+
+/// generated route for
+/// [_i8.UnknownView]
+class UnknownViewRoute extends _i20.PageRouteInfo<void> {
   const UnknownViewRoute()
       : super(
           UnknownViewRoute.name,
@@ -383,8 +406,8 @@ class UnknownViewRoute extends _i19.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i8.OverviewView]
-class OverviewViewRoute extends _i19.PageRouteInfo<void> {
+/// [_i9.OverviewView]
+class OverviewViewRoute extends _i20.PageRouteInfo<void> {
   const OverviewViewRoute()
       : super(
           OverviewViewRoute.name,
@@ -395,8 +418,8 @@ class OverviewViewRoute extends _i19.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i9.FamilyView]
-class FamilyViewRoute extends _i19.PageRouteInfo<void> {
+/// [_i10.FamilyView]
+class FamilyViewRoute extends _i20.PageRouteInfo<void> {
   const FamilyViewRoute()
       : super(
           FamilyViewRoute.name,
@@ -407,8 +430,8 @@ class FamilyViewRoute extends _i19.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i10.HotDesksView]
-class HotDesksViewRoute extends _i19.PageRouteInfo<void> {
+/// [_i11.HotDesksView]
+class HotDesksViewRoute extends _i20.PageRouteInfo<void> {
   const HotDesksViewRoute()
       : super(
           HotDesksViewRoute.name,
@@ -419,8 +442,8 @@ class HotDesksViewRoute extends _i19.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i11.MeetingRoomView]
-class MeetingRoomViewRoute extends _i19.PageRouteInfo<void> {
+/// [_i12.MeetingRoomView]
+class MeetingRoomViewRoute extends _i20.PageRouteInfo<void> {
   const MeetingRoomViewRoute()
       : super(
           MeetingRoomViewRoute.name,
@@ -431,8 +454,8 @@ class MeetingRoomViewRoute extends _i19.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i12.BillingView]
-class BillingViewRoute extends _i19.PageRouteInfo<void> {
+/// [_i13.BillingView]
+class BillingViewRoute extends _i20.PageRouteInfo<void> {
   const BillingViewRoute()
       : super(
           BillingViewRoute.name,
@@ -443,8 +466,8 @@ class BillingViewRoute extends _i19.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i13.ProfileView]
-class ProfileViewRoute extends _i19.PageRouteInfo<void> {
+/// [_i14.ProfileView]
+class ProfileViewRoute extends _i20.PageRouteInfo<void> {
   const ProfileViewRoute()
       : super(
           ProfileViewRoute.name,
@@ -455,8 +478,8 @@ class ProfileViewRoute extends _i19.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i14.BookingsView]
-class BookingsViewRoute extends _i19.PageRouteInfo<void> {
+/// [_i15.BookingsView]
+class BookingsViewRoute extends _i20.PageRouteInfo<void> {
   const BookingsViewRoute()
       : super(
           BookingsViewRoute.name,
@@ -467,8 +490,8 @@ class BookingsViewRoute extends _i19.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i15.InvoicesView]
-class InvoicesViewRoute extends _i19.PageRouteInfo<void> {
+/// [_i16.InvoicesView]
+class InvoicesViewRoute extends _i20.PageRouteInfo<void> {
   const InvoicesViewRoute()
       : super(
           InvoicesViewRoute.name,
@@ -478,9 +501,9 @@ class InvoicesViewRoute extends _i19.PageRouteInfo<void> {
   static const String name = 'InvoicesView';
 }
 
-extension RouterStateExtension on _i16.RouterService {
+extension RouterStateExtension on _i17.RouterService {
   Future<dynamic> navigateToStartupView(
-      {void Function(_i19.NavigationFailure)? onFailure}) async {
+      {void Function(_i20.NavigationFailure)? onFailure}) async {
     return navigateTo(
       const StartupViewRoute(),
       onFailure: onFailure,
@@ -488,7 +511,7 @@ extension RouterStateExtension on _i16.RouterService {
   }
 
   Future<dynamic> navigateToHomeView(
-      {void Function(_i19.NavigationFailure)? onFailure}) async {
+      {void Function(_i20.NavigationFailure)? onFailure}) async {
     return navigateTo(
       const HomeViewRoute(),
       onFailure: onFailure,
@@ -497,8 +520,8 @@ extension RouterStateExtension on _i16.RouterService {
 
   Future<dynamic> navigateToLoginView({
     dynamic Function(bool)? onLoginCallback,
-    _i20.Key? key,
-    void Function(_i19.NavigationFailure)? onFailure,
+    _i21.Key? key,
+    void Function(_i20.NavigationFailure)? onFailure,
   }) async {
     return navigateTo(
       LoginViewRoute(
@@ -510,7 +533,7 @@ extension RouterStateExtension on _i16.RouterService {
   }
 
   Future<dynamic> navigateToVerifyEmailView(
-      {void Function(_i19.NavigationFailure)? onFailure}) async {
+      {void Function(_i20.NavigationFailure)? onFailure}) async {
     return navigateTo(
       const VerifyEmailViewRoute(),
       onFailure: onFailure,
@@ -518,7 +541,7 @@ extension RouterStateExtension on _i16.RouterService {
   }
 
   Future<dynamic> navigateToAddUserDataView(
-      {void Function(_i19.NavigationFailure)? onFailure}) async {
+      {void Function(_i20.NavigationFailure)? onFailure}) async {
     return navigateTo(
       const AddUserDataViewRoute(),
       onFailure: onFailure,
@@ -526,15 +549,23 @@ extension RouterStateExtension on _i16.RouterService {
   }
 
   Future<dynamic> navigateToCreateBusinessProfileView(
-      {void Function(_i19.NavigationFailure)? onFailure}) async {
+      {void Function(_i20.NavigationFailure)? onFailure}) async {
     return navigateTo(
       const CreateBusinessProfileViewRoute(),
       onFailure: onFailure,
     );
   }
 
+  Future<dynamic> navigateToTermsAndConditionsView(
+      {void Function(_i20.NavigationFailure)? onFailure}) async {
+    return navigateTo(
+      const TermsAndConditionsViewRoute(),
+      onFailure: onFailure,
+    );
+  }
+
   Future<dynamic> navigateToUnknownView(
-      {void Function(_i19.NavigationFailure)? onFailure}) async {
+      {void Function(_i20.NavigationFailure)? onFailure}) async {
     return navigateTo(
       const UnknownViewRoute(),
       onFailure: onFailure,
@@ -542,7 +573,7 @@ extension RouterStateExtension on _i16.RouterService {
   }
 
   Future<dynamic> navigateToOverviewView(
-      {void Function(_i19.NavigationFailure)? onFailure}) async {
+      {void Function(_i20.NavigationFailure)? onFailure}) async {
     return navigateTo(
       const OverviewViewRoute(),
       onFailure: onFailure,
@@ -550,7 +581,7 @@ extension RouterStateExtension on _i16.RouterService {
   }
 
   Future<dynamic> navigateToFamilyView(
-      {void Function(_i19.NavigationFailure)? onFailure}) async {
+      {void Function(_i20.NavigationFailure)? onFailure}) async {
     return navigateTo(
       const FamilyViewRoute(),
       onFailure: onFailure,
@@ -558,7 +589,7 @@ extension RouterStateExtension on _i16.RouterService {
   }
 
   Future<dynamic> navigateToHotDesksView(
-      {void Function(_i19.NavigationFailure)? onFailure}) async {
+      {void Function(_i20.NavigationFailure)? onFailure}) async {
     return navigateTo(
       const HotDesksViewRoute(),
       onFailure: onFailure,
@@ -566,7 +597,7 @@ extension RouterStateExtension on _i16.RouterService {
   }
 
   Future<dynamic> navigateToMeetingRoomView(
-      {void Function(_i19.NavigationFailure)? onFailure}) async {
+      {void Function(_i20.NavigationFailure)? onFailure}) async {
     return navigateTo(
       const MeetingRoomViewRoute(),
       onFailure: onFailure,
@@ -574,7 +605,7 @@ extension RouterStateExtension on _i16.RouterService {
   }
 
   Future<dynamic> navigateToBillingView(
-      {void Function(_i19.NavigationFailure)? onFailure}) async {
+      {void Function(_i20.NavigationFailure)? onFailure}) async {
     return navigateTo(
       const BillingViewRoute(),
       onFailure: onFailure,
@@ -582,7 +613,7 @@ extension RouterStateExtension on _i16.RouterService {
   }
 
   Future<dynamic> navigateToProfileView(
-      {void Function(_i19.NavigationFailure)? onFailure}) async {
+      {void Function(_i20.NavigationFailure)? onFailure}) async {
     return navigateTo(
       const ProfileViewRoute(),
       onFailure: onFailure,
@@ -590,7 +621,7 @@ extension RouterStateExtension on _i16.RouterService {
   }
 
   Future<dynamic> navigateToBookingsView(
-      {void Function(_i19.NavigationFailure)? onFailure}) async {
+      {void Function(_i20.NavigationFailure)? onFailure}) async {
     return navigateTo(
       const BookingsViewRoute(),
       onFailure: onFailure,
@@ -598,7 +629,7 @@ extension RouterStateExtension on _i16.RouterService {
   }
 
   Future<dynamic> navigateToInvoicesView(
-      {void Function(_i19.NavigationFailure)? onFailure}) async {
+      {void Function(_i20.NavigationFailure)? onFailure}) async {
     return navigateTo(
       const InvoicesViewRoute(),
       onFailure: onFailure,
@@ -606,7 +637,7 @@ extension RouterStateExtension on _i16.RouterService {
   }
 
   Future<dynamic> replaceWithStartupView(
-      {void Function(_i19.NavigationFailure)? onFailure}) async {
+      {void Function(_i20.NavigationFailure)? onFailure}) async {
     return replaceWith(
       const StartupViewRoute(),
       onFailure: onFailure,
@@ -614,7 +645,7 @@ extension RouterStateExtension on _i16.RouterService {
   }
 
   Future<dynamic> replaceWithHomeView(
-      {void Function(_i19.NavigationFailure)? onFailure}) async {
+      {void Function(_i20.NavigationFailure)? onFailure}) async {
     return replaceWith(
       const HomeViewRoute(),
       onFailure: onFailure,
@@ -623,8 +654,8 @@ extension RouterStateExtension on _i16.RouterService {
 
   Future<dynamic> replaceWithLoginView({
     dynamic Function(bool)? onLoginCallback,
-    _i20.Key? key,
-    void Function(_i19.NavigationFailure)? onFailure,
+    _i21.Key? key,
+    void Function(_i20.NavigationFailure)? onFailure,
   }) async {
     return replaceWith(
       LoginViewRoute(
@@ -636,7 +667,7 @@ extension RouterStateExtension on _i16.RouterService {
   }
 
   Future<dynamic> replaceWithVerifyEmailView(
-      {void Function(_i19.NavigationFailure)? onFailure}) async {
+      {void Function(_i20.NavigationFailure)? onFailure}) async {
     return replaceWith(
       const VerifyEmailViewRoute(),
       onFailure: onFailure,
@@ -644,7 +675,7 @@ extension RouterStateExtension on _i16.RouterService {
   }
 
   Future<dynamic> replaceWithAddUserDataView(
-      {void Function(_i19.NavigationFailure)? onFailure}) async {
+      {void Function(_i20.NavigationFailure)? onFailure}) async {
     return replaceWith(
       const AddUserDataViewRoute(),
       onFailure: onFailure,
@@ -652,15 +683,23 @@ extension RouterStateExtension on _i16.RouterService {
   }
 
   Future<dynamic> replaceWithCreateBusinessProfileView(
-      {void Function(_i19.NavigationFailure)? onFailure}) async {
+      {void Function(_i20.NavigationFailure)? onFailure}) async {
     return replaceWith(
       const CreateBusinessProfileViewRoute(),
       onFailure: onFailure,
     );
   }
 
+  Future<dynamic> replaceWithTermsAndConditionsView(
+      {void Function(_i20.NavigationFailure)? onFailure}) async {
+    return replaceWith(
+      const TermsAndConditionsViewRoute(),
+      onFailure: onFailure,
+    );
+  }
+
   Future<dynamic> replaceWithUnknownView(
-      {void Function(_i19.NavigationFailure)? onFailure}) async {
+      {void Function(_i20.NavigationFailure)? onFailure}) async {
     return replaceWith(
       const UnknownViewRoute(),
       onFailure: onFailure,
@@ -668,7 +707,7 @@ extension RouterStateExtension on _i16.RouterService {
   }
 
   Future<dynamic> replaceWithOverviewView(
-      {void Function(_i19.NavigationFailure)? onFailure}) async {
+      {void Function(_i20.NavigationFailure)? onFailure}) async {
     return replaceWith(
       const OverviewViewRoute(),
       onFailure: onFailure,
@@ -676,7 +715,7 @@ extension RouterStateExtension on _i16.RouterService {
   }
 
   Future<dynamic> replaceWithFamilyView(
-      {void Function(_i19.NavigationFailure)? onFailure}) async {
+      {void Function(_i20.NavigationFailure)? onFailure}) async {
     return replaceWith(
       const FamilyViewRoute(),
       onFailure: onFailure,
@@ -684,7 +723,7 @@ extension RouterStateExtension on _i16.RouterService {
   }
 
   Future<dynamic> replaceWithHotDesksView(
-      {void Function(_i19.NavigationFailure)? onFailure}) async {
+      {void Function(_i20.NavigationFailure)? onFailure}) async {
     return replaceWith(
       const HotDesksViewRoute(),
       onFailure: onFailure,
@@ -692,7 +731,7 @@ extension RouterStateExtension on _i16.RouterService {
   }
 
   Future<dynamic> replaceWithMeetingRoomView(
-      {void Function(_i19.NavigationFailure)? onFailure}) async {
+      {void Function(_i20.NavigationFailure)? onFailure}) async {
     return replaceWith(
       const MeetingRoomViewRoute(),
       onFailure: onFailure,
@@ -700,7 +739,7 @@ extension RouterStateExtension on _i16.RouterService {
   }
 
   Future<dynamic> replaceWithBillingView(
-      {void Function(_i19.NavigationFailure)? onFailure}) async {
+      {void Function(_i20.NavigationFailure)? onFailure}) async {
     return replaceWith(
       const BillingViewRoute(),
       onFailure: onFailure,
@@ -708,7 +747,7 @@ extension RouterStateExtension on _i16.RouterService {
   }
 
   Future<dynamic> replaceWithProfileView(
-      {void Function(_i19.NavigationFailure)? onFailure}) async {
+      {void Function(_i20.NavigationFailure)? onFailure}) async {
     return replaceWith(
       const ProfileViewRoute(),
       onFailure: onFailure,
@@ -716,7 +755,7 @@ extension RouterStateExtension on _i16.RouterService {
   }
 
   Future<dynamic> replaceWithBookingsView(
-      {void Function(_i19.NavigationFailure)? onFailure}) async {
+      {void Function(_i20.NavigationFailure)? onFailure}) async {
     return replaceWith(
       const BookingsViewRoute(),
       onFailure: onFailure,
@@ -724,7 +763,7 @@ extension RouterStateExtension on _i16.RouterService {
   }
 
   Future<dynamic> replaceWithInvoicesView(
-      {void Function(_i19.NavigationFailure)? onFailure}) async {
+      {void Function(_i20.NavigationFailure)? onFailure}) async {
     return replaceWith(
       const InvoicesViewRoute(),
       onFailure: onFailure,

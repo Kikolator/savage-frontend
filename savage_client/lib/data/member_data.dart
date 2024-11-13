@@ -1,3 +1,4 @@
+import 'package:savage_client/app/app.logger.dart';
 import 'package:savage_client/data/enums/membership_status.dart';
 
 class MemberData {
@@ -19,7 +20,7 @@ class MemberData {
   String firstName;
   String lastName;
   final bool memberVisible;
-  final MembershipStatus membershipStatus;
+  final MembershipStatus? membershipStatus;
   final String? companyName;
   final String? description;
   final String? website;
@@ -43,21 +44,29 @@ class MemberData {
   });
 
   factory MemberData.fromData(Map<String, dynamic> data) {
-    return MemberData(
-      id: data[kId],
-      uid: data[kUid],
-      memberVisible: data[kMemberVisible],
-      membershipStatus: MembershipStatus.values
-          .firstWhere((e) => e.name == data[kMembershipStatus]),
-      companyName: data[kCompanyName],
-      firstName: data[kFirstName],
-      lastName: data[kLastName],
-      description: data[kDescription],
-      website: data[kWebsite],
-      companyEmail: data[kCompanyEmail],
-      companyPhone: data[kCompanyPhone],
-      photoUrl: data[kPhotoUrl],
-    );
+    try {
+      getLogger('MemberData').d('creating member data from data');
+      return MemberData(
+        id: data[kId],
+        uid: data[kUid],
+        memberVisible: data[kMemberVisible],
+        membershipStatus: data[kMembershipStatus] != null
+            ? MembershipStatus.values
+                .firstWhere((e) => e.name == data[kMembershipStatus])
+            : null,
+        companyName: data[kCompanyName],
+        firstName: data[kFirstName],
+        lastName: data[kLastName],
+        description: data[kDescription],
+        website: data[kWebsite],
+        companyEmail: data[kCompanyEmail],
+        companyPhone: data[kCompanyPhone],
+        photoUrl: data[kPhotoUrl],
+      );
+    } catch (error) {
+      getLogger('MemberData').e(error);
+      rethrow;
+    }
   }
 
   Map<String, dynamic> toData() {
@@ -65,7 +74,7 @@ class MemberData {
       kId: id,
       kUid: uid,
       kMemberVisible: memberVisible,
-      kMembershipStatus: membershipStatus.name,
+      kMembershipStatus: membershipStatus?.name,
       kCompanyName: companyName,
       kFirstName: firstName,
       kLastName: lastName,

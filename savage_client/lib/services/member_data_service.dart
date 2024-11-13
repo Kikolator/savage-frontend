@@ -19,7 +19,7 @@ class MemberDataService {
 
   /// Fetch the user member data
   Future<MemberData> getUserMemberData({required String memberDataId}) async {
-    _logger.d('getting user member data');
+    _logger.v('getting user member data');
     final Map<String, dynamic> data =
         await _databaseService.getUserMemberData(memberDataId: memberDataId);
     _memberData = MemberData.fromData(data);
@@ -44,15 +44,22 @@ class MemberDataService {
 
   /// Query the workspace member data
   Future<List<MemberData>> queryWorkspaceMembers() async {
+    _logger.v('querying workspace members');
     final List<Map<String, dynamic>> memberData =
         await _databaseService.queryMemberData();
     _workspaceMembers =
         memberData.map((data) => MemberData.fromData(data)).toList();
+    _logger.v('removing empty members');
     for (MemberData memberData in _workspaceMembers) {
       if (memberData.isEmpty) {
         _workspaceMembers.remove(memberData);
       }
     }
     return _workspaceMembers;
+  }
+
+  void dispose() {
+    _memberData = null;
+    _workspaceMembers.clear();
   }
 }

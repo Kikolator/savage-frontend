@@ -78,7 +78,7 @@ class HomeViewModel extends IndexTrackingViewModel {
     setBusyForObject(kCheckInOutBusyObject, true);
     _checkedIn = !_checkedIn;
     await _userService.setCheckInOut(_checkedIn);
-    _user?.setCheckedIn(_checkedIn);
+    _user?.checkedIn = _checkedIn;
     setBusyForObject(kCheckInOutBusyObject, false);
     // Show snackbar
     if (_checkedIn) {
@@ -121,13 +121,13 @@ class HomeViewModel extends IndexTrackingViewModel {
           selected: currentIndex == kHotDesksViewIndex,
           onSelected: () => setIndex(kHotDesksViewIndex),
         ),
-        // DrawerMenuButton(
-        //   title: kMeetingRoomViewTitle,
-        //   icon: kMeetingRoomViewIconData,
-        //   route: const MeetingRoomViewRoute(),
-        //   selected: currentIndex == kMeetingRoomViewIndex,
-        //   onSelected: () => setIndex(kMeetingRoomViewIndex),
-        // ),
+        DrawerMenuButton(
+          title: kMeetingRoomViewTitle,
+          icon: kMeetingRoomViewIconData,
+          route: const MeetingRoomViewRoute(),
+          selected: currentIndex == kMeetingRoomViewIndex,
+          onSelected: () => setIndex(kMeetingRoomViewIndex),
+        ),
         // DrawerMenuButton(
         //   title: kBillingViewTitle,
         //   icon: kBillingViewIconData,

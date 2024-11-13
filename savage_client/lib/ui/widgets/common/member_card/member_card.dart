@@ -34,6 +34,7 @@ class MemberCard extends StackedView<MemberCardModel> {
                 children: [
                   // Profile pic
                   ProfileButton(
+                    key: key,
                     buttonActive: false,
                     photoUrl: memberData.photoUrl,
                   ),

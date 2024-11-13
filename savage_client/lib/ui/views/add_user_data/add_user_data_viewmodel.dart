@@ -1,4 +1,3 @@
-import 'package:board_datetime_picker/board_datetime_picker.dart';
 import 'package:savage_client/app/app.locator.dart';
 import 'package:savage_client/app/app.logger.dart';
 import 'package:savage_client/app/app.router.dart';
@@ -18,12 +17,15 @@ class AddUserDataViewModel extends FormViewModel {
   bool _showValidationMessages = false;
   bool get showValidationMessages => _showValidationMessages;
 
-  DateTime? _dateOfBirthValue;
-  DateTime? get dateOfBirthValue => _dateOfBirthValue;
+  // DateTime? _dateOfBirthValue;
+  // DateTime? get dateOfBirthValue => _dateOfBirthValue;
 
-  final _dateOfBirthController = BoardDateTimeTextController();
-  BoardDateTimeTextController get dateOfBirthController =>
-      _dateOfBirthController;
+  // final _dateOfBirthController = BoardDateTimeTextController();
+  // BoardDateTimeTextController get dateOfBirthController =>
+  //     _dateOfBirthController;
+
+  bool _termsAccepted = false;
+  bool get termsAccepted => _termsAccepted;
 
   Future<void> initialise() async {
     try {
@@ -34,7 +36,6 @@ class AddUserDataViewModel extends FormViewModel {
       if (user == null) {
         _logger.v('user is null');
         _contactEmail = _userService.getSignupEmail;
-        contactEmailValue = _contactEmail;
         // contactPhoneValue = _userService.getSignupPhone;
         // setFirstNameValidationMessage(null);
         // setLastNameValidationMessage(null);
@@ -43,17 +44,12 @@ class AddUserDataViewModel extends FormViewModel {
       } else {
         _logger.v('user is not null');
         _logger.v(user.toString());
-        _contactEmail = user.contactEmail;
-        contactEmailValue = user.contactEmail;
         firstNameValue = user.firstName;
         lastNameValue = user.lastName;
-        contactEmailValue = user.contactEmail;
-        contactPhoneValue = user.contactPhone;
-        phoneWhatsappValue = user.phoneWhatsapp;
-        if (user.dateOfBirth != null) {
-          _dateOfBirthController.setDate(user.dateOfBirth!);
-        }
-        _dateOfBirthValue = user.dateOfBirth;
+        contactPhoneValue = user.signupPhone;
+        phoneWhatsappValue = user.whatsappPhone;
+        // _dateOfBirthController.setDate(user.dateOfBirth);
+        // _dateOfBirthValue = user.dateOfBirth;
       }
     } catch (error) {
       _logger.e('error on initialise');
@@ -71,22 +67,23 @@ class AddUserDataViewModel extends FormViewModel {
       setError(null);
       if (hasFirstName &&
           hasLastName &&
-          hasContactEmail &&
           hasContactPhone &&
           !hasAnyValidationMessage &&
-          _dateOfBirthValue != null) {
+          hasDob &&
+          _termsAccepted) {
         _logger.v('form validated');
         phoneWhatsappValue =
             phoneWhatsappValue == null || phoneWhatsappValue!.isEmpty
                 ? contactPhoneValue
                 : phoneWhatsappValue;
         await _userService.createUser(
-            firstName: firstNameValue!,
-            lastName: lastNameValue!,
-            dateOfBirth: _dateOfBirthValue!,
-            contactEmail: contactEmailValue!,
-            phoneWhatsapp: phoneWhatsappValue!,
-            contactPhone: contactPhoneValue!);
+          firstName: firstNameValue!,
+          lastName: lastNameValue!,
+          dateOfBirth: dobValue!,
+          phoneWhatsapp: phoneWhatsappValue!,
+          contactPhone: contactPhoneValue!,
+          termsAndConditionsVersion: '0.1',
+        );
         _logger.v('navigating to business profile view');
         _routerService.navigateToCreateBusinessProfileView();
       } else {
@@ -102,8 +99,23 @@ class AddUserDataViewModel extends FormViewModel {
     }
   }
 
-  void setDateOfBirth(DateTime date) {
-    // TODO check date of birth is in the past.
-    _dateOfBirthValue = date;
+  // void setDateOfBirth(DateTime date) {
+  //   // TODO check date of birth is in the past.
+  //   _dateOfBirthValue = date;
+  // }
+
+  void acceptTerms(bool? value) {
+    if (value != null) {
+      _termsAccepted = value;
+      rebuildUi();
+    }
+  }
+
+  Future<void> navigateToTermsAndConditions() async {
+    final result = await _routerService.navigateToTermsAndConditionsView();
+    if (result != null && result) {
+      _termsAccepted = true;
+      rebuildUi();
+    }
   }
 }

@@ -14,6 +14,7 @@ import 'package:savage_client/services/desks_service.dart';
 import 'package:savage_client/services/member_data_service.dart';
 import 'package:savage_client/services/dependency_wrappers/image_picker_service.dart';
 import 'package:savage_client/services/dependency_wrappers/url_launcher_service.dart';
+import 'package:savage_client/services/meeting_room_service.dart';
 // @stacked-import
 
 import 'test_helpers.mocks.dart';
@@ -34,6 +35,7 @@ import 'test_helpers.mocks.dart';
   MockSpec<MemberDataService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<ImagePickerService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<UrlLauncherService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<MeetingRoomService>(onMissingStub: OnMissingStub.returnDefault),
 // @stacked-mock-spec
 ])
 void registerServices() {
@@ -52,6 +54,7 @@ void registerServices() {
   getAndRegisterMemberDataService();
   getAndRegisterImagePickerService();
   getAndRegisterUrlLauncherService();
+  getAndRegisterMeetingRoomService();
 // @stacked-mock-register
 }
 
@@ -186,6 +189,13 @@ MockUrlLauncherService getAndRegisterUrlLauncherService() {
   _removeRegistrationIfExists<UrlLauncherService>();
   final service = MockUrlLauncherService();
   locator.registerSingleton<UrlLauncherService>(service);
+  return service;
+}
+
+MockMeetingRoomService getAndRegisterMeetingRoomService() {
+  _removeRegistrationIfExists<MeetingRoomService>();
+  final service = MockMeetingRoomService();
+  locator.registerSingleton<MeetingRoomService>(service);
   return service;
 }
 // @stacked-mock-create

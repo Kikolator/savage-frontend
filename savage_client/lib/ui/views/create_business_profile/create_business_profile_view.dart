@@ -56,7 +56,6 @@ class CreateBusinessProfileView
                 children: [
                   verticalSpaceMedium,
                   // profile pic
-                  const Text('Profile Picture:'),
                   Center(
                     child: ImageUploader(
                       imageUrl: viewModel.photoUrl,
@@ -65,33 +64,66 @@ class CreateBusinessProfileView
                   ),
                   verticalSpaceMedium,
                   // Company name
-                  const Text('Business Name:'),
-                  verticalSpaceSmall,
-                  TextFormField(controller: companyNameController),
+                  TextFormField(
+                    controller: companyNameController,
+                    decoration: const InputDecoration(
+                      labelText: 'Business Name',
+                      border: OutlineInputBorder(),
+                      filled: true,
+                      fillColor: Colors.white,
+                    ),
+                    focusNode: companyNameFocusNode,
+                  ),
                   verticalSpaceMedium,
                   // website
-                  const Text('Website:'),
-                  verticalSpaceSmall,
-                  TextFormField(controller: websiteController),
+                  TextFormField(
+                    controller: websiteController,
+                    decoration: const InputDecoration(
+                      labelText: 'Website',
+                      border: OutlineInputBorder(),
+                      filled: true,
+                      fillColor: Colors.white,
+                    ),
+                    focusNode: websiteFocusNode,
+                  ),
                   verticalSpaceMedium,
                   // Company phone
-                  const Text('Business Phone:'),
-                  verticalSpaceSmall,
-                  TextFormField(controller: companyPhoneController),
+                  TextFormField(
+                    controller: companyPhoneController,
+                    decoration: const InputDecoration(
+                      labelText: 'Business Phone',
+                      border: OutlineInputBorder(),
+                      filled: true,
+                      fillColor: Colors.white,
+                    ),
+                    focusNode: companyPhoneFocusNode,
+                  ),
                   verticalSpaceMedium,
                   // Company Email
-                  const Text('Business Email:'),
-                  verticalSpaceSmall,
-                  TextFormField(controller: companyEmailController),
+                  TextFormField(
+                    controller: companyEmailController,
+                    decoration: const InputDecoration(
+                      labelText: 'Contact Email',
+                      border: OutlineInputBorder(),
+                      filled: true,
+                      fillColor: Colors.white,
+                    ),
+                    focusNode: companyEmailFocusNode,
+                  ),
                   verticalSpaceMedium,
                   // description
-                  const Text('Description:'),
-                  verticalSpaceSmall,
                   TextFormField(
                     controller: descriptionController,
                     minLines: 1,
                     maxLines: 10,
                     maxLength: 500,
+                    decoration: const InputDecoration(
+                      labelText: 'Description',
+                      border: OutlineInputBorder(),
+                      filled: true,
+                      fillColor: Colors.white,
+                    ),
+                    focusNode: descriptionFocusNode,
                   ),
                   verticalSpaceMedium,
                   // socials

@@ -1,10 +1,9 @@
-import 'package:board_datetime_picker/board_datetime_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:savage_client/ui/common/ui_helpers.dart';
 import 'package:savage_client/ui/widgets/common/hot_desk_card/hot_desk_card.dart';
 import 'package:savage_client/ui/widgets/common/loader/loader.dart';
 import 'package:stacked/stacked.dart';
-
 import 'hot_desks_viewmodel.dart';
 
 class HotDesksView extends StackedView<DesksViewModel> {
@@ -21,8 +20,41 @@ class HotDesksView extends StackedView<DesksViewModel> {
     } else {
       return Scaffold(
         body: Column(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            if (viewModel.isAdmin) ...[
+              Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text('Admin functions:'),
+                      Row(
+                        children: [
+                          ElevatedButton(
+                            onPressed: viewModel.addDesk,
+                            child: const Text('Add Desk'),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10.0,
+                vertical: 8.0,
+              ),
+              child: Text(
+                'Book Hot Desk',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+            ),
             Card(
               margin: const EdgeInsets.symmetric(horizontal: 10),
               elevation: 0,
@@ -31,57 +63,63 @@ class HotDesksView extends StackedView<DesksViewModel> {
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
                   children: [
-                    SizedBox(
-                      width: 200,
-                      child: BoardDateTimeInputField(
-                        initialDate: viewModel.startDateTime,
-                        // Set readonly to true to hide keyboard
-                        readOnly: true,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Theme.of(context).scaffoldBackgroundColor,
-                          border: const OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                          ),
+                    // Date picker
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Date:',
+                          style:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: Colors.grey,
+                                  ),
                         ),
-                        options: BoardDateTimeOptions(
-                            backgroundColor: Colors.white,
-                            languages: const BoardPickerLanguages.en(),
-                            pickerFormat: PickerFormat.dmy,
-                            startDayOfWeek: DateTime.monday,
-                            customOptions: BoardPickerCustomOptions(
-                              minutes: [0, 30],
-                            )),
-                        showPickerType: BoardDateTimeFieldPickerType.mini,
-                        onChanged: viewModel.changeStartDateTime,
-                        controller: viewModel.startDateTimeTextController,
-                      ),
+                        TextButton.icon(
+                            icon: const Icon(Icons.calendar_month),
+                            label: Text(DateFormat.MMMEd()
+                                .format(viewModel.startDateTime)),
+                            onPressed: () => viewModel.selectNewDate(context)),
+                      ],
                     ),
-                    SizedBox(
-                      width: 200,
-                      child: BoardDateTimeInputField(
-                        // Set readonly to true to hide keyboard
-                        readOnly: true,
-                        initialDate: viewModel.endDateTime,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Theme.of(context).scaffoldBackgroundColor,
-                          border: const OutlineInputBorder(
-                            borderSide: BorderSide.none,
+                    // Start time picker
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Start time:',
+                          style:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: Colors.grey,
+                                  ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () =>
+                              viewModel.selectNewStartTime(context),
+                          child: Text(
+                            DateFormat.jm().format(viewModel.startDateTime),
                           ),
                         ),
-                        options: BoardDateTimeOptions(
-                            backgroundColor: Colors.white,
-                            languages: const BoardPickerLanguages.en(),
-                            pickerFormat: PickerFormat.dmy,
-                            startDayOfWeek: DateTime.monday,
-                            customOptions: BoardPickerCustomOptions(
-                              minutes: [0, 30],
-                            )),
-                        showPickerType: BoardDateTimeFieldPickerType.mini,
-                        onChanged: viewModel.changeEndDateTime,
-                        controller: viewModel.endDateTimeTextController,
-                      ),
+                      ],
+                    ),
+                    horizontalSpaceTiny,
+                    // End time picker
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'End time:',
+                          style:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    color: Colors.grey,
+                                  ),
+                        ),
+                        ElevatedButton(
+                            onPressed: () =>
+                                viewModel.selectNewEndTime(context),
+                            child: Text(
+                                DateFormat.jm().format(viewModel.endDateTime))),
+                      ],
                     ),
                     // TODO add switch for map view
                   ],
@@ -101,6 +139,47 @@ class HotDesksView extends StackedView<DesksViewModel> {
                 ],
               ),
             ),
+            if (viewModel.hasError) ...[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(viewModel.modelError,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall!
+                        .copyWith(color: Colors.red)),
+              )
+            ],
+            if (viewModel.hotDesks.isEmpty) ...[
+              Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  verticalSpaceLarge,
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.calendar_month_rounded,
+                          color: Colors.grey, size: 75),
+                    ],
+                  ),
+                  Text(
+                    'No Hot Desks to show.',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall!
+                        .copyWith(color: Colors.grey.shade700),
+                  ),
+                  Text(
+                    'Try refining the filters',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall!
+                        .copyWith(color: Colors.grey.shade700),
+                  ),
+                ],
+              ),
+            ],
             Flexible(
               child: ListView.builder(
                   shrinkWrap: true,
@@ -121,7 +200,7 @@ class HotDesksView extends StackedView<DesksViewModel> {
 
   @override
   void onViewModelReady(DesksViewModel viewModel) async {
-    await viewModel.fetchHotDesks();
+    await viewModel.initialiseModel();
     super.onViewModelReady(viewModel);
   }
 

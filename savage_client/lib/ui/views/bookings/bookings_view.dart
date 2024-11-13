@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:savage_client/data/desk_booking.dart';
+import 'package:savage_client/data/enums/booking_type.dart';
+import 'package:savage_client/data/meeting_room_booking.dart';
 import 'package:savage_client/ui/common/ui_helpers.dart';
 import 'package:savage_client/ui/widgets/common/loader/loader.dart';
 import 'package:stacked/stacked.dart';
@@ -61,13 +65,23 @@ class BookingsView extends StackedView<BookingsViewModel> {
               children: [
                 Text('${viewModel.bookings.length} Results'),
                 horizontalSpaceSmall,
-                // Text(
-                //   'Duration: ${viewModel.durationString}',
-                //   style: TextStyle(color: Colors.grey),
-                // ),
               ],
             ),
           ),
+          if (viewModel.hasError) ...[
+            verticalSpaceSmall,
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10.0,
+              ),
+              child: Text(viewModel.modelError,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(color: Colors.red)),
+            ),
+            verticalSpaceSmall,
+          ],
           Card(
             margin: const EdgeInsets.all(10.0),
             color: Colors.white,
@@ -79,7 +93,7 @@ class BookingsView extends StackedView<BookingsViewModel> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        'Bookings',
+                        'My Bookings',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -104,21 +118,43 @@ class BookingsView extends StackedView<BookingsViewModel> {
                     itemCount: viewModel.bookings.length,
                     itemBuilder: (context, index) {
                       final booking = viewModel.bookings[index];
-                      return ListTile(
-                          title: Text(
-                              '${booking.startDateTime.day}/${booking.startDateTime.month}/${booking.startDateTime.year} ${booking.startDateTime.hour}:${booking.startDateTime.minute} - ${booking.endDateTime.hour}:${booking.endDateTime.minute}'),
-                          subtitle: Text(
-                              'desk: ${booking.deskNumber} status: ${booking.status.name}'),
-                          trailing: viewModel.showUpcoming
-                              ? IconButton(
-                                  icon: const Icon(Icons.cancel),
-                                  onPressed: () => viewModel.cancelBooking(
-                                    viewModel.bookings[index],
-                                  ),
-                                )
-                              : null);
+                      final startTime = DateFormat.yMMMEd()
+                          .add_Hm()
+                          .format(booking.startTime);
+                      final endTime = DateFormat.Hm().format(booking.endTime);
+                      // check if meeting or desk booking
+                      switch (booking.type) {
+                        case BookingType.desk:
+                          booking as DeskBooking;
+                          return ListTile(
+                              leading: const Icon(Icons.desk),
+                              title: Text('Desk number: ${booking.deskNumber}'),
+                              subtitle: Text('$startTime - $endTime'),
+                              trailing: viewModel.showUpcoming
+                                  ? IconButton(
+                                      icon: const Icon(Icons.cancel),
+                                      onPressed: () => viewModel.cancelBooking(
+                                        booking,
+                                      ),
+                                    )
+                                  : null);
+                        case BookingType.meetingRoom:
+                          booking as MeetingRoomBooking;
+                          return ListTile(
+                              leading: const Icon(Icons.meeting_room_rounded),
+                              title: Text('Meeting room: ${booking.roomName}'),
+                              subtitle: Text('$startTime - $endTime'),
+                              trailing: viewModel.showUpcoming
+                                  ? IconButton(
+                                      icon: const Icon(Icons.cancel),
+                                      onPressed: () => viewModel.cancelBooking(
+                                        booking,
+                                      ),
+                                    )
+                                  : null);
+                      }
                     },
-                  ),
+                  )
                 ],
               ],
             ),

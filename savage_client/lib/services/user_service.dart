@@ -1,7 +1,6 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:savage_client/app/app.locator.dart';
 import 'package:savage_client/app/app.logger.dart';
-import 'package:savage_client/data/enums/membership_status.dart';
 import 'package:savage_client/data/user.dart';
 import 'package:savage_client/services/dependency_wrappers/authentication_service.dart';
 import 'package:savage_client/services/dependency_wrappers/database_service.dart';
@@ -30,9 +29,9 @@ class UserService {
     required String firstName,
     required String lastName,
     required String phoneWhatsapp,
-    required String contactEmail,
     required String contactPhone,
     required DateTime dateOfBirth,
+    required String termsAndConditionsVersion,
   }) async {
     _logger.d('creating user');
     // Get Firebase uid
@@ -46,31 +45,25 @@ class UserService {
       firstName: firstName,
       lastName: lastName,
       dateOfBirth: dateOfBirth,
-      phoneWhatsapp: phoneWhatsapp,
-      contactEmail: contactEmail,
-      contactPhone: contactPhone,
+      whatsappPhone: phoneWhatsapp,
       signupEmail: email,
-      signupPhone: null,
-      membershipStatus: MembershipStatus.inactive,
-      membershipTypes: [],
-      availableCredits: null,
+      signupPhone: contactPhone,
+      membershipStatus: null,
+      membershipIds: [],
       joinedAt: DateTime.now(),
       memberDataId: null,
       requestInvoice: false,
       invoiceData: {},
       photoUrl: photoUrl,
       checkedIn: false,
+      emailNotifications: true,
+      newsletterSubscription: true,
+      termsAndConditionsVersion: termsAndConditionsVersion,
     );
     _logger.v(user.toString());
-    // _logger.v('create member object');
-    // final memberData = MemberData.empty();
-    // memberData.setUid(uid);
-    // memberData.setFirstName(firstName);
-    // memberData.setLastName(lastName);
     await _databaseService.createUser(
       uid: uid,
       user: user,
-      // memberData: memberData,
     );
     // set local _user
     _logger.v('setting local user object');
@@ -92,16 +85,20 @@ class UserService {
   /// If null: User document does not exist or user is not signed in.
   Future<User?> getUser() async {
     try {
+      _logger.v('Getting user');
       final String uid = _authenticationService.uid;
       final Map<String, dynamic>? data = await _databaseService.getDocument(
           collection: kUserDbCollection, documentId: uid);
       if (data != null) {
+        _logger.v('data: $data');
         _user = User.fromData(data);
         return _user;
       } else {
+        _logger.w('data is null');
         return null;
       }
     } catch (error) {
+      _logger.e('error', error);
       if (error is AuthenticationServiceException) {
         if (error.code == AuthenticationServiceException.kUserNotSignedIn) {
           return null;
@@ -125,7 +122,7 @@ class UserService {
     }
     final uid = _authenticationService.uid;
     await _databaseService.checkInOutUser(uid: uid, checkedIn: checkedIn);
-    _user!.setCheckedIn(checkedIn);
+    _user!.checkedIn = checkedIn;
   }
 
   /// Sets new file to storage, updates user object, and returns storage url
@@ -151,5 +148,10 @@ class UserService {
     _logger.v('download url set in database');
 
     return imageUrl;
+  }
+
+  /// Check if user has admin priveledge from Custom Claim
+  Future<bool> isAdmin() async {
+    return await _authenticationService.isAdmin();
   }
 }

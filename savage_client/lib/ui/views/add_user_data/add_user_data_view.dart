@@ -1,5 +1,6 @@
-import 'package:board_datetime_picker/board_datetime_picker.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:savage_client/ui/common/ui_helpers.dart';
 import 'package:savage_client/ui/views/add_user_data/add_user_data_validators.dart';
 import 'package:savage_client/ui/views/add_user_data/add_user_data_view.form.dart';
@@ -21,9 +22,7 @@ import 'add_user_data_viewmodel.dart';
   ),
   FormTextField(
       name: 'lastName', validator: AddUserDataValidators.validateLastName),
-  FormTextField(
-      name: 'contactEmail',
-      validator: AddUserDataValidators.validateContactEmail),
+  FormDateField(name: 'dob'),
   FormTextField(
       name: 'contactPhone',
       validator: AddUserDataValidators.validateContactPhone),
@@ -42,7 +41,7 @@ class AddUserDataView extends StackedView<AddUserDataViewModel>
     Widget? child,
   ) {
     if (viewModel.isBusy) {
-      return const Loader();
+      return const Scaffold(body: Loader());
     }
     return Scaffold(
       appBar: AppBar(
@@ -60,9 +59,16 @@ class AddUserDataView extends StackedView<AddUserDataViewModel>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     verticalSpaceMedium,
-                    const Text('First name:'),
-                    verticalSpaceSmall,
-                    TextFormField(controller: firstNameController),
+                    // first name
+                    // const Text('First name:'),
+                    // verticalSpaceSmall,
+                    TextFormField(
+                      controller: firstNameController,
+                      decoration: InputDecoration(
+                        labelText: 'First name',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
                     if (viewModel.showValidationMessages &&
                         viewModel.hasFirstNameValidationMessage) ...[
                       verticalSpaceTiny,
@@ -75,9 +81,16 @@ class AddUserDataView extends StackedView<AddUserDataViewModel>
                       )
                     ],
                     verticalSpaceMedium,
-                    const Text('Last name:'),
-                    verticalSpaceSmall,
-                    TextFormField(controller: lastNameController),
+                    // Last name
+                    // const Text('Last name:'),
+                    // verticalSpaceSmall,
+                    TextFormField(
+                      controller: lastNameController,
+                      decoration: const InputDecoration(
+                        labelText: 'Last name',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
                     if (viewModel.showValidationMessages &&
                         viewModel.hasLastNameValidationMessage) ...[
                       verticalSpaceTiny,
@@ -89,27 +102,25 @@ class AddUserDataView extends StackedView<AddUserDataViewModel>
                         ),
                       )
                     ],
-                    // Date of birth
                     verticalSpaceMedium,
-                    const Text('Date of birth:'),
-                    verticalSpaceSmall,
-                    BoardDateTimeInputField(
-                      pickerType: DateTimePickerType.date,
-                      options: const BoardDateTimeOptions(
-                        backgroundColor: Colors.white,
-                        showDateButton: false,
-                        pickerFormat: PickerFormat.dmy,
-                        inputable: false,
-                      ),
-                      controller: viewModel.dateOfBirthController,
-                      onChanged: viewModel.setDateOfBirth,
-                      initialDate: viewModel.dateOfBirthValue,
-                      minimumDate: DateTime(1940, 1, 1),
-                      maximumDate: DateTime(DateTime.now().year - 18,
-                          DateTime.now().month, DateTime.now().day),
-                    ),
+                    // Date of birth
+                    Row(children: [
+                      const Text('Date of birth:'),
+                      horizontalSpaceSmall,
+                      FilledButton(
+                          onPressed: () => viewModel.selectDob(
+                                context: context,
+                                initialDate: DateTime(1989, 9, 20),
+                                firstDate: DateTime(1901, 1, 1),
+                                lastDate: DateTime(DateTime.now().year - 18,
+                                    DateTime.now().month, DateTime.now().day),
+                              ),
+                          child: Text(viewModel.hasDob
+                              ? DateFormat.yMMMd().format(viewModel.dobValue!)
+                              : 'Set date of birth')),
+                    ]),
                     if (viewModel.showValidationMessages &&
-                        viewModel.dateOfBirthValue == null) ...[
+                        !viewModel.hasDob) ...[
                       verticalSpaceTiny,
                       const Text(
                         'Date of birth is required',
@@ -120,31 +131,19 @@ class AddUserDataView extends StackedView<AddUserDataViewModel>
                       )
                     ],
                     verticalSpaceMedium,
-                    const Text('Contact email:'),
-                    verticalSpaceSmall,
+                    // contact phone
+                    // const Text('Contact phone number:'),
+                    // verticalSpaceSmall,
                     TextFormField(
-                      controller: contactEmailController,
+                      controller: contactPhoneController,
+                      decoration: const InputDecoration(
+                        labelText: 'Contact phone number',
+                        border: OutlineInputBorder(),
+                      ),
                     ),
-                    if (viewModel.showValidationMessages &&
-                        viewModel.hasContactEmailValidationMessage) ...[
-                      verticalSpaceTiny,
-                      Text(
-                        viewModel.contactEmailValidationMessage!,
-                        style: const TextStyle(
-                          color: Colors.red,
-                          fontSize: 12,
-                        ),
-                      )
-                    ],
-                    verticalSpaceMedium,
-                    const Text('Contact phone number:'),
                     const Text(
                       'include international code eg: +34612345678',
                       style: TextStyle(color: Colors.grey),
-                    ),
-                    verticalSpaceSmall,
-                    TextFormField(
-                      controller: contactPhoneController,
                     ),
                     if (viewModel.showValidationMessages &&
                         viewModel.hasContactPhoneValidationMessage) ...[
@@ -158,13 +157,20 @@ class AddUserDataView extends StackedView<AddUserDataViewModel>
                       )
                     ],
                     verticalSpaceMedium,
-                    const Text('Whatsapp number (optional):'),
+                    // whatsapp phone
+                    // const Text('Whatsapp number (optional):'),
+                    // verticalSpaceSmall,
+                    TextFormField(
+                      controller: phoneWhatsappController,
+                      decoration: const InputDecoration(
+                        labelText: 'Whatsapp number (optional)',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
                     const Text(
                       'In case different from contact phone number',
                       style: TextStyle(color: Colors.grey),
                     ),
-                    verticalSpaceSmall,
-                    TextFormField(controller: phoneWhatsappController),
                     if (viewModel.showValidationMessages &&
                         viewModel.hasPhoneWhatsappValidationMessage) ...[
                       verticalSpaceTiny,
@@ -176,7 +182,41 @@ class AddUserDataView extends StackedView<AddUserDataViewModel>
                         ),
                       )
                     ],
+                    verticalSpaceMedium,
+                    // Terms and conditions
+                    Row(children: [
+                      Checkbox(
+                        value: viewModel.termsAccepted,
+                        onChanged: viewModel.acceptTerms,
+                      ),
+                      horizontalSpaceSmall,
+                      RichText(
+                        text: TextSpan(children: [
+                          const TextSpan(
+                              text: 'I accept the Savage Coworking '),
+                          TextSpan(
+                              text: 'Terms & Conditions',
+                              style: const TextStyle(color: Colors.blue),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap =
+                                    viewModel.navigateToTermsAndConditions),
+                          const TextSpan(text: '.'),
+                        ]),
+                      ),
+                    ]),
+                    if (viewModel.showValidationMessages &&
+                        !viewModel.termsAccepted) ...[
+                      verticalSpaceTiny,
+                      const Text(
+                        'Please accept the terms and conditions',
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 12,
+                        ),
+                      )
+                    ],
                     verticalSpaceLarge,
+                    // submit button
                     ElevatedButton(
                       onPressed: viewModel.submitForm,
                       child: const Text('Submit'),
@@ -209,7 +249,6 @@ class AddUserDataView extends StackedView<AddUserDataViewModel>
   void onViewModelReady(AddUserDataViewModel viewModel) async {
     syncFormWithViewModel(viewModel);
     await viewModel.initialise();
-    contactEmailController.text = viewModel.contactEmail;
   }
 
   @override

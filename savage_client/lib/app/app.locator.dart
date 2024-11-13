@@ -22,6 +22,7 @@ import '../services/dependency_wrappers/image_picker_service.dart';
 import '../services/dependency_wrappers/storage_service.dart';
 import '../services/dependency_wrappers/url_launcher_service.dart';
 import '../services/desks_service.dart';
+import '../services/meeting_room_service.dart';
 import '../services/member_data_service.dart';
 import '../services/user_service.dart';
 import 'app.router.dart';
@@ -54,6 +55,7 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => MemberDataService());
   locator.registerLazySingleton(() => ImagePickerService());
   locator.registerLazySingleton(() => UrlLauncherService());
+  locator.registerLazySingleton(() => MeetingRoomService());
   if (stackedRouter == null) {
     throw Exception(
         'Stacked is building to use the Router (Navigator 2.0) navigation but no stackedRouter is supplied. Pass the stackedRouter to the setupLocator function in main.dart');

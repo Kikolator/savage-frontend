@@ -87,7 +87,7 @@ class ImageUploader extends StackedView<ImageUploaderModel> {
                 color: Theme.of(context).colorScheme.onPrimary,
                 shape: BoxShape.circle,
               ),
-              child: Icon(
+              child: const Icon(
                 Icons.add_a_photo,
               ),
             ),

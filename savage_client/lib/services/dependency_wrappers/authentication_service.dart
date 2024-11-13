@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:savage_client/data/enums/user_role.dart';
 import 'package:savage_client/env.dart';
 
 class AuthenticationService {
@@ -67,6 +68,34 @@ class AuthenticationService {
       );
     }
     return _currentUser?.photoURL;
+  }
+
+  Future<Map<String, dynamic>?> _getClaims([bool forceRefresh = false]) async {
+    IdTokenResult idTokenResult =
+        await _currentUser!.getIdTokenResult(forceRefresh);
+    return idTokenResult.claims;
+  }
+
+  Future<bool> isAdmin([bool forceRefresh = false]) async {
+    final claims = await _getClaims(forceRefresh);
+    if (claims == null) {
+      return false;
+    }
+    if (claims.containsKey(UserRole.admin.name)) {
+      return claims[UserRole.admin.name] as bool;
+    }
+    return false;
+  }
+
+  Future<bool> isClient([bool forceRefresh = false]) async {
+    final claims = await _getClaims(forceRefresh);
+    if (claims == null) {
+      return false;
+    }
+    if (claims.containsKey(UserRole.client.name)) {
+      return claims[UserRole.client.name] as bool;
+    }
+    return false;
   }
 
   /// Signs out the current user

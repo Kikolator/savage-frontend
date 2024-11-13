@@ -44,7 +44,7 @@ class FirebaseUiAuthLogin extends StackedView<FirebaseUiAuthLoginModel> {
             ),
             verticalSpaceLarge,
             LoginView(
-              action: AuthAction.signUp,
+              action: AuthAction.signIn,
               showPasswordVisibilityToggle: true,
               footerBuilder: viewModel.hasError
                   ? (context, action) => Text(

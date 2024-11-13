@@ -1,4 +1,5 @@
 import 'package:savage_client/app/app.locator.dart';
+import 'package:savage_client/app/app.logger.dart';
 import 'package:savage_client/app/app.router.dart';
 import 'package:savage_client/data/enums/membership_status.dart';
 import 'package:savage_client/data/member_data.dart';
@@ -8,6 +9,7 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class FamilyViewModel extends BaseViewModel {
+  final _logger = getLogger('FamilyViewModel');
   final _memberDataService = locator<MemberDataService>();
   final _userService = locator<UserService>();
   final _routerService = locator<RouterService>();
@@ -28,6 +30,7 @@ class FamilyViewModel extends BaseViewModel {
 
   Future<void> getMemberData() async {
     try {
+      _logger.d('getting member data');
       setBusy(true);
       final user = await _userService.getUser();
       if (user == null) {
@@ -35,17 +38,25 @@ class FamilyViewModel extends BaseViewModel {
       }
 
       _isActiveMember = user.membershipStatus == MembershipStatus.active;
+      _logger.v('isActiveMember: $_isActiveMember');
 
       final memberDataId = user.memberDataId;
-      if (memberDataId == null) {
-        throw UnimplementedError('Member data id is null, handle error');
+      _logger.v('memberDataId: $memberDataId');
+
+      if (memberDataId != null) {
+        _logger
+            .v('memberDataId is not null, getting member data: $memberDataId');
+        _userMemberData = await _memberDataService.getUserMemberData(
+            memberDataId: memberDataId);
       }
-      _userMemberData = await _memberDataService.getUserMemberData(
-          memberDataId: memberDataId);
-      _workspaceMembers = await _memberDataService.queryWorkspaceMembers();
+      if (_isActiveMember) {
+        _logger.v('user is active member, getting workspace members');
+        _workspaceMembers = await _memberDataService.queryWorkspaceMembers();
+      }
 
       return;
     } catch (error) {
+      _logger.e('error', error);
       if (error is UnimplementedError) {
         rethrow;
       }

@@ -1,0 +1,4 @@
+enum BookingType {
+  meetingRoom,
+  desk,
+}

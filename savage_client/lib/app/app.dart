@@ -33,6 +33,10 @@ import 'package:savage_client/services/member_data_service.dart';
 import 'package:savage_client/ui/dialogs/member_card/member_card_dialog.dart';
 import 'package:savage_client/services/dependency_wrappers/image_picker_service.dart';
 import 'package:savage_client/services/dependency_wrappers/url_launcher_service.dart';
+import 'package:savage_client/services/meeting_room_service.dart';
+import 'package:savage_client/ui/dialogs/add_desk/add_desk_dialog.dart';
+import 'package:savage_client/ui/dialogs/add_meeting_room/add_meeting_room_dialog.dart';
+import 'package:savage_client/ui/views/terms_and_conditions/terms_and_conditions_view.dart';
 // @stacked-import
 
 // TODO implement route guards
@@ -81,6 +85,7 @@ import 'package:savage_client/services/dependency_wrappers/url_launcher_service.
         EmailVerifiedGuard,
       ],
     ),
+    MaterialRoute(page: TermsAndConditionsView),
 // @stacked-route
 
     CustomRoute(page: UnknownView, path: '/404'),
@@ -109,6 +114,7 @@ import 'package:savage_client/services/dependency_wrappers/url_launcher_service.
     LazySingleton(classType: MemberDataService),
     LazySingleton(classType: ImagePickerService),
     LazySingleton(classType: UrlLauncherService),
+    LazySingleton(classType: MeetingRoomService),
 // @stacked-service
   ],
   bottomsheets: [
@@ -119,6 +125,8 @@ import 'package:savage_client/services/dependency_wrappers/url_launcher_service.
     StackedDialog(classType: InfoAlertDialog),
     StackedDialog(classType: CupertinoDateTimePickerDialog),
     StackedDialog(classType: MemberCardDialog),
+    StackedDialog(classType: AddDeskDialog),
+    StackedDialog(classType: AddMeetingRoomDialog),
 // @stacked-dialog
   ],
   logger: StackedLogger(),

@@ -12,12 +12,12 @@ class HotDeskCard extends StatelessWidget {
     return Card(
       color: Colors.white,
       margin: const EdgeInsets.all(10),
+      clipBehavior: Clip.hardEdge,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
-            height: 120,
-            alignment: Alignment.center,
+          SizedBox(
+            height: desk.photoUrl != null ? 240 : 120,
             child: desk.photoUrl != null
                 ? Image.network(
                     desk.photoUrl!,
@@ -45,7 +45,7 @@ class HotDeskCard extends StatelessWidget {
               style: TextStyle(color: Colors.grey),
             ),
           ),
-          verticalSpaceMedium,
+          verticalSpaceSmall,
           Container(
               alignment: Alignment.centerRight,
               padding: const EdgeInsets.only(right: 10),

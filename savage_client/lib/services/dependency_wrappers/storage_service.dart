@@ -27,6 +27,12 @@ class StorageService {
       _rootReference.child('users').child(uid);
   Reference _profilePictureReference(String uid) =>
       _userReference(uid).child('profile_picture');
+  Reference _deskPictureRefrence(String deskId) =>
+      _rootReference.child('desks').child(deskId).child('picture');
+  Reference _meetingRoomPictureRefrence(String meetingRoomId) => _rootReference
+      .child('meeting_rooms')
+      .child(meetingRoomId)
+      .child('picture');
 
   /// Sets a profile image for the user and returns the storage url
   Future<String> updateProfilePicture(
@@ -41,5 +47,32 @@ class StorageService {
 
     _logger.v('Getting download url');
     return _profilePictureReference(uid).getDownloadURL();
+  }
+
+  Future<String> uploadDeskPicture(
+      {required XFile file, required String deskId}) async {
+    _logger.v(
+        'Putting file ${file.path} on desk reference: ${_deskPictureRefrence(deskId).fullPath}');
+    if (kIsWeb) {
+      await _deskPictureRefrence(deskId).putData(await file.readAsBytes());
+    } else {
+      await _deskPictureRefrence(deskId).putFile(File(file.path));
+    }
+    _logger.v('Getting download url');
+    return _deskPictureRefrence(deskId).getDownloadURL();
+  }
+
+  Future<String> uploadMeetingRoomPicture(
+      {required String meetingRoomId, required XFile file}) async {
+    _logger.v(
+        'Putting file ${file.path} on meeting room reference: ${_meetingRoomPictureRefrence(meetingRoomId).fullPath}');
+    if (kIsWeb) {
+      await _meetingRoomPictureRefrence(meetingRoomId)
+          .putData(await file.readAsBytes());
+    } else {
+      await _meetingRoomPictureRefrence(meetingRoomId).putFile(File(file.path));
+    }
+    _logger.v('Getting download url');
+    return _meetingRoomPictureRefrence(meetingRoomId).getDownloadURL();
   }
 }

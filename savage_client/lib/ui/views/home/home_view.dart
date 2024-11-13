@@ -98,12 +98,17 @@ class HomeView extends StackedView<HomeViewModel> {
                       // Firstname Lastname
                       Text(
                         '${viewModel.firstName} ${viewModel.lastName}',
+                        softWrap: true,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       // Email
-                      Text(viewModel.signupEmail),
+                      Text(
+                        viewModel.signupEmail,
+                        style: Theme.of(context).textTheme.bodySmall,
+                        softWrap: true,
+                      ),
                     ],
                   ),
                 ],

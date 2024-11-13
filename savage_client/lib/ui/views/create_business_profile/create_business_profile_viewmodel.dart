@@ -60,7 +60,7 @@ class CreateBusinessProfileViewModel extends FormViewModel {
         return;
       }
     } catch (error) {
-      _logger.e('error getting user data');
+      _logger.e('error getting user data', error);
       setError(error.toString());
     } finally {
       _logger.v('setting busy to false');
